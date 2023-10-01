@@ -10,7 +10,7 @@ public class User {
     private String phoneNumber;
     private String address;
 
-    // Constructor
+
     public User(String firstName, String lastName, String username, String password, String phoneNumber, String address) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -22,7 +22,6 @@ public class User {
 
     // Constructor with no parameters
     public User() {
-        // Initialize with default or empty values
         this.firstName = "";
         this.lastName = "";
         this.username = "";
@@ -32,6 +31,7 @@ public class User {
     }
 
     // Getters and Setters for each attribute
+
     public String getFirstName() {
         return firstName;
     }
@@ -80,18 +80,16 @@ public class User {
         this.address = address;
     }
 
-    // toString method to represent the User as a String
+
     @Override
     public String toString() {
-        return "User{" +
+        return "User: " +
                 "firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
-                ", address='" + address + '\'' +
-                '}';
+                ", address='" + address + '\'';
     }
 
-    // Other methods specific to User can be added here
 }
