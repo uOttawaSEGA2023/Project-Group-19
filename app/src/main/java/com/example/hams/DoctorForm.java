@@ -42,43 +42,47 @@ public class DoctorForm extends AppCompatActivity {
 
         register.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                if (validFields()){
+            public void onClick(View view) { //Method that processes code when the register button is pressed.
+                if (validFields()){ //If all the fields in the form are valid, do the following.
 
                 }
             }
         });
     }
 
+    /**
+     * validFields is a method that checks to see if all the text fields have the correct information in order to register a doctor.
+     * @return Whether or not every field in the form is valid.
+     */
     boolean validFields(){
-        boolean valid = true;
-        if (fieldEmpty(firstName)){
-            valid = false;
+        boolean valid = true; //Variable to keep track of the current field validity.
+        if (fieldEmpty(firstName)){  //If the first name field is empty, do the following.
+            valid = false; //Set valid to false.
             firstName.setError("A first name is required to register!");
         }
-        if (fieldEmpty(lastName)){
-            valid = false;
-            lastName.setError("A last name is required to register!");
+        if (fieldEmpty(lastName)){ //If the last name field is empty, do the following.
+            valid = false; //Set valid to false.
+            lastName.setError("A last name is required to register!"); //Tell the user to enter something into the field.
         }
-        if (fieldEmpty(email)){
-            valid = false;
-            email.setError("An email is required to register!");
+        if (fieldEmpty(email)){ //If the email field is empty, do the following.
+            valid = false; //Set valid to false.
+            email.setError("An email is required to register!"); //Tell the user to enter something into the field.
         }
-        if (fieldEmpty(password)){
-            valid = false;
-            password.setError("A password is required to register!");
+        if (fieldEmpty(password)){ //If the password field is empty, do the following.
+            valid = false; //Set valid to false.
+            password.setError("A password is required to register!"); //Tell the user to enter something into the field.
         }
-        if (fieldEmpty(phoneNumber)){
-            valid = false;
-            phoneNumber.setError("A phone number is required to register!");
+        if (fieldEmpty(phoneNumber)){ //If the phone number field is empty, do the following.
+            valid = false; //Set valid to false.
+            phoneNumber.setError("A phone number is required to register!"); //Tell the user to enter something into the field.
         }
-        if (fieldEmpty(address)){
-            valid = false;
-            address.setError("An address is required to register!");
+        if (fieldEmpty(address)){ //If the address field is empty, do the following.
+            valid = false; //Set valid to false.
+            address.setError("An address is required to register!"); //Tell the user to enter something into the field.
         }
-        if (fieldEmpty(employeeNumber)){
-            valid = false;
-            employeeNumber.setError("An employee number is required to register!");
+        if (fieldEmpty(employeeNumber)){ //If the employee number field is empty, do the following.
+            valid = false; //Set valid to false.
+            employeeNumber.setError("An employee number is required to register!"); //Tell the user to enter something into the field.
         }
 
 
