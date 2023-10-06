@@ -19,6 +19,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.List;
+
 public class DoctorForm extends AppCompatActivity {
 
     EditText firstName;
@@ -39,6 +41,8 @@ public class DoctorForm extends AppCompatActivity {
     CheckBox pediatrics;
     CheckBox neurology;
     Button register;
+    List<String> specialties;
+    Doctor d;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +89,26 @@ public class DoctorForm extends AppCompatActivity {
                     String getCountry = country.getText().toString();
                     String getProvince = province.getText().toString();
                     String getCity = city.getText().toString();
-                    openLoginScreen();
+                    if (internalMedicine.isChecked()){ //If this specialty box is checked off, add it to the list.
+                        specialties.add("Internal Medicine");
+                    }
+                    if (obstetrics.isChecked()){ //If this specialty box is checked off, add it to the list.
+                        specialties.add("Obstetrics");
+                    }
+                    if (familyMedicine.isChecked()){ //If this specialty box is checked off, add it to the list.
+                        specialties.add("Family Medicine");
+                    }
+                    if (gynecology.isChecked()){ //If this specialty box is checked off, add it to the list.
+                        specialties.add("Gynecology");
+                    }
+                    if (pediatrics.isChecked()){ //If this specialty box is checked off, add it to the list.
+                        specialties.add("Pediatrics");
+                    }
+                    if (neurology.isChecked()){ //If this specialty box is checked off, add it to the list.
+                        specialties.add("Neurology");
+                    }
+                    //d = new Doctor(getFirstName, getLastName, getEmail, getPassword, getPhoneNumber, getAddressLine, getEmployeeNumber, specialties);
+                    openLoginScreen(); //Bring the user back to the log in screen.
                 }
             }
         });

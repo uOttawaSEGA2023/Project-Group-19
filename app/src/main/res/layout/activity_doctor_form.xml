@@ -219,7 +219,7 @@
             android:ems="10"
             android:fontFamily="serif"
             android:hint="@string/employee_number"
-            android:inputType="text"
+            android:inputType="number"
             android:textAlignment="center"
             android:textColor="#000000"
             android:textColorHighlight="#1fe0ff"
@@ -228,7 +228,7 @@
             app:layout_constraintHorizontal_bias="0.932"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.886" />
+            app:layout_constraintVertical_bias="0.901" />
 
         <TextView
             android:id="@+id/special"
@@ -263,7 +263,8 @@
             app:layout_constraintEnd_toStartOf="@+id/employeeNumber"
             app:layout_constraintHorizontal_bias="0.34"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/email" />
+            app:layout_constraintTop_toBottomOf="@+id/email"
+            app:layout_constraintVertical_bias="0.451" />
 
         <EditText
             android:id="@+id/firstName"
@@ -283,7 +284,7 @@
             app:layout_constraintHorizontal_bias="0.295"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.75" />
+            app:layout_constraintVertical_bias="0.741" />
 
         <EditText
             android:id="@+id/email"
@@ -303,7 +304,7 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.885" />
+            app:layout_constraintVertical_bias="0.857" />
 
         <EditText
             android:id="@+id/lastName"
