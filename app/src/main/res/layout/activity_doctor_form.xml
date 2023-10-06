@@ -12,43 +12,117 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/titleForm"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <EditText
+            android:id="@+id/city"
+            android:layout_width="174dp"
+            android:layout_height="50dp"
+            android:ems="10"
             android:fontFamily="serif"
-            android:text="@string/doctor_registration"
+            android:hint="City"
+            android:inputType="text"
             android:textAlignment="center"
             android:textColor="#000000"
-            android:textSize="24sp"
+            app:layout_constraintBottom_toTopOf="@+id/special"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/country"
+            app:layout_constraintVertical_bias="0.533" />
+
+        <EditText
+            android:id="@+id/province"
+            android:layout_width="174dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="16dp"
+            android:ems="10"
+            android:fontFamily="serif"
+            android:hint="Province"
+            android:inputType="text"
+            android:textAlignment="center"
+            android:textColor="#000000"
+            app:layout_constraintBottom_toTopOf="@+id/city"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/postalCode"
+            app:layout_constraintVertical_bias="0.133" />
+
+        <EditText
+            android:id="@+id/country"
+            android:layout_width="174dp"
+            android:layout_height="50dp"
+            android:layout_marginBottom="96dp"
+            android:ems="10"
+            android:fontFamily="serif"
+            android:hint="Country"
+            android:inputType="text"
+            android:textAlignment="center"
+            android:textColor="#000000"
+            app:layout_constraintBottom_toTopOf="@+id/special"
+            app:layout_constraintEnd_toStartOf="@+id/province"
+            app:layout_constraintHorizontal_bias="0.34"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <EditText
+            android:id="@+id/postalCode"
+            android:layout_width="174dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="12dp"
+            android:ems="10"
+            android:fontFamily="serif"
+            android:hint="Postal Code"
+            android:inputType="text"
+            android:textAlignment="center"
+            android:textColor="#000000"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.157"
+            app:layout_constraintStart_toEndOf="@+id/addressLine"
+            app:layout_constraintTop_toBottomOf="@+id/address" />
+
+        <TextView
+            android:id="@+id/address"
+            android:layout_width="245dp"
+            android:layout_height="37dp"
+            android:layout_marginBottom="200dp"
+            android:fontFamily="serif"
+            android:text="Address"
+            android:textAlignment="center"
+            android:textColor="#000000"
+            android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/registerDoctor"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.053" />
+            app:layout_constraintVertical_bias="0.439" />
 
         <CheckBox
             android:id="@+id/internalMedicine"
             android:layout_width="174dp"
             android:layout_height="50dp"
+            android:buttonTint="#1fe0ff"
             android:fontFamily="serif"
             android:text="@string/internal_medicine"
             android:textAlignment="textStart"
             android:textColor="#000000"
+            android:textColorHighlight="#1fe0ff"
+            android:textColorLink="#1fe0ff"
             android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@+id/familyMedicine"
             app:layout_constraintEnd_toStartOf="@+id/obstetrics"
-            app:layout_constraintHorizontal_bias="0.563"
+            app:layout_constraintHorizontal_bias="0.34"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/special"
-            app:layout_constraintVertical_bias="0.554" />
+            app:layout_constraintVertical_bias="0.6" />
 
         <CheckBox
             android:id="@+id/gynecology"
             android:layout_width="174dp"
             android:layout_height="50dp"
+            android:layout_marginTop="86dp"
             android:layout_marginEnd="3dp"
+            android:layout_marginBottom="20dp"
+            android:buttonTint="#1fe0ff"
             android:fontFamily="serif"
             android:text="@string/gynecology"
             android:textAlignment="textStart"
@@ -56,15 +130,16 @@
             android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@+id/neurology"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.978"
+            app:layout_constraintHorizontal_bias="0.944"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.945" />
+            app:layout_constraintTop_toBottomOf="@+id/special"
+            app:layout_constraintVertical_bias="1.0" />
 
         <CheckBox
             android:id="@+id/neurology"
             android:layout_width="174dp"
             android:layout_height="50dp"
+            android:buttonTint="#1fe0ff"
             android:fontFamily="serif"
             android:text="@string/neurology"
             android:textAlignment="textStart"
@@ -72,15 +147,16 @@
             android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@+id/registerDoctor"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.963"
+            app:layout_constraintHorizontal_bias="0.932"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/special"
-            app:layout_constraintVertical_bias="0.824" />
+            app:layout_constraintVertical_bias="0.819" />
 
         <CheckBox
             android:id="@+id/pediatrics"
             android:layout_width="174dp"
             android:layout_height="50dp"
+            android:buttonTint="#1fe0ff"
             android:fontFamily="serif"
             android:text="@string/pediatrics"
             android:textAlignment="textStart"
@@ -88,15 +164,16 @@
             android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@+id/registerDoctor"
             app:layout_constraintEnd_toStartOf="@+id/neurology"
-            app:layout_constraintHorizontal_bias="0.594"
+            app:layout_constraintHorizontal_bias="0.34"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/special"
-            app:layout_constraintVertical_bias="0.824" />
+            app:layout_constraintVertical_bias="0.825" />
 
         <CheckBox
             android:id="@+id/obstetrics"
             android:layout_width="174dp"
             android:layout_height="50dp"
+            android:buttonTint="#1fe0ff"
             android:fontFamily="serif"
             android:text="@string/obstetrics"
             android:textAlignment="textStart"
@@ -104,15 +181,16 @@
             android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@+id/gynecology"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.966"
+            app:layout_constraintHorizontal_bias="0.932"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/special"
-            app:layout_constraintVertical_bias="0.551" />
+            app:layout_constraintVertical_bias="0.6" />
 
         <CheckBox
             android:id="@+id/familyMedicine"
             android:layout_width="174dp"
             android:layout_height="50dp"
+            android:buttonTint="#1fe0ff"
             android:fontFamily="serif"
             android:text="@string/family_medicine"
             android:textAlignment="textStart"
@@ -120,10 +198,10 @@
             android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@+id/pediatrics"
             app:layout_constraintEnd_toStartOf="@+id/gynecology"
-            app:layout_constraintHorizontal_bias="0.552"
+            app:layout_constraintHorizontal_bias="0.34"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/special"
-            app:layout_constraintVertical_bias="0.796" />
+            app:layout_constraintVertical_bias="0.818" />
 
         <EditText
             android:id="@+id/employeeNumber"
@@ -135,17 +213,18 @@
             android:inputType="text"
             android:textAlignment="center"
             android:textColor="#000000"
-            app:layout_constraintBottom_toTopOf="@+id/special"
+            app:layout_constraintBottom_toTopOf="@+id/address"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintHorizontal_bias="0.932"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/titleForm"
-            app:layout_constraintVertical_bias="0.854" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.886" />
 
         <TextView
             android:id="@+id/special"
             android:layout_width="245dp"
             android:layout_height="37dp"
+            android:layout_marginBottom="200dp"
             android:fontFamily="serif"
             android:text="@string/specialties"
             android:textAlignment="center"
@@ -154,46 +233,25 @@
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/registerDoctor"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.479"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/titleForm"
-            app:layout_constraintVertical_bias="0.526" />
-
-        <EditText
-            android:id="@+id/address"
-            android:layout_width="174dp"
-            android:layout_height="50dp"
-            android:ems="10"
-            android:fontFamily="serif"
-            android:hint="@string/address"
-            android:inputType="textPostalAddress"
-            android:textAlignment="center"
-            android:textColor="#000000"
-            app:layout_constraintBottom_toTopOf="@+id/employeeNumber"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.932"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/titleForm"
-            app:layout_constraintVertical_bias="0.929" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.908" />
 
         <EditText
             android:id="@+id/phoneNumber"
             android:layout_width="174dp"
             android:layout_height="50dp"
-            android:layout_marginStart="3dp"
-            android:layout_marginTop="15dp"
             android:ems="10"
             android:fontFamily="serif"
             android:hint="@string/phone_number"
             android:inputType="phone"
             android:textAlignment="center"
             android:textColor="#000000"
-            app:layout_constraintBottom_toTopOf="@+id/firstName"
-            app:layout_constraintEnd_toStartOf="@+id/lastName"
-            app:layout_constraintHorizontal_bias="0.363"
+            app:layout_constraintBottom_toTopOf="@+id/address"
+            app:layout_constraintEnd_toStartOf="@+id/employeeNumber"
+            app:layout_constraintHorizontal_bias="0.34"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/titleForm"
-            app:layout_constraintVertical_bias="0.671" />
+            app:layout_constraintTop_toBottomOf="@+id/email" />
 
         <EditText
             android:id="@+id/firstName"
@@ -208,16 +266,16 @@
             android:textColor="#000000"
             app:layout_constraintBottom_toTopOf="@+id/email"
             app:layout_constraintEnd_toStartOf="@+id/lastName"
-            app:layout_constraintHorizontal_bias="0.363"
+            app:layout_constraintHorizontal_bias="0.295"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/titleForm"
-            app:layout_constraintVertical_bias="0.87" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.75" />
 
         <EditText
             android:id="@+id/email"
             android:layout_width="174dp"
             android:layout_height="50dp"
-            android:layout_marginStart="3dp"
+            android:layout_marginStart="16dp"
             android:ems="10"
             android:fontFamily="serif"
             android:hint="@string/email_address"
@@ -225,17 +283,16 @@
             android:textAlignment="center"
             android:textColor="#000000"
             app:layout_constraintBottom_toTopOf="@+id/employeeNumber"
-            app:layout_constraintEnd_toStartOf="@+id/address"
-            app:layout_constraintHorizontal_bias="0.355"
+            app:layout_constraintEnd_toStartOf="@+id/password"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/titleForm"
-            app:layout_constraintVertical_bias="0.929" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.885" />
 
         <EditText
             android:id="@+id/lastName"
             android:layout_width="174dp"
             android:layout_height="50dp"
-            android:layout_marginTop="15dp"
             android:ems="10"
             android:fontFamily="serif"
             android:hint="@string/last_name"
@@ -246,14 +303,14 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.932"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/titleForm"
-            app:layout_constraintVertical_bias="0.685" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.741" />
 
         <Button
             android:id="@+id/registerDoctor"
-            android:layout_width="154dp"
-            android:layout_height="57dp"
-            android:layout_marginTop="772dp"
+            android:layout_width="145dp"
+            android:layout_height="56dp"
+            android:layout_marginTop="792dp"
             android:backgroundTint="#1fe0ff"
             android:fontFamily="serif"
             android:text="@string/register"
@@ -261,9 +318,8 @@
             android:textColor="#000000"
             android:textSize="18sp"
             app:icon="@android:drawable/ic_menu_send"
-            app:iconTint="#000000"
+            app:iconTint="#FF000000"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -271,17 +327,34 @@
             android:id="@+id/password"
             android:layout_width="174dp"
             android:layout_height="50dp"
+            android:layout_marginTop="108dp"
             android:ems="10"
             android:fontFamily="serif"
             android:hint="@string/password"
             android:inputType="textPassword"
             android:textAlignment="center"
-            app:layout_constraintBottom_toTopOf="@+id/address"
+            app:layout_constraintBottom_toTopOf="@+id/employeeNumber"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.932"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/titleForm"
-            app:layout_constraintVertical_bias="0.866" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <EditText
+            android:id="@+id/addressLine"
+            android:layout_width="174dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="16dp"
+            android:ems="10"
+            android:fontFamily="serif"
+            android:hint="Address Line"
+            android:inputType="text"
+            android:textAlignment="center"
+            android:textColor="#000000"
+            app:layout_constraintBottom_toTopOf="@+id/country"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/address"
+            app:layout_constraintVertical_bias="0.428" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
