@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -31,6 +32,12 @@ public class DoctorForm extends AppCompatActivity {
     EditText country;
     EditText province;
     EditText city;
+    CheckBox internalMedicine;
+    CheckBox obstetrics;
+    CheckBox familyMedicine;
+    CheckBox gynecology;
+    CheckBox pediatrics;
+    CheckBox neurology;
     Button register;
 
     @Override
@@ -54,6 +61,13 @@ public class DoctorForm extends AppCompatActivity {
         province = findViewById(R.id.province);
         city = findViewById(R.id.city);
 
+        internalMedicine = findViewById(R.id.internalMedicine);
+        obstetrics = findViewById(R.id.obstetrics);
+        familyMedicine = findViewById(R.id.familyMedicine);
+        gynecology = findViewById(R.id.gynecology);
+        pediatrics = findViewById(R.id.pediatrics);
+        neurology = findViewById(R.id.neurology);
+
         register = findViewById(R.id.registerDoctor);
 
         register.setOnClickListener(new View.OnClickListener() {
@@ -66,6 +80,12 @@ public class DoctorForm extends AppCompatActivity {
                     String getPassword = password.getText().toString();
                     String getPhoneNumber = phoneNumber.getText().toString();
                     String getEmployeeNumber = employeeNumber.getText().toString();
+                    String getAddressLine = addressLine.getText().toString();
+                    String getPostalCode = postalCode.getText().toString();
+                    String getCountry = country.getText().toString();
+                    String getProvince = province.getText().toString();
+                    String getCity = city.getText().toString();
+                    openLoginScreen();
                 }
             }
         });
@@ -102,6 +122,26 @@ public class DoctorForm extends AppCompatActivity {
             valid = false; //Set valid to false.
             employeeNumber.setError("An employee number is required to register!"); //Tell the user to enter something into the field.
         }
+        if (fieldEmpty(addressLine)){ //If the address line field is empty, do the following.
+            valid = false; //Set valid to false.
+            addressLine.setError("An address line is required to register!"); //Tell the user to enter something into the field.
+        }
+        if (fieldEmpty(postalCode)){ //If the postal code field is empty, do the following.
+            valid = false; //Set valid to false.
+            postalCode.setError("A postal code is required to register!"); //Tell the user to enter something into the field.
+        }
+        if (fieldEmpty(country)){ //If the country field is empty, do the following.
+            valid = false; //Set valid to false.
+            country.setError("A country is required to register!"); //Tell the user to enter something into the field.
+        }
+        if (fieldEmpty(province)){ //If the province field is empty, do the following.
+            valid = false; //Set valid to false.
+            province.setError("A province is required to register!"); //Tell the user to enter something into the field.
+        }
+        if (fieldEmpty(city)){ //If the city field is empty, do the following.
+            valid = false; //Set valid to false.
+            city.setError("A city is required to register!"); //Tell the user to enter something into the field.
+        }
 
         CharSequence emailField = email.getText().toString(); //Gets the text from the email field.
         if (!Patterns.EMAIL_ADDRESS.matcher(emailField).matches()){ //If the email does not have the proper components of an email, do the following.
@@ -127,6 +167,10 @@ public class DoctorForm extends AppCompatActivity {
             password.setError("A valid password needs to be at least 6 characters long!"); //Tell the user to type in a password that is at least 6 characters long.
         }
 
+        if (!boxesChecked()){ //If no specialties are checked off, set valid to false.
+            valid = false;
+        }
+
         return valid; //Returns whether or not all fields are valid.
     }
 
@@ -140,10 +184,25 @@ public class DoctorForm extends AppCompatActivity {
         return TextUtils.isEmpty(entry);
     }
 
+    boolean boxesChecked(){
+        if(internalMedicine.isChecked() || obstetrics.isChecked() || familyMedicine.isChecked() || gynecology.isChecked() || pediatrics.isChecked() || neurology.isChecked()){
+            return true;
+        }else{
+            Toast t = Toast.makeText(this, "You must select one or more specialties to register!", Toast.LENGTH_SHORT);
+            t.show();
+            return false;
+        }
+    }
+
     public boolean onOptionsItemSelected(MenuItem item){ //Method to enable the back button on the doctor form to return to the main menu.
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);
         return true;
+    }
+
+    public void openLoginScreen(){
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 
 }
