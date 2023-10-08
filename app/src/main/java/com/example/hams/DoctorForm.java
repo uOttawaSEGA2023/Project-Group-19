@@ -116,7 +116,11 @@ public class DoctorForm extends AppCompatActivity {
 
     /**
      * validFields is a method that checks to see if all the text fields have the correct information in order to register a doctor.
+<<<<<<< HEAD
      * @return Whether or not every field in the form is valid.
+=======
+     * @return Whether or not every field in this form is valid.
+>>>>>>> 0b6a9d37dc7713adad2a0f296866b155809ed211
      */
     boolean validFields(){
         boolean valid = true; //Variable to keep track of the current field validity.
