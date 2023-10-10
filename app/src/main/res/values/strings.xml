@@ -1,3 +1,19 @@
 <resources>
     <string name="app_name">HAMS</string>
+    <string name="password">Password</string>
+    <string name="family_medicine">Family Medicine</string>
+    <string name="doctor_registration">Doctor Registration</string>
+    <string name="first_name">First Name</string>
+    <string name="register">Register</string>
+    <string name="last_name">Last Name</string>
+    <string name="email_address">Email Address</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="address">Address</string>
+    <string name="specialties">Specialties</string>
+    <string name="employee_number">Employee Number</string>
+    <string name="internal_medicine">Internal Medicine</string>
+    <string name="obstetrics">Obstetrics</string>
+    <string name="pediatrics">Pediatrics</string>
+    <string name="gynecology">Gynecology</string>
+    <string name="neurology">Neurology</string>
 </resources>
