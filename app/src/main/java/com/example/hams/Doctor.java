@@ -8,8 +8,8 @@ public class Doctor extends User {
     private String employeeNumber;
     private List<String> specialties;
 
-    public Doctor(String employeeNumber, List<String> specialties) {
-        super();
+    public Doctor(String firstName, String lastName, String username, String password, String phoneNumber, String[] address, String employeeNumber, List<String> specialties) {
+        super(firstName, lastName, username, password, phoneNumber, address);
         this.employeeNumber = employeeNumber;
         this.specialties = specialties;
     }

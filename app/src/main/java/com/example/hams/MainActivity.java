@@ -18,6 +18,8 @@ public class MainActivity extends AppCompatActivity {
 
         Button button = findViewById(R.id.button);
 
+        Admin firstAdmin = new Admin("Adam", "123456");
+
         button.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
                 openDoctorForm();

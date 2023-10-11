@@ -4,8 +4,8 @@ public class Patient extends User {
 
     private String healthCardNumber;
 
-    public Patient(String healthCardNumber) {
-        super();
+    public Patient(String firstName, String lastName, String username, String password, String phoneNumber, String[] address, String healthCardNumber) {
+        super(firstName, lastName, username, password, phoneNumber, address);
         this.healthCardNumber = healthCardNumber;
     }
 

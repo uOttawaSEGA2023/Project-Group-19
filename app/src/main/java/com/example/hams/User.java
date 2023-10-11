@@ -8,10 +8,19 @@ public class User {
     private String username;
     private String password;
     private String phoneNumber;
-    private String address;
+    private String[] address;
+    /*
+    Address is an array and is size 5 always, these are the items in order at all times when declaring:
+
+    Index 0: Address Line
+    Index 1: Postal Code
+    Index 2: Country
+    Index 3: Province
+    Index 4: City
+     */
 
 
-    public User(String firstName, String lastName, String username, String password, String phoneNumber, String address) {
+    public User(String firstName, String lastName, String username, String password, String phoneNumber, String[] address) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
@@ -27,7 +36,7 @@ public class User {
         this.username = "";
         this.password = "";
         this.phoneNumber = "";
-        this.address = "";
+        this.address = new String[5];
     }
 
     // Getters and Setters for each attribute
@@ -72,11 +81,11 @@ public class User {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getAddress() {
+    public String[] getAddress() {
         return address;
     }
 
-    public void setAddress(String address) {
+    public void setAddress(String[] address) {
         this.address = address;
     }
 
