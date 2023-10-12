@@ -7,28 +7,45 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
 public class MainActivity extends AppCompatActivity {
+
+    EditText emailLogin;
+    EditText passwordLogin;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("HAMS");
-
-        Button button = findViewById(R.id.button);
+        actionBar.setTitle("HAMS - Login Page");
+        Button welcomeLogin = findViewById(R.id.login);
+        Button buttonDoctorLogin = findViewById(R.id.registerDoctorLogin);
+        Button buttonPatientLogin = findViewById(R.id.registerPatientLogin);
 
         Admin firstAdmin = new Admin("Adam", "123456");
 
-        button.setOnClickListener(new View.OnClickListener(){
+        buttonDoctorLogin.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
                 openDoctorForm();
+            }
+        });
+
+        welcomeLogin.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View view){
+                openWelcomeScreen();
             }
         });
 
     }
     public void openDoctorForm(){
         Intent intent = new Intent(this, DoctorForm.class);
+        startActivity(intent);
+    }
+
+    public void openWelcomeScreen(){
+        Intent intent = new Intent(this, WelcomeScreen.class);
         startActivity(intent);
     }
 }

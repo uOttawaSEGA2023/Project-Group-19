@@ -51,27 +51,27 @@ public class DoctorForm extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("HAMS - Doctor Registration Form");
         actionBar.setDisplayHomeAsUpEnabled(true);
-
+        //Finds the user information edit texts.
         firstName = findViewById(R.id.firstName);
         lastName = findViewById(R.id.lastName);
         email = findViewById(R.id.email);
         password = findViewById(R.id.password);
         phoneNumber = findViewById(R.id.phoneNumber);
         employeeNumber = findViewById(R.id.employeeNumber);
-
+        //Finds the address information edit texts.
         addressLine = findViewById(R.id.addressLine);
         postalCode = findViewById(R.id.postalCode);
         country = findViewById(R.id.country);
         province = findViewById(R.id.province);
         city = findViewById(R.id.city);
-
+        //Finds the specialties check boxes.
         internalMedicine = findViewById(R.id.internalMedicine);
         obstetrics = findViewById(R.id.obstetrics);
         familyMedicine = findViewById(R.id.familyMedicine);
         gynecology = findViewById(R.id.gynecology);
         pediatrics = findViewById(R.id.pediatrics);
         neurology = findViewById(R.id.neurology);
-
+        //Finds the register button.
         register = findViewById(R.id.registerDoctor);
 
         register.setOnClickListener(new View.OnClickListener() {
@@ -107,7 +107,6 @@ public class DoctorForm extends AppCompatActivity {
                     if (neurology.isChecked()){ //If this specialty box is checked off, add it to the list.
                         specialties.add("Neurology");
                     }
-                    //d = new Doctor(getFirstName, getLastName, getEmail, getPassword, getPhoneNumber, getAddressLine, getEmployeeNumber, specialties);
                     openLoginScreen(); //Bring the user back to the log in screen.
                 }
             }
@@ -115,12 +114,8 @@ public class DoctorForm extends AppCompatActivity {
     }
 
     /**
-     * validFields is a method that checks to see if all the text fields have the correct information in order to register a doctor.
-<<<<<<< HEAD
-     * @return Whether or not every field in the form is valid.
-=======
-     * @return Whether or not every field in this form is valid.
->>>>>>> 0b6a9d37dc7713adad2a0f296866b155809ed211
+     * validFields() will check every field with criteria to make sure the form is properly filled.
+     * @return If every field in the form is valid or not.
      */
     boolean validFields(){
         boolean valid = true; //Variable to keep track of the current field validity.
@@ -211,6 +206,10 @@ public class DoctorForm extends AppCompatActivity {
         return TextUtils.isEmpty(entry);
     }
 
+    /**
+     * Checks to make sure if at least one specialty checkbox was checked off.
+     * @return If at least checkbox was checked off.
+     */
     boolean boxesChecked(){
         if(internalMedicine.isChecked() || obstetrics.isChecked() || familyMedicine.isChecked() || gynecology.isChecked() || pediatrics.isChecked() || neurology.isChecked()){
             return true;
@@ -221,12 +220,20 @@ public class DoctorForm extends AppCompatActivity {
         }
     }
 
-    public boolean onOptionsItemSelected(MenuItem item){ //Method to enable the back button on the doctor form to return to the main menu.
+    /**
+     * //Method to enable the back button on the doctor form to return to the main menu.
+     * @param item The item
+     * @return If the return was successful.
+     */
+    public boolean onOptionsItemSelected(MenuItem item){
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);
         return true;
     }
 
+    /**
+     * openLoginScreen() takes the user back to the login screen when activated.
+     */
     public void openLoginScreen(){
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
