@@ -13,7 +13,7 @@ public class User {
     private String password;
     private String phoneNumber;
 
-    //Address should be a map of size 5 and store, address, postal code, country, provi ce and city:
+    //Address should be a map of size 5 and store, address, postal code, country, province and city:
     private HashMap<String,String> address;
 
     public User(String firstName, String lastName, String username, String password, String phoneNumber, HashMap<String,String> address) {
@@ -32,7 +32,6 @@ public class User {
         this.username = "";
         this.password = "";
         this.phoneNumber = "";
-        //this.address = new String[5];
     }
 
     // Getters and Setters for each attribute

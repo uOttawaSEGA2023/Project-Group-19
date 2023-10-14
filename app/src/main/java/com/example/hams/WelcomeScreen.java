@@ -60,6 +60,9 @@ public class WelcomeScreen extends AppCompatActivity {
 
     }
 
+    /**
+     * Opens the login screen.
+     */
     public void openLoginScreen(){
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);

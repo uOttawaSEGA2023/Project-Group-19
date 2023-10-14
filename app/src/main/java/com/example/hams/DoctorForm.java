@@ -12,13 +12,12 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 
-import android.os.Bundle;
+
 import android.text.TextUtils;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
+
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -34,24 +33,24 @@ import java.util.HashMap;
 
 public class DoctorForm extends AppCompatActivity {
 
-    EditText firstName;
-    EditText lastName;
-    EditText email;
-    EditText password;
-    EditText phoneNumber;
-    EditText employeeNumber;
-    EditText addressLine;
-    EditText postalCode;
-    EditText country;
-    EditText province;
-    EditText city;
-    CheckBox internalMedicine;
-    CheckBox obstetrics;
-    CheckBox familyMedicine;
-    CheckBox gynecology;
-    CheckBox pediatrics;
-    CheckBox neurology;
-    Button register;
+    private EditText firstName;
+    private EditText lastName;
+    private EditText email;
+    private EditText password;
+    private EditText phoneNumber;
+    private EditText employeeNumber;
+    private EditText addressLine;
+    private EditText postalCode;
+    private EditText country;
+    private EditText province;
+    private EditText city;
+    private CheckBox internalMedicine;
+    private CheckBox obstetrics;
+    private CheckBox familyMedicine;
+    private CheckBox gynecology;
+    private CheckBox pediatrics;
+    private CheckBox neurology;
+    private Button register;
     private FirebaseAuth mAuth;
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
 
@@ -107,7 +106,7 @@ public class DoctorForm extends AppCompatActivity {
                     address.put("province", province.getText().toString());
                     address.put("city", city.getText().toString());
 
-                    ArrayList<String> specialties = new ArrayList<>(6);
+                    ArrayList<String> specialties = new ArrayList<>(6); //List to hold the specialties of the doctor.
 
                     if (internalMedicine.isChecked()){ //If this specialty box is checked off, add it to the list.
                         specialties.add("Internal Medicine");

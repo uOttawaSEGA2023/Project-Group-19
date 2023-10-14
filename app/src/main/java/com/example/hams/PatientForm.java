@@ -6,20 +6,16 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
 
-import android.os.Bundle;
+
 import android.text.TextUtils;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -35,18 +31,18 @@ import java.util.HashMap;
 
 public class PatientForm extends AppCompatActivity {
 
-    EditText firstName;
-    EditText lastName;
-    EditText email;
-    EditText password;
-    EditText phoneNumber;
-    EditText healthCardNumber;
-    EditText addressLine;
-    EditText postalCode;
-    EditText country;
-    EditText province;
-    EditText city;
-    Button register;
+    private EditText firstName;
+    private EditText lastName;
+    private EditText email;
+    private EditText password;
+    private EditText phoneNumber;
+    private EditText healthCardNumber;
+    private EditText addressLine;
+    private EditText postalCode;
+    private EditText country;
+    private EditText province;
+    private EditText city;
+    private Button register;
     private FirebaseAuth mAuth;
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
 
