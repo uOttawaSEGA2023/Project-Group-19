@@ -57,6 +57,7 @@ public class PatientForm extends AppCompatActivity {
         city = findViewById(R.id.cityP);
         //Finds the register button.
         register = findViewById(R.id.registerPatient);
+        Toast t = Toast.makeText(this, "Patient Account successfully created!", Toast.LENGTH_SHORT);
 
         register.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,6 +74,7 @@ public class PatientForm extends AppCompatActivity {
                     String getCountry = country.getText().toString();
                     String getProvince = province.getText().toString();
                     String getCity = city.getText().toString();
+                    t.show();
                     openLoginScreen(); //Bring the user back to the log in screen.
                 }
             }

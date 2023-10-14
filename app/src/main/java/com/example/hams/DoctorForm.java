@@ -42,7 +42,7 @@ public class DoctorForm extends AppCompatActivity {
     CheckBox neurology;
     Button register;
     List<String> specialties;
-    Doctor d;
+    String special = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +73,7 @@ public class DoctorForm extends AppCompatActivity {
         neurology = findViewById(R.id.neurology);
         //Finds the register button.
         register = findViewById(R.id.registerDoctor);
-
+        Toast t = Toast.makeText(this, "Doctor Account successfully created!", Toast.LENGTH_SHORT);
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) { //Method that processes code when the register button is pressed.
@@ -90,23 +90,30 @@ public class DoctorForm extends AppCompatActivity {
                     String getProvince = province.getText().toString();
                     String getCity = city.getText().toString();
                     if (internalMedicine.isChecked()){ //If this specialty box is checked off, add it to the list.
-                        specialties.add("Internal Medicine");
+                        special = "Internal Medicine";
+                        specialties.add(special);
                     }
                     if (obstetrics.isChecked()){ //If this specialty box is checked off, add it to the list.
-                        specialties.add("Obstetrics");
+                        special = "Obstetrics";
+                        specialties.add(special);
                     }
                     if (familyMedicine.isChecked()){ //If this specialty box is checked off, add it to the list.
-                        specialties.add("Family Medicine");
+                        special = "Family Medicine";
+                        specialties.add(special);
                     }
                     if (gynecology.isChecked()){ //If this specialty box is checked off, add it to the list.
-                        specialties.add("Gynecology");
+                        special = "Gynecology";
+                        specialties.add(special);
                     }
                     if (pediatrics.isChecked()){ //If this specialty box is checked off, add it to the list.
-                        specialties.add("Pediatrics");
+                        special = "Pediatrics";
+                        specialties.add(special);
                     }
                     if (neurology.isChecked()){ //If this specialty box is checked off, add it to the list.
-                        specialties.add("Neurology");
+                        special = "Neurology";
+                        specialties.add(special);
                     }
+                    t.show();
                     openLoginScreen(); //Bring the user back to the log in screen.
                 }
             }
