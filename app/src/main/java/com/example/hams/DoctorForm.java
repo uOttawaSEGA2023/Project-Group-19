@@ -1,5 +1,6 @@
 package com.example.hams;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -19,7 +20,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import java.util.List;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthException;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class DoctorForm extends AppCompatActivity {
 
@@ -41,8 +52,8 @@ public class DoctorForm extends AppCompatActivity {
     CheckBox pediatrics;
     CheckBox neurology;
     Button register;
-    List<String> specialties;
-    String special = "";
+    private FirebaseAuth mAuth;
+    private FirebaseDatabase database = FirebaseDatabase.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +62,7 @@ public class DoctorForm extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("HAMS - Doctor Registration Form");
         actionBar.setDisplayHomeAsUpEnabled(true);
+
         //Finds the user information edit texts.
         firstName = findViewById(R.id.firstName);
         lastName = findViewById(R.id.lastName);
@@ -58,12 +70,14 @@ public class DoctorForm extends AppCompatActivity {
         password = findViewById(R.id.password);
         phoneNumber = findViewById(R.id.phoneNumber);
         employeeNumber = findViewById(R.id.employeeNumber);
+
         //Finds the address information edit texts.
         addressLine = findViewById(R.id.addressLine);
         postalCode = findViewById(R.id.postalCode);
         country = findViewById(R.id.country);
         province = findViewById(R.id.province);
         city = findViewById(R.id.city);
+
         //Finds the specialties check boxes.
         internalMedicine = findViewById(R.id.internalMedicine);
         obstetrics = findViewById(R.id.obstetrics);
@@ -71,6 +85,7 @@ public class DoctorForm extends AppCompatActivity {
         gynecology = findViewById(R.id.gynecology);
         pediatrics = findViewById(R.id.pediatrics);
         neurology = findViewById(R.id.neurology);
+
         //Finds the register button.
         register = findViewById(R.id.registerDoctor);
         Toast t = Toast.makeText(this, "Doctor Account successfully created!", Toast.LENGTH_SHORT);
@@ -84,37 +99,63 @@ public class DoctorForm extends AppCompatActivity {
                     String getPassword = password.getText().toString();
                     String getPhoneNumber = phoneNumber.getText().toString();
                     String getEmployeeNumber = employeeNumber.getText().toString();
-                    String getAddressLine = addressLine.getText().toString();
-                    String getPostalCode = postalCode.getText().toString();
-                    String getCountry = country.getText().toString();
-                    String getProvince = province.getText().toString();
-                    String getCity = city.getText().toString();
+
+                    HashMap<String,String> address = new HashMap<> (5);
+                    address.put("address line", addressLine.getText().toString());
+                    address.put("postal code", postalCode.getText().toString());
+                    address.put("country", country.getText().toString());
+                    address.put("province", province.getText().toString());
+                    address.put("city", city.getText().toString());
+
+                    ArrayList<String> specialties = new ArrayList<>(6);
+
                     if (internalMedicine.isChecked()){ //If this specialty box is checked off, add it to the list.
-                        special = "Internal Medicine";
-                        specialties.add(special);
+                        specialties.add("Internal Medicine");
                     }
-                    if (obstetrics.isChecked()){ //If this specialty box is checked off, add it to the list.
-                        special = "Obstetrics";
-                        specialties.add(special);
+                    if (obstetrics.isChecked()){
+                        specialties.add("Obstetrics");
                     }
-                    if (familyMedicine.isChecked()){ //If this specialty box is checked off, add it to the list.
-                        special = "Family Medicine";
-                        specialties.add(special);
+                    if (familyMedicine.isChecked()){
+                        specialties.add("Family Medicine");
                     }
-                    if (gynecology.isChecked()){ //If this specialty box is checked off, add it to the list.
-                        special = "Gynecology";
-                        specialties.add(special);
+                    if (gynecology.isChecked()){
+                        specialties.add("Gynecology");
                     }
-                    if (pediatrics.isChecked()){ //If this specialty box is checked off, add it to the list.
-                        special = "Pediatrics";
-                        specialties.add(special);
+                    if (pediatrics.isChecked()){
+                        specialties.add("Pediatrics");
                     }
-                    if (neurology.isChecked()){ //If this specialty box is checked off, add it to the list.
-                        special = "Neurology";
-                        specialties.add(special);
+                    if (neurology.isChecked()){
+                        specialties.add("Neurology");
                     }
-                    t.show();
-                    openLoginScreen(); //Bring the user back to the log in screen.
+
+                    //Instantiating objects needed for firebase storage and authentication
+                    mAuth = FirebaseAuth.getInstance();
+                    Doctor user = new Doctor(getFirstName, getLastName, getEmail, getPassword, getPhoneNumber, address, getEmployeeNumber, specialties);
+                    DatabaseReference ref = database.getReference();
+
+                    //creating a user on firebase and storing the patient's data
+                    mAuth.createUserWithEmailAndPassword(getEmail, getPassword)
+                            .addOnCompleteListener(DoctorForm.this, new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (task.isSuccessful()) {
+                                        //user successfully created
+                                        FirebaseUser firebaseUser = mAuth.getCurrentUser();
+                                        //Add the user to realtime database with a identifier for what type of user they are
+                                        String userId = firebaseUser.getUid();
+                                        ref.child("users").child(userId).setValue(user);
+                                        ref.child("users").child(userId).child("type").setValue("doctor");
+                                        //Toast that lets user know that the registration was successful
+                                        t.show();
+                                        openLoginScreen(); //Bring the user back to the log in screen.
+
+                                    } else {
+                                        //Show a toast with error message if registration fails
+                                        FirebaseAuthException e = (FirebaseAuthException)task.getException();
+                                        Toast.makeText(DoctorForm.this, "Failed Registration: "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
                 }
             }
         });

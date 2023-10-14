@@ -1,5 +1,9 @@
 package com.example.hams;
 
+import android.location.Address;
+
+import java.util.HashMap;
+
 public class User {
 
     // Attributes
@@ -8,19 +12,11 @@ public class User {
     private String username;
     private String password;
     private String phoneNumber;
-    private String[] address;
-    /*
-    Address is an array and is size 5 always, these are the items in order at all times when declaring:
 
-    Index 0: Address Line
-    Index 1: Postal Code
-    Index 2: Country
-    Index 3: Province
-    Index 4: City
-     */
+    //Address should be a map of size 5 and store, address, postal code, country, provi ce and city:
+    private HashMap<String,String> address;
 
-
-    public User(String firstName, String lastName, String username, String password, String phoneNumber, String[] address) {
+    public User(String firstName, String lastName, String username, String password, String phoneNumber, HashMap<String,String> address) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
@@ -36,7 +32,7 @@ public class User {
         this.username = "";
         this.password = "";
         this.phoneNumber = "";
-        this.address = new String[5];
+        //this.address = new String[5];
     }
 
     // Getters and Setters for each attribute
@@ -81,11 +77,11 @@ public class User {
         this.phoneNumber = phoneNumber;
     }
 
-    public String[] getAddress() {
+    public HashMap<String, String> getAddress() {
         return address;
     }
 
-    public void setAddress(String[] address) {
+    public void setAddress(HashMap<String,String> address) {
         this.address = address;
     }
 

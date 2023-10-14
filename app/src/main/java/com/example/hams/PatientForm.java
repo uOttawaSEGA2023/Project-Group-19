@@ -1,10 +1,12 @@
 package com.example.hams;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -18,6 +20,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthException;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
 
 
 public class PatientForm extends AppCompatActivity {
@@ -34,6 +47,8 @@ public class PatientForm extends AppCompatActivity {
     EditText province;
     EditText city;
     Button register;
+    private FirebaseAuth mAuth;
+    private FirebaseDatabase database = FirebaseDatabase.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +57,10 @@ public class PatientForm extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("HAMS - Patient Registration Form");
         actionBar.setDisplayHomeAsUpEnabled(true);
+
+        //Instantiating objects needed for firebase storage and authentication
+        mAuth = FirebaseAuth.getInstance();
+
         //Finds the user information edit texts.
         firstName = findViewById(R.id.firstNameP);
         lastName = findViewById(R.id.lastNameP);
@@ -49,12 +68,14 @@ public class PatientForm extends AppCompatActivity {
         password = findViewById(R.id.passwordP);
         phoneNumber = findViewById(R.id.phoneNumberP);
         healthCardNumber = findViewById(R.id.healthCard);
+
         //Finds the address information edit texts.
         addressLine = findViewById(R.id.addressLineP);
         postalCode = findViewById(R.id.postalCodeP);
         country = findViewById(R.id.countryP);
         province = findViewById(R.id.provinceP);
         city = findViewById(R.id.cityP);
+
         //Finds the register button.
         register = findViewById(R.id.registerPatient);
         Toast t = Toast.makeText(this, "Patient Account successfully created!", Toast.LENGTH_SHORT);
@@ -63,19 +84,47 @@ public class PatientForm extends AppCompatActivity {
             @Override
             public void onClick(View view) { //Method that processes code when the register button is pressed.
                 if (validFields()){ //If all the fields in the form are valid, do the following.
+                    //get all inputs from text fields as strings and create a patient object
                     String getFirstName = firstName.getText().toString();
                     String getLastName = lastName.getText().toString();
                     String getEmail = email.getText().toString();
                     String getPassword = password.getText().toString();
                     String getPhoneNumber = phoneNumber.getText().toString();
                     String getHealthCardNumber = healthCardNumber.getText().toString();
-                    String getAddressLine = addressLine.getText().toString();
-                    String getPostalCode = postalCode.getText().toString();
-                    String getCountry = country.getText().toString();
-                    String getProvince = province.getText().toString();
-                    String getCity = city.getText().toString();
-                    t.show();
-                    openLoginScreen(); //Bring the user back to the log in screen.
+
+                    HashMap<String,String> address = new HashMap<> (5);
+                    address.put("address line", addressLine.getText().toString());
+                    address.put("postal code", postalCode.getText().toString());
+                    address.put("country", country.getText().toString());
+                    address.put("province", province.getText().toString());
+                    address.put("city", city.getText().toString());
+
+                    Patient user = new Patient(getFirstName, getLastName, getEmail, getPassword, getPhoneNumber, address, getHealthCardNumber);
+                    DatabaseReference ref = database.getReference();
+
+                    //creating a user on firebase and storing the patient's data
+                    mAuth.createUserWithEmailAndPassword(getEmail, getPassword)
+                            .addOnCompleteListener(PatientForm.this, new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (task.isSuccessful()) {
+                                        //user successfully created
+                                        FirebaseUser firebaseUser = mAuth.getCurrentUser();
+                                        //Add the user to realtime database with a identifier for what type of user they are
+                                        String userId = firebaseUser.getUid();
+                                        ref.child("users").child(userId).setValue(user);
+                                        ref.child("users").child(userId).child("type").setValue("patient");
+                                        //Toast that lets user know that the registration was successful
+                                        t.show();
+                                        openLoginScreen(); //Bring the user back to the log in screen.
+
+                                    } else {
+                                        //Show a toast with error message if registration fails
+                                        FirebaseAuthException e = (FirebaseAuthException)task.getException();
+                                        Toast.makeText(PatientForm.this, "Failed Registration: "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
                 }
             }
         });

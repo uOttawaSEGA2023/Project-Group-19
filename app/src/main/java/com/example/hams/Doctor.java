@@ -1,14 +1,16 @@
 package com.example.hams;
 
-import java.util.List;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Doctor extends User {
 
     // Attributes
     private String employeeNumber;
-    private List<String> specialties;
+    private ArrayList<String> specialties;
 
-    public Doctor(String firstName, String lastName, String username, String password, String phoneNumber, String[] address, String employeeNumber, List<String> specialties) {
+    public Doctor(String firstName, String lastName, String username, String password,
+                  String phoneNumber, HashMap<String,String> address, String employeeNumber, ArrayList<String> specialties) {
         super(firstName, lastName, username, password, phoneNumber, address);
         this.employeeNumber = employeeNumber;
         this.specialties = specialties;
@@ -31,11 +33,11 @@ public class Doctor extends User {
         this.employeeNumber = employeeNumber;
     }
 
-    public List<String> getSpecialties() {
+    public ArrayList<String> getSpecialties() {
         return specialties;
     }
 
-    public void setSpecialties(List<String> specialties) {
+    public void setSpecialties(ArrayList<String> specialties) {
         this.specialties = specialties;
     }
 
