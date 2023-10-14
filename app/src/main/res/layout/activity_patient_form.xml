@@ -1,9 +1,256 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background = "#e6e6e6"
+    android:fillViewport="true"
     tools:context=".PatientForm">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/cityP"
+            android:layout_width="174dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="#000000"
+            android:ems="10"
+            android:fontFamily="serif"
+            android:hint="City"
+            android:inputType="text"
+            android:textAlignment="center"
+            android:textColor="#000000"
+            android:textColorHighlight="#1fe0ff"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/countryP" />
+
+        <EditText
+            android:id="@+id/provinceP"
+            android:layout_width="174dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="16dp"
+            android:backgroundTint="#000000"
+            android:ems="10"
+            android:fontFamily="serif"
+            android:hint="Province"
+            android:inputType="text"
+            android:textAlignment="center"
+            android:textColor="#000000"
+            android:textColorHighlight="#1fe0ff"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/postalCodeP" />
+
+        <EditText
+            android:id="@+id/countryP"
+            android:layout_width="174dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="#000000"
+            android:ems="10"
+            android:fontFamily="serif"
+            android:hint="Country"
+            android:inputType="text"
+            android:textAlignment="center"
+            android:textColor="#000000"
+            android:textColorHighlight="#1fe0ff"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/addressLineP" />
+
+        <EditText
+            android:id="@+id/postalCodeP"
+            android:layout_width="174dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:backgroundTint="#000000"
+            android:ems="10"
+            android:fontFamily="serif"
+            android:hint="Postal Code"
+            android:inputType="text"
+            android:textAlignment="center"
+            android:textColor="#000000"
+            android:textColorHighlight="#1fe0ff"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/addressP" />
+
+        <TextView
+            android:id="@+id/addressP"
+            android:layout_width="245dp"
+            android:layout_height="37dp"
+            android:layout_marginBottom="200dp"
+            android:fontFamily="serif"
+            android:text="Address 🏠"
+            android:textAlignment="center"
+            android:textColor="#000000"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/registerPatient"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.806" />
+
+        <EditText
+            android:id="@+id/healthCard"
+            android:layout_width="174dp"
+            android:layout_height="50dp"
+            android:backgroundTint="#000000"
+            android:ems="10"
+            android:fontFamily="serif"
+            android:hint="Health Card Number"
+            android:inputType="number"
+            android:textAlignment="center"
+            android:textColor="#000000"
+            android:textColorHighlight="#1fe0ff"
+            app:layout_constraintBottom_toTopOf="@+id/addressP"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.932"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.691" />
+
+        <EditText
+            android:id="@+id/phoneNumberP"
+            android:layout_width="174dp"
+            android:layout_height="50dp"
+            android:backgroundTint="#000000"
+            android:ems="10"
+            android:fontFamily="serif"
+            android:hint="Phone Number"
+            android:inputType="phone"
+            android:textAlignment="center"
+            android:textColor="#000000"
+            android:textColorHighlight="#1fe0ff"
+            app:layout_constraintBottom_toTopOf="@+id/addressP"
+            app:layout_constraintEnd_toStartOf="@+id/healthCard"
+            app:layout_constraintHorizontal_bias="0.34"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/emailP"
+            app:layout_constraintVertical_bias="0.208" />
+
+        <EditText
+            android:id="@+id/firstNameP"
+            android:layout_width="174dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="3dp"
+            android:backgroundTint="#000000"
+            android:ems="10"
+            android:fontFamily="serif"
+            android:hint="First Name"
+            android:inputType="text"
+            android:textAlignment="center"
+            android:textColor="#000000"
+            android:textColorHighlight="#1fe0ff"
+            app:layout_constraintBottom_toTopOf="@+id/emailP"
+            app:layout_constraintEnd_toStartOf="@+id/lastNameP"
+            app:layout_constraintHorizontal_bias="0.295"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.603" />
+
+        <EditText
+            android:id="@+id/emailP"
+            android:layout_width="174dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="16dp"
+            android:backgroundTint="#000000"
+            android:ems="10"
+            android:fontFamily="serif"
+            android:hint="Email Address"
+            android:inputType="textEmailAddress"
+            android:textAlignment="center"
+            android:textColor="#000000"
+            android:textColorHighlight="#1fe0ff"
+            app:layout_constraintBottom_toTopOf="@+id/healthCard"
+            app:layout_constraintEnd_toStartOf="@+id/passwordP"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.837" />
+
+        <EditText
+            android:id="@+id/lastNameP"
+            android:layout_width="174dp"
+            android:layout_height="50dp"
+            android:backgroundTint="#000000"
+            android:ems="10"
+            android:fontFamily="serif"
+            android:hint="Last Name"
+            android:inputType="text"
+            android:textAlignment="center"
+            android:textColor="#000000"
+            android:textColorHighlight="#1fe0ff"
+            app:layout_constraintBottom_toTopOf="@+id/passwordP"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.932"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.606" />
+
+        <Button
+            android:id="@+id/registerPatient"
+            android:layout_width="145dp"
+            android:layout_height="56dp"
+            android:layout_marginTop="620dp"
+            android:backgroundTint="#1fe0ff"
+            android:fontFamily="serif"
+            android:text="Register"
+            android:textAlignment="center"
+            android:textAllCaps="false"
+            android:textColor="#000000"
+            android:textSize="18sp"
+
+            app:icon="@android:drawable/ic_menu_send"
+            app:iconTint="#FF000000"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/passwordP"
+            android:layout_width="174dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="108dp"
+            android:backgroundTint="#000000"
+            android:ems="10"
+            android:fontFamily="serif"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:textAlignment="center"
+            android:textColorHighlight="#1fe0ff"
+            app:layout_constraintBottom_toTopOf="@+id/healthCard"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.932"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <EditText
+            android:id="@+id/addressLineP"
+            android:layout_width="174dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="#000000"
+            android:ems="10"
+            android:fontFamily="serif"
+            android:hint="Address Line"
+            android:inputType="text"
+            android:textAlignment="center"
+            android:textColor="#000000"
+            android:textColorHighlight="#1fe0ff"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/addressP" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</ScrollView>

@@ -29,10 +29,16 @@ public class MainActivity extends AppCompatActivity {
         buttonDoctorLogin.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
                 openDoctorForm();
-            }
+            } //Opens the doctor registration form.
         });
 
-        welcomeLogin.setOnClickListener(new View.OnClickListener(){
+        buttonPatientLogin.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View view){
+                openPatientForm();
+            } //Opens the patient registration form.
+        });
+
+        welcomeLogin.setOnClickListener(new View.OnClickListener(){ //Arn use this! It's the login button functionality.
             public void onClick(View view){
                 openWelcomeScreen();
             }
@@ -41,6 +47,11 @@ public class MainActivity extends AppCompatActivity {
     }
     public void openDoctorForm(){
         Intent intent = new Intent(this, DoctorForm.class);
+        startActivity(intent);
+    }
+
+    public void openPatientForm(){
+        Intent intent = new Intent(this, PatientForm.class);
         startActivity(intent);
     }
 
