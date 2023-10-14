@@ -20,30 +20,32 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class WelcomeScreen extends AppCompatActivity {
 
-    TextView welcome;
-    private FirebaseAuth mAuth;
-    private DatabaseReference mDatabase;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome_screen);
 
+        //finding buttons and text field
         Button buttonLogin = findViewById(R.id.logout);
-        welcome = findViewById(R.id.welcome);
+        TextView welcome = findViewById(R.id.welcome);
 
+        //Setting top bar
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("HAMS - Home Page");
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        mAuth = FirebaseAuth.getInstance();
-        mDatabase = FirebaseDatabase.getInstance().getReference();
+        //calling objects needed for authentication and reading from the DB
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
 
+        //Getting user ID of the currently logged in user
         String userId = mAuth.getUid();
 
+        //getting the type of user
         mDatabase.child("users").child(userId).child("type").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
+                //Once type is found update the welcome text field to indicate type
                 String type = task.getResult().getValue(String.class);
                 String displayText = "Welcome! You are logged in as a " + type;
                 welcome.setText(displayText);
@@ -51,12 +53,12 @@ public class WelcomeScreen extends AppCompatActivity {
         });
 
         buttonLogin.setOnClickListener(new View.OnClickListener(){
+            //Upon clicking the logout button sign user out and return to the login screen
             public void onClick(View view){
                 mAuth.signOut();
                 openLoginScreen();
             }
         });
-
 
     }
 

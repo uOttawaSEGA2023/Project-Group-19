@@ -50,14 +50,13 @@ public class DoctorForm extends AppCompatActivity {
     private CheckBox gynecology;
     private CheckBox pediatrics;
     private CheckBox neurology;
-    private Button register;
-    private FirebaseAuth mAuth;
-    private FirebaseDatabase database = FirebaseDatabase.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doctor_form);
+
+        //Setting top bar
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("HAMS - Doctor Registration Form");
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -86,12 +85,17 @@ public class DoctorForm extends AppCompatActivity {
         neurology = findViewById(R.id.neurology);
 
         //Finds the register button.
-        register = findViewById(R.id.registerDoctor);
-        Toast t = Toast.makeText(this, "Doctor Account successfully created!", Toast.LENGTH_SHORT);
+        Button register = findViewById(R.id.registerDoctor);
+
+        //Instantiating objects needed for firebase storage and authentication
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) { //Method that processes code when the register button is pressed.
                 if (validFields()){ //If all the fields in the form are valid, do the following.
+                    //Get all inputs from text fields and create a doctor object
                     String getFirstName = firstName.getText().toString();
                     String getLastName = lastName.getText().toString();
                     String getEmail = email.getText().toString();
@@ -107,8 +111,8 @@ public class DoctorForm extends AppCompatActivity {
                     address.put("city", city.getText().toString());
 
                     ArrayList<String> specialties = new ArrayList<>(6); //List to hold the specialties of the doctor.
-
-                    if (internalMedicine.isChecked()){ //If this specialty box is checked off, add it to the list.
+                    //If this specialty box is checked off, add it to the of list of specialties.
+                    if (internalMedicine.isChecked()){
                         specialties.add("Internal Medicine");
                     }
                     if (obstetrics.isChecked()){
@@ -127,12 +131,11 @@ public class DoctorForm extends AppCompatActivity {
                         specialties.add("Neurology");
                     }
 
-                    //Instantiating objects needed for firebase storage and authentication
-                    mAuth = FirebaseAuth.getInstance();
                     Doctor user = new Doctor(getFirstName, getLastName, getEmail, getPassword, getPhoneNumber, address, getEmployeeNumber, specialties);
+
                     DatabaseReference ref = database.getReference();
 
-                    //creating a user on firebase and storing the patient's data
+                    //creating a user on firebase and storing the doctor's data
                     mAuth.createUserWithEmailAndPassword(getEmail, getPassword)
                             .addOnCompleteListener(DoctorForm.this, new OnCompleteListener<AuthResult>() {
                                 @Override
@@ -145,7 +148,7 @@ public class DoctorForm extends AppCompatActivity {
                                         ref.child("users").child(userId).setValue(user);
                                         ref.child("users").child(userId).child("type").setValue("doctor");
                                         //Toast that lets user know that the registration was successful
-                                        t.show();
+                                        Toast.makeText(DoctorForm.this, "Doctor Account successfully created!", Toast.LENGTH_SHORT).show();
                                         openLoginScreen(); //Bring the user back to the log in screen.
 
                                     } else {

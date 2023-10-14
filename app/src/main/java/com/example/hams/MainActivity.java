@@ -21,23 +21,25 @@ public class MainActivity extends AppCompatActivity {
 
     private EditText emailLogin;
     private EditText passwordLogin;
-    private FirebaseAuth mAuth;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //Set top bar
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("HAMS - Login Page");
-        Button welcomeLogin = findViewById(R.id.login);
+
+        Button welcomeLogin = findViewById(R.id.login); //Login button
+        //Doctor and patient registration buttons
         Button buttonDoctorLogin = findViewById(R.id.registerDoctorLogin);
         Button buttonPatientLogin = findViewById(R.id.registerPatientLogin);
 
+        //find email and password inputs from login screen
         emailLogin = findViewById(R.id.emailLogin);
         passwordLogin = findViewById(R.id.passwordLogin);
 
-        mAuth = FirebaseAuth.getInstance();
+        FirebaseAuth mAuth = FirebaseAuth.getInstance(); //needed for authentication
         /**
          * Button method for doctor registration form.
          */
@@ -55,7 +57,8 @@ public class MainActivity extends AppCompatActivity {
             } //Opens the patient registration form.
         });
 
-        welcomeLogin.setOnClickListener(new View.OnClickListener(){ //Arn use this! It's the login button functionality.
+        //Authenticate user with firebase when they press the login button
+        welcomeLogin.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
                 String email = emailLogin.getText().toString();

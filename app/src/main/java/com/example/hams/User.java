@@ -16,7 +16,8 @@ public class User {
     //Address should be a map of size 5 and store, address, postal code, country, province and city:
     private HashMap<String,String> address;
 
-    public User(String firstName, String lastName, String username, String password, String phoneNumber, HashMap<String,String> address) {
+    public User(String firstName, String lastName, String username, String password,
+                String phoneNumber, HashMap<String,String> address) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;

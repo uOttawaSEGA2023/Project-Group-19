@@ -42,20 +42,20 @@ public class PatientForm extends AppCompatActivity {
     private EditText country;
     private EditText province;
     private EditText city;
-    private Button register;
-    private FirebaseAuth mAuth;
-    private FirebaseDatabase database = FirebaseDatabase.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient_form);
+
+        //Setting top bar
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("HAMS - Patient Registration Form");
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         //Instantiating objects needed for firebase storage and authentication
-        mAuth = FirebaseAuth.getInstance();
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
 
         //Finds the user information edit texts.
         firstName = findViewById(R.id.firstNameP);
@@ -72,9 +72,7 @@ public class PatientForm extends AppCompatActivity {
         province = findViewById(R.id.provinceP);
         city = findViewById(R.id.cityP);
 
-        //Finds the register button.
-        register = findViewById(R.id.registerPatient);
-        Toast t = Toast.makeText(this, "Patient Account successfully created!", Toast.LENGTH_SHORT);
+        Button register = findViewById(R.id.registerPatient); //Finds the register button.
 
         register.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,6 +94,7 @@ public class PatientForm extends AppCompatActivity {
                     address.put("city", city.getText().toString());
 
                     Patient user = new Patient(getFirstName, getLastName, getEmail, getPassword, getPhoneNumber, address, getHealthCardNumber);
+
                     DatabaseReference ref = database.getReference();
 
                     //creating a user on firebase and storing the patient's data
@@ -104,18 +103,18 @@ public class PatientForm extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if (task.isSuccessful()) {
-                                        //user successfully created
+                                        // get current user instance
                                         FirebaseUser firebaseUser = mAuth.getCurrentUser();
                                         //Add the user to realtime database with a identifier for what type of user they are
                                         String userId = firebaseUser.getUid();
                                         ref.child("users").child(userId).setValue(user);
                                         ref.child("users").child(userId).child("type").setValue("patient");
                                         //Toast that lets user know that the registration was successful
-                                        t.show();
+                                        Toast.makeText(PatientForm.this, "Patient Account successfully created!", Toast.LENGTH_SHORT).show();
                                         openLoginScreen(); //Bring the user back to the log in screen.
 
                                     } else {
-                                        //Show a toast with error message if registration fails
+                                        //Show a toast with firebase exception if registration fails
                                         FirebaseAuthException e = (FirebaseAuthException)task.getException();
                                         Toast.makeText(PatientForm.this, "Failed Registration: "+e.getMessage(), Toast.LENGTH_SHORT).show();
                                     }

@@ -10,7 +10,9 @@ public class Doctor extends User {
     private ArrayList<String> specialties;
 
     public Doctor(String firstName, String lastName, String username, String password,
-                  String phoneNumber, HashMap<String,String> address, String employeeNumber, ArrayList<String> specialties) {
+                  String phoneNumber, HashMap<String,String> address, String employeeNumber,
+                  ArrayList<String> specialties) {
+
         super(firstName, lastName, username, password, phoneNumber, address);
         this.employeeNumber = employeeNumber;
         this.specialties = specialties;
