@@ -21,7 +21,7 @@ public class User {
     private String password;
 
 
-    //Address is a class store, address, postal code, country, province and city:
+    //Address is a class storing address, postal code, country, province and city:
     private Address address;
 
     public User(String firstName, String lastName, String username, String password,
