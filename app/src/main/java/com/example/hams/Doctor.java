@@ -1,7 +1,6 @@
 package com.example.hams;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class Doctor extends User {
 
@@ -10,7 +9,7 @@ public class Doctor extends User {
     private ArrayList<String> specialties;
 
     public Doctor(String firstName, String lastName, String username, String password,
-                  String phoneNumber, HashMap<String,String> address, String employeeNumber,
+                  String phoneNumber, Address address, String employeeNumber,
                   ArrayList<String> specialties) {
 
         super(firstName, lastName, username, password, phoneNumber, address);

@@ -103,12 +103,15 @@ public class DoctorForm extends AppCompatActivity {
                     String getPhoneNumber = phoneNumber.getText().toString();
                     String getEmployeeNumber = employeeNumber.getText().toString();
 
-                    HashMap<String,String> address = new HashMap<> (5);
-                    address.put("address line", addressLine.getText().toString());
-                    address.put("postal code", postalCode.getText().toString());
-                    address.put("country", country.getText().toString());
-                    address.put("province", province.getText().toString());
-                    address.put("city", city.getText().toString());
+                    Address address = new Address(addressLine.getText().toString(),postalCode.getText().toString(),
+                            country.getText().toString(), province.getText().toString(), city.getText().toString());
+
+//                    HashMap<String,String> address = new HashMap<> (5);
+//                    address.put("address line", addressLine.getText().toString());
+//                    address.put("postal code", postalCode.getText().toString());
+//                    address.put("country", country.getText().toString());
+//                    address.put("province", province.getText().toString());
+//                    address.put("city", city.getText().toString());
 
                     ArrayList<String> specialties = new ArrayList<>(6); //List to hold the specialties of the doctor.
                     //If this specialty box is checked off, add it to the of list of specialties.

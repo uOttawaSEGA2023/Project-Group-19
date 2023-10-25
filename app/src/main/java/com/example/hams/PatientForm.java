@@ -86,12 +86,15 @@ public class PatientForm extends AppCompatActivity {
                     String getPhoneNumber = phoneNumber.getText().toString();
                     String getHealthCardNumber = healthCardNumber.getText().toString();
 
-                    HashMap<String,String> address = new HashMap<> (5);
-                    address.put("address line", addressLine.getText().toString());
-                    address.put("postal code", postalCode.getText().toString());
-                    address.put("country", country.getText().toString());
-                    address.put("province", province.getText().toString());
-                    address.put("city", city.getText().toString());
+                    Address address = new Address(addressLine.getText().toString(),postalCode.getText().toString(),
+                            country.getText().toString(), province.getText().toString(), city.getText().toString());
+//
+//                    HashMap<String,String> address = new HashMap<> (5);
+//                    address.put("address line", addressLine.getText().toString());
+//                    address.put("postal code", postalCode.getText().toString());
+//                    address.put("country", country.getText().toString());
+//                    address.put("province", province.getText().toString());
+//                    address.put("city", city.getText().toString());
 
                     Patient user = new Patient(getFirstName, getLastName, getEmail, getPassword, getPhoneNumber, address, getHealthCardNumber);
 
