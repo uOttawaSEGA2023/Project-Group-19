@@ -86,12 +86,15 @@ public class PatientForm extends AppCompatActivity {
                     String getPhoneNumber = phoneNumber.getText().toString();
                     String getHealthCardNumber = healthCardNumber.getText().toString();
 
-                    HashMap<String,String> address = new HashMap<> (5);
-                    address.put("address line", addressLine.getText().toString());
-                    address.put("postal code", postalCode.getText().toString());
-                    address.put("country", country.getText().toString());
-                    address.put("province", province.getText().toString());
-                    address.put("city", city.getText().toString());
+                    Address address = new Address(addressLine.getText().toString(),postalCode.getText().toString(),
+                            country.getText().toString(), province.getText().toString(), city.getText().toString());
+//
+//                    HashMap<String,String> address = new HashMap<> (5);
+//                    address.put("address line", addressLine.getText().toString());
+//                    address.put("postal code", postalCode.getText().toString());
+//                    address.put("country", country.getText().toString());
+//                    address.put("province", province.getText().toString());
+//                    address.put("city", city.getText().toString());
 
                     Patient user = new Patient(getFirstName, getLastName, getEmail, getPassword, getPhoneNumber, address, getHealthCardNumber);
 
@@ -106,9 +109,8 @@ public class PatientForm extends AppCompatActivity {
                                         // get current user instance
                                         FirebaseUser firebaseUser = mAuth.getCurrentUser();
                                         //Add the user to realtime database with a identifier for what type of user they are
-                                        String userId = firebaseUser.getUid();
-                                        ref.child("users").child(userId).setValue(user);
-                                        ref.child("users").child(userId).child("type").setValue("patient");
+                                        ref.child("users").child(getEmail).setValue(user);
+                                        ref.child("users").child(getEmail).child("type").setValue("patient");
                                         //Toast that lets user know that the registration was successful
                                         Toast.makeText(PatientForm.this, "Patient Account successfully created!", Toast.LENGTH_SHORT).show();
                                         openLoginScreen(); //Bring the user back to the log in screen.

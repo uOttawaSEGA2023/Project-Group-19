@@ -7,7 +7,7 @@ public class Patient extends User {
     private String healthCardNumber;
 
     public Patient(String firstName, String lastName, String username, String password,
-                   String phoneNumber, HashMap<String,String> address, String healthCardNumber) {
+                   String phoneNumber, Address address, String healthCardNumber) {
         super(firstName, lastName, username, password, phoneNumber, address);
         this.healthCardNumber = healthCardNumber;
     }

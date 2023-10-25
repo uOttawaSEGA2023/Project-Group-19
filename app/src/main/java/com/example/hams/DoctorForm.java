@@ -103,12 +103,15 @@ public class DoctorForm extends AppCompatActivity {
                     String getPhoneNumber = phoneNumber.getText().toString();
                     String getEmployeeNumber = employeeNumber.getText().toString();
 
-                    HashMap<String,String> address = new HashMap<> (5);
-                    address.put("address line", addressLine.getText().toString());
-                    address.put("postal code", postalCode.getText().toString());
-                    address.put("country", country.getText().toString());
-                    address.put("province", province.getText().toString());
-                    address.put("city", city.getText().toString());
+                    Address address = new Address(addressLine.getText().toString(),postalCode.getText().toString(),
+                            country.getText().toString(), province.getText().toString(), city.getText().toString());
+
+//                    HashMap<String,String> address = new HashMap<> (5);
+//                    address.put("address line", addressLine.getText().toString());
+//                    address.put("postal code", postalCode.getText().toString());
+//                    address.put("country", country.getText().toString());
+//                    address.put("province", province.getText().toString());
+//                    address.put("city", city.getText().toString());
 
                     ArrayList<String> specialties = new ArrayList<>(6); //List to hold the specialties of the doctor.
                     //If this specialty box is checked off, add it to the of list of specialties.
@@ -144,9 +147,8 @@ public class DoctorForm extends AppCompatActivity {
                                         //user successfully created
                                         FirebaseUser firebaseUser = mAuth.getCurrentUser();
                                         //Add the user to realtime database with a identifier for what type of user they are
-                                        String userId = firebaseUser.getUid();
-                                        ref.child("users").child(userId).setValue(user);
-                                        ref.child("users").child(userId).child("type").setValue("doctor");
+                                        ref.child("users").child(getEmail).setValue(user);
+                                        ref.child("users").child(getEmail).child("type").setValue("doctor");
                                         //Toast that lets user know that the registration was successful
                                         Toast.makeText(DoctorForm.this, "Doctor Account successfully created!", Toast.LENGTH_SHORT).show();
                                         openLoginScreen(); //Bring the user back to the log in screen.

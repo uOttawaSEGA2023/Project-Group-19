@@ -1,29 +1,38 @@
 package com.example.hams;
 
-import android.location.Address;
+import com.google.firebase.database.Exclude;
 
 import java.util.HashMap;
 
 public class User {
 
+    static final String APPROVED = "approved";
+    static final String PENDING = "pending";
+    static final String REJECTED = "rejected";
+
     // Attributes
     private String firstName;
     private String lastName;
     private String username;
-    private String password;
     private String phoneNumber;
+    private String status;
 
-    //Address should be a map of size 5 and store, address, postal code, country, province and city:
-    private HashMap<String,String> address;
+    @Exclude
+    private String password;
+
+
+    //Address is a class storing address, postal code, country, province and city:
+    private Address address;
 
     public User(String firstName, String lastName, String username, String password,
-                String phoneNumber, HashMap<String,String> address) {
+                String phoneNumber, Address address) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
         this.password = password;
         this.phoneNumber = phoneNumber;
         this.address = address;
+        status = PENDING;
     }
 
     // Constructor with no parameters
@@ -77,12 +86,20 @@ public class User {
         this.phoneNumber = phoneNumber;
     }
 
-    public HashMap<String, String> getAddress() {
+    public Address getAddress() {
         return address;
     }
 
-    public void setAddress(HashMap<String,String> address) {
+    public void setAddress(Address address) {
         this.address = address;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
 
