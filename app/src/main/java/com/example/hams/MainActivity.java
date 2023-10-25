@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
         //Doctor and patient registration buttons
         Button buttonDoctorLogin = findViewById(R.id.registerDoctorLogin);
         Button buttonPatientLogin = findViewById(R.id.registerPatientLogin);
+        Button buttonAdminLogin = findViewById(R.id.buttonAdmin);
 
         //find email and password inputs from login screen
         emailLogin = findViewById(R.id.emailLogin);
@@ -55,6 +56,12 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view){
                 openPatientForm();
             } //Opens the patient registration form.
+        });
+
+        buttonAdminLogin.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View view){
+                openAdmin();
+            }
         });
 
         //Authenticate user with firebase when they press the login button
@@ -99,6 +106,11 @@ public class MainActivity extends AppCompatActivity {
      */
     public void openPatientForm(){
         Intent intent = new Intent(this, PatientForm.class);
+        startActivity(intent);
+    }
+
+    public void openAdmin(){
+        Intent intent = new Intent(this, WelcomeScreenAdmin.class);
         startActivity(intent);
     }
 
