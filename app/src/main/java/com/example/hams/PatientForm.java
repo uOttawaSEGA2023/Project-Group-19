@@ -109,9 +109,8 @@ public class PatientForm extends AppCompatActivity {
                                         // get current user instance
                                         FirebaseUser firebaseUser = mAuth.getCurrentUser();
                                         //Add the user to realtime database with a identifier for what type of user they are
-                                        String userId = firebaseUser.getUid();
-                                        ref.child("users").child(userId).setValue(user);
-                                        ref.child("users").child(userId).child("type").setValue("patient");
+                                        ref.child("users").child(getEmail).setValue(user);
+                                        ref.child("users").child(getEmail).child("type").setValue("patient");
                                         //Toast that lets user know that the registration was successful
                                         Toast.makeText(PatientForm.this, "Patient Account successfully created!", Toast.LENGTH_SHORT).show();
                                         openLoginScreen(); //Bring the user back to the log in screen.

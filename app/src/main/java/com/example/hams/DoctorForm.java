@@ -147,9 +147,8 @@ public class DoctorForm extends AppCompatActivity {
                                         //user successfully created
                                         FirebaseUser firebaseUser = mAuth.getCurrentUser();
                                         //Add the user to realtime database with a identifier for what type of user they are
-                                        String userId = firebaseUser.getUid();
-                                        ref.child("users").child(userId).setValue(user);
-                                        ref.child("users").child(userId).child("type").setValue("doctor");
+                                        ref.child("users").child(getEmail).setValue(user);
+                                        ref.child("users").child(getEmail).child("type").setValue("doctor");
                                         //Toast that lets user know that the registration was successful
                                         Toast.makeText(DoctorForm.this, "Doctor Account successfully created!", Toast.LENGTH_SHORT).show();
                                         openLoginScreen(); //Bring the user back to the log in screen.
