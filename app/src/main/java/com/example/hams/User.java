@@ -16,6 +16,7 @@ public class User {
     private String username;
     private String phoneNumber;
     private String status;
+    private String userID;
 
     @Exclude
     private String password;
@@ -25,13 +26,14 @@ public class User {
     private Address address;
 
     public User(String firstName, String lastName, String username, String password,
-                String phoneNumber, Address address) {
+                String phoneNumber, Address address, String userID) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
         this.password = password;
         this.phoneNumber = phoneNumber;
         this.address = address;
+        this.userID = userID;
         status = PENDING;
     }
 
@@ -42,6 +44,7 @@ public class User {
         this.username = "";
         this.password = "";
         this.phoneNumber = "";
+        this.userID = "";
     }
 
     // Getters and Setters for each attribute
@@ -101,6 +104,10 @@ public class User {
     public void setStatus(String status) {
         this.status = status;
     }
+
+    public String getUserID(){return userID;}
+
+    public void setUserID(String userID){this.userID = userID;}
 
 
     @Override

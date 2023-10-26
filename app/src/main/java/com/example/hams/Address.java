@@ -8,6 +8,14 @@ public class Address {
     private String province;
     private String city;
 
+    public Address(){
+        addressLine = "";
+        postalCode = "";
+        country = "";
+        province = "";
+        city = "";
+    }
+
     public Address(String addressLine, String postalCode, String country, String province, String city) {
         this.addressLine = addressLine;
         this.postalCode = postalCode;

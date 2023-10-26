@@ -1,12 +1,27 @@
 package com.example.hams;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ListView;
+import android.widget.Toast;
+
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 public class WelcomeScreenAdmin extends AppCompatActivity {
 
@@ -19,6 +34,55 @@ public class WelcomeScreenAdmin extends AppCompatActivity {
         actionBar.setTitle("HAMS - Admin Account");
         actionBar.setDisplayHomeAsUpEnabled(true);
         Button buttonLogin = findViewById(R.id.logoutAdmin);
+        Button approve = findViewById(R.id.approveRequest);
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+
+        Query pendingQuery = ref.child("users").orderByChild("status").equalTo("pending");
+
+        pendingQuery.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ArrayList<User> userList = new ArrayList<>();
+
+                for (DataSnapshot userSnapshot : snapshot.getChildren()) {
+                    User user;
+                    String type = userSnapshot.child("type").getValue(String.class);
+
+                    if (type.equals("patient")) {
+                        user = userSnapshot.getValue(Patient.class);
+                    } else {
+                        user = userSnapshot.getValue(Doctor.class);
+                    }
+                    userList.add(user);
+                }
+
+                UsersAdapter adapter = new UsersAdapter(WelcomeScreenAdmin.this, userList);
+                ListView listView = (ListView) findViewById(R.id.requests);
+                listView.setAdapter(adapter);
+
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                        User user = (User) parent.getItemAtPosition(position);
+                        Toast.makeText(WelcomeScreenAdmin.this, "Selected User: "+ user.getFirstName(), Toast.LENGTH_SHORT).show();
+                        approve.setOnClickListener(new View.OnClickListener(){
+                            @Override
+                            public void onClick(View view){
+                                adapter.remove(user);
+                            }
+                        });
+
+
+                    }
+                });
+
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {}
+        });
+
 
         buttonLogin.setOnClickListener(new View.OnClickListener(){
             //Upon clicking the logout button sign user out and return to the login screen
