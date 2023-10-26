@@ -47,7 +47,7 @@ public class WelcomeScreen extends AppCompatActivity {
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 //Once type is found update the welcome text field to indicate type
                 String type = task.getResult().getValue(String.class);
-                String displayText = "Welcome! You are logged in as a " + type;
+                String displayText = "Welcome! You are logged in as " + type;
                 welcome.setText(displayText);
             }
         });
