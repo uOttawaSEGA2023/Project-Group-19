@@ -129,7 +129,7 @@ public class DoctorForm extends AppCompatActivity {
 
                     Doctor user = new Doctor(getFirstName, getLastName, getEmail, getPassword, getPhoneNumber, address, getEmployeeNumber, specialties, null);
 
-                    DatabaseReference ref = database.getReference();
+                    DatabaseReference ref = database.getReference("users");
 
                     //creating a user on firebase and storing the doctor's data
                     mAuth.createUserWithEmailAndPassword(getEmail, getPassword)
@@ -140,9 +140,10 @@ public class DoctorForm extends AppCompatActivity {
                                         //user successfully created
                                         FirebaseUser firebaseUser = mAuth.getCurrentUser();
                                         String userID = firebaseUser.getUid();
+                                        user.setUserID(userID);
                                         //Add the user to realtime database with a identifier for what type of user they are
-                                        ref.child("users").child(userID).setValue(user);
-                                        ref.child("users").child(userID).child("type").setValue("doctor");
+                                        ref.child(userID).setValue(user);
+                                        ref.child(userID).child("type").setValue("doctor");
                                         //Toast that lets user know that the registration was successful
                                         Toast.makeText(DoctorForm.this, "Doctor Account successfully created!", Toast.LENGTH_SHORT).show();
                                         openLoginScreen(); //Bring the user back to the log in screen.

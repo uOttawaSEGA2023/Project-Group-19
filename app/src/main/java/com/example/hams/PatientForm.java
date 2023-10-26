@@ -91,7 +91,7 @@ public class PatientForm extends AppCompatActivity {
 
                     Patient user = new Patient(getFirstName, getLastName, getEmail, getPassword, getPhoneNumber, address, getHealthCardNumber, null);
 
-                    DatabaseReference ref = database.getReference();
+                    DatabaseReference ref = database.getReference("users");
 
                     //creating a user on firebase and storing the patient's data
                     mAuth.createUserWithEmailAndPassword(getEmail, getPassword)
@@ -102,9 +102,10 @@ public class PatientForm extends AppCompatActivity {
                                         // get current user instance
                                         FirebaseUser firebaseUser = mAuth.getCurrentUser();
                                         String userID = firebaseUser.getUid();
+                                        user.setUserID(userID);
                                         //Add the user to realtime database with a identifier for what type of user they are
-                                        ref.child("users").child(userID).setValue(user);
-                                        ref.child("users").child(userID).child("type").setValue("patient");
+                                        ref.child(userID).setValue(user);
+                                        ref.child(userID).child("type").setValue("patient");
                                         //Toast that lets user know that the registration was successful
                                         Toast.makeText(PatientForm.this, "Patient Account successfully created!", Toast.LENGTH_SHORT).show();
                                         openLoginScreen(); //Bring the user back to the log in screen.

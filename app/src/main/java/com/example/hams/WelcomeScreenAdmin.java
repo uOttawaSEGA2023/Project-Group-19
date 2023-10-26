@@ -22,6 +22,8 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class WelcomeScreenAdmin extends AppCompatActivity {
 
@@ -35,10 +37,12 @@ public class WelcomeScreenAdmin extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         Button buttonLogin = findViewById(R.id.logoutAdmin);
         Button approve = findViewById(R.id.approveRequest);
+        Button reject = findViewById(R.id.rejectRequest);
+        Button approveRejected = findViewById(R.id.approveReject);
 
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("users");
 
-        Query pendingQuery = ref.child("users").orderByChild("status").equalTo("pending");
+        Query pendingQuery = ref.orderByChild("status").equalTo(User.PENDING);
 
         pendingQuery.addValueEventListener(new ValueEventListener() {
             @Override
@@ -71,6 +75,19 @@ public class WelcomeScreenAdmin extends AppCompatActivity {
                             @Override
                             public void onClick(View view){
                                 adapter.remove(user);
+                                Map<String, Object> map= new HashMap<>();
+                                map.put("status", User.APPROVED);
+                                ref.child(user.getUserID()).updateChildren(map);
+                            }
+                        });
+
+                        reject.setOnClickListener(new View.OnClickListener(){
+                            @Override
+                            public void onClick(View view){
+                                adapter.remove(user);
+                                Map<String, Object> map= new HashMap<>();
+                                map.put("status", User.REJECTED);
+                                ref.child(user.getUserID()).updateChildren(map);
                             }
                         });
 
@@ -81,6 +98,54 @@ public class WelcomeScreenAdmin extends AppCompatActivity {
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {}
+        });
+
+        Query rejectedQuery = ref.orderByChild("status").equalTo(User.REJECTED);
+
+        rejectedQuery.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ArrayList<User> userList = new ArrayList<>();
+
+                for (DataSnapshot userSnapshot : snapshot.getChildren()) {
+                    User user;
+                    String type = userSnapshot.child("type").getValue(String.class);
+
+                    if (type.equals("patient")) {
+                        user = userSnapshot.getValue(Patient.class);
+                    } else {
+                        user = userSnapshot.getValue(Doctor.class);
+                    }
+                    userList.add(user);
+                }
+
+                UsersAdapter adapter = new UsersAdapter(WelcomeScreenAdmin.this, userList);
+                ListView listView = (ListView) findViewById(R.id.rejects);
+                listView.setAdapter(adapter);
+
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                        User user = (User) parent.getItemAtPosition(position);
+                        Toast.makeText(WelcomeScreenAdmin.this, "Selected User: "+ user.getFirstName(), Toast.LENGTH_SHORT).show();
+                        approveRejected.setOnClickListener(new View.OnClickListener(){
+                            @Override
+                            public void onClick(View view){
+                                adapter.remove(user);
+                                Map<String, Object> map= new HashMap<>();
+                                map.put("status", User.APPROVED);
+                                ref.child(user.getUserID()).updateChildren(map);
+                            }
+                        });
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
         });
 
 
