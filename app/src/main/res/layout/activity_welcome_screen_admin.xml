@@ -8,6 +8,19 @@
     tools:context=".WelcomeScreenAdmin">
 
     <Button
+        android:id="@+id/getInfoReject"
+        android:layout_width="136dp"
+        android:layout_height="71dp"
+        android:backgroundTint="#fdcfff"
+        android:text="Rejected Registration Information"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.91"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.773" />
+
+    <Button
         android:id="@+id/rejectRequest"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -29,25 +42,27 @@
         android:textAlignment="center"
         android:textColor="#000000"
         android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.419" />
+        app:layout_constraintVertical_bias="0.474" />
 
     <ListView
         android:id="@+id/rejects"
         android:layout_width="417dp"
         android:layout_height="127dp"
-        android:divider="#000000"
+        android:divider="#dadce0"
         android:dividerHeight="1dp"
+        android:listSelector="#1fe0ff"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.564" />
+        app:layout_constraintVertical_bias="0.622" />
 
     <Button
         android:id="@+id/logoutAdmin"
@@ -77,6 +92,7 @@
         android:textAlignment="center"
         android:textColor="#000000"
         android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -87,8 +103,9 @@
         android:id="@+id/requests"
         android:layout_width="416dp"
         android:layout_height="127dp"
-        android:divider="#000000"
+        android:divider="#dadce0"
         android:dividerHeight="1dp"
+        android:listSelector="#1fe0ff"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.2"
@@ -104,10 +121,23 @@
         android:text="Approve"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.108"
+        app:layout_constraintHorizontal_bias="0.083"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.333" />
+        app:layout_constraintVertical_bias="0.332" />
+
+    <Button
+        android:id="@+id/getInfoNew"
+        android:layout_width="136dp"
+        android:layout_height="71dp"
+        android:backgroundTint="#fdcfff"
+        android:text="Registration Information"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.506"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.332" />
 
     <Button
         android:id="@+id/approveReject"
@@ -117,9 +147,9 @@
         android:text="Approve"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.083"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.729" />
+        app:layout_constraintVertical_bias="0.773" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

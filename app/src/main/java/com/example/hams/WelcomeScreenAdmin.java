@@ -7,10 +7,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.ChildEventListener;
@@ -39,6 +41,8 @@ public class WelcomeScreenAdmin extends AppCompatActivity {
         Button approve = findViewById(R.id.approveRequest);
         Button reject = findViewById(R.id.rejectRequest);
         Button approveRejected = findViewById(R.id.approveReject);
+        Button getInfo = findViewById(R.id.getInfoNew);
+        Button getInfoReject = findViewById(R.id.getInfoReject);
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("users");
 
@@ -70,7 +74,7 @@ public class WelcomeScreenAdmin extends AppCompatActivity {
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                         User user = (User) parent.getItemAtPosition(position);
-                        Toast.makeText(WelcomeScreenAdmin.this, "Selected User: "+ user.getFirstName(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(WelcomeScreenAdmin.this, "Selected "+ user.toString(), Toast.LENGTH_SHORT).show();
                         approve.setOnClickListener(new View.OnClickListener(){
                             @Override
                             public void onClick(View view){
@@ -78,6 +82,7 @@ public class WelcomeScreenAdmin extends AppCompatActivity {
                                 Map<String, Object> map= new HashMap<>();
                                 map.put("status", User.APPROVED);
                                 ref.child(user.getUserID()).updateChildren(map);
+                                Toast.makeText(WelcomeScreenAdmin.this, "Approved: " + user.toString(), Toast.LENGTH_SHORT).show();
                             }
                         });
 
@@ -88,6 +93,47 @@ public class WelcomeScreenAdmin extends AppCompatActivity {
                                 Map<String, Object> map= new HashMap<>();
                                 map.put("status", User.REJECTED);
                                 ref.child(user.getUserID()).updateChildren(map);
+                                Toast.makeText(WelcomeScreenAdmin.this, "Rejected: " + user.toString(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+                        getInfo.setOnClickListener(new View.OnClickListener(){
+                            @Override
+                            public void onClick(View view){
+                                setContentView(R.layout.registration_info);
+                                if(user instanceof Doctor){
+                                    TextView title = findViewById(R.id.userRequest);
+                                    title.setText("Doctor Form Submission");
+                                }else{
+                                    TextView title = findViewById(R.id.userRequest);
+                                    title.setText("Patient Form Submission");
+                                }
+                                TextView firstName = findViewById(R.id.firstNameList);
+                                firstName.setText("First Name: " + user.getFirstName());
+                                TextView lastName = findViewById(R.id.lastNameList);
+                                lastName.setText("Last Name: " + user.getLastName());
+                                TextView email = findViewById(R.id.emailList);
+                                email.setText("Email Address: " + user.getUsername());
+                                TextView phone = findViewById(R.id.phoneList);
+                                phone.setText("Phone Number: " + user.getPhoneNumber());
+                                TextView address = findViewById(R.id.addressList);
+                                address.setText(user.getAddress().toString());
+                                if(user instanceof Doctor){
+                                    TextView employee = findViewById(R.id.numberList);
+                                    employee.setText("Employee Number: " + ((Doctor) user).getEmployeeNumber());
+                                    TextView special = findViewById(R.id.specialList);
+                                    String display = "";
+                                    ArrayList<String> list = ((Doctor) user).getSpecialties();
+                                    for(int i = 0; i < list.size(); i++){
+                                        display = display + list.get(i) + ", ";
+                                    }
+                                    display = display.substring(0, display.length() - 2);
+                                    special.setText("Specialties: "+ display);
+                                }else{
+                                    TextView health = findViewById(R.id.numberList);
+                                    health.setText("Health Card Number: " + ((Patient) user).getHealthCardNumber());
+                                }
+                                Toast.makeText(WelcomeScreenAdmin.this, "Opening Registration Form Information", Toast.LENGTH_SHORT).show();
                             }
                         });
 
@@ -128,7 +174,7 @@ public class WelcomeScreenAdmin extends AppCompatActivity {
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                         User user = (User) parent.getItemAtPosition(position);
-                        Toast.makeText(WelcomeScreenAdmin.this, "Selected User: "+ user.getFirstName(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(WelcomeScreenAdmin.this, "Selected "+ user.toString(), Toast.LENGTH_SHORT).show();
                         approveRejected.setOnClickListener(new View.OnClickListener(){
                             @Override
                             public void onClick(View view){
@@ -136,6 +182,47 @@ public class WelcomeScreenAdmin extends AppCompatActivity {
                                 Map<String, Object> map= new HashMap<>();
                                 map.put("status", User.APPROVED);
                                 ref.child(user.getUserID()).updateChildren(map);
+                                Toast.makeText(WelcomeScreenAdmin.this, "Approved: " + user.toString(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+                        getInfoReject.setOnClickListener(new View.OnClickListener(){
+                            @Override
+                            public void onClick(View view){
+                                setContentView(R.layout.registration_info);
+                                if(user instanceof Doctor){
+                                    TextView title = findViewById(R.id.userRequest);
+                                    title.setText("Doctor Form Submission");
+                                }else{
+                                    TextView title = findViewById(R.id.userRequest);
+                                    title.setText("Patient Form Submission");
+                                }
+                                TextView firstName = findViewById(R.id.firstNameList);
+                                firstName.setText("First Name: " + user.getFirstName());
+                                TextView lastName = findViewById(R.id.lastNameList);
+                                lastName.setText("Last Name: " + user.getLastName());
+                                TextView email = findViewById(R.id.emailList);
+                                email.setText("Email Address: " + user.getUsername());
+                                TextView phone = findViewById(R.id.phoneList);
+                                phone.setText("Phone Number: " + user.getPhoneNumber());
+                                TextView address = findViewById(R.id.addressList);
+                                address.setText(user.getAddress().toString());
+                                if(user instanceof Doctor){
+                                    TextView employee = findViewById(R.id.numberList);
+                                    employee.setText("Employee Number: " + ((Doctor) user).getEmployeeNumber());
+                                    TextView special = findViewById(R.id.specialList);
+                                    String display = "";
+                                    ArrayList<String> list = ((Doctor) user).getSpecialties();
+                                    for(int i = 0; i < list.size(); i++){
+                                        display = display + list.get(i) + ", ";
+                                    }
+                                    display = display.substring(0, display.length() - 2);
+                                    special.setText("Specialties: "+ display);
+                                }else{
+                                    TextView health = findViewById(R.id.numberList);
+                                    health.setText("Health Card Number: " + ((Patient) user).getHealthCardNumber());
+                                }
+                                Toast.makeText(WelcomeScreenAdmin.this, "Opening Registration Form Information", Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
@@ -163,5 +250,16 @@ public class WelcomeScreenAdmin extends AppCompatActivity {
     public void openLoginScreen(){
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+    }
+
+    public void openRegisterInfo(){
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item){
+        Intent intent = new Intent(getApplicationContext(), WelcomeScreenAdmin.class);
+        startActivity(intent);
+        return true;
     }
 }

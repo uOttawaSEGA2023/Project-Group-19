@@ -42,5 +42,10 @@ public class Doctor extends User {
         this.specialties = specialties;
     }
 
+    @Override
+    public String toString(){
+        return "Doctor: " + getFirstName();
+    }
+
 }
 

@@ -67,13 +67,8 @@ public class Address {
 
     @Override
     public String toString() {
-        return "Address{" +
-                "addressLine='" + addressLine + '\'' +
-                ", postalCode='" + postalCode + '\'' +
-                ", country='" + country + '\'' +
-                ", province='" + province + '\'' +
-                ", city='" + city + '\'' +
-                '}';
+        //return "Address {" + "Address Line: " + addressLine + '\'' + ", Postal Code: " + postalCode + '\'' + ", Country: " + country + '\'' + ", Province: " + province + '\'' + ", City: " + city + '\'' + '}';
+        return "{Address Line: " + addressLine + ". Postal Code: " + postalCode + ". Country: " + country + ". Province: " + province + ". City: " + city + ".}";
     }
 }
 

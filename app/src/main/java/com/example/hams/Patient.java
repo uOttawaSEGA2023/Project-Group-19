@@ -27,4 +27,9 @@ public class Patient extends User {
     public void setHealthCardNumber(String healthcareNumber) {
         this.healthCardNumber = healthcareNumber;
     }
+
+    @Override
+    public String toString(){
+        return "Patient: " + getFirstName();
+    }
 }
