@@ -252,11 +252,11 @@ public class WelcomeScreenAdmin extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void openRegisterInfo(){
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-    }
-
+    /**
+     * //Method to enable the back button on the registration information page to return to the request lists.
+     * @param item The item
+     * @return If the return was successful.
+     */
     public boolean onOptionsItemSelected(MenuItem item){
         Intent intent = new Intent(getApplicationContext(), WelcomeScreenAdmin.class);
         startActivity(intent);
