@@ -26,7 +26,6 @@ public class MainActivity extends AppCompatActivity {
     private EditText passwordLogin;
     FirebaseAuth mAuth = FirebaseAuth.getInstance(); //needed for authentication
     DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-    String userId = mAuth.getUid();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +39,6 @@ public class MainActivity extends AppCompatActivity {
         //Doctor and patient registration buttons
         Button buttonDoctorLogin = findViewById(R.id.registerDoctorLogin);
         Button buttonPatientLogin = findViewById(R.id.registerPatientLogin);
-        Button buttonAdminLogin = findViewById(R.id.buttonAdmin);
 
         //find email and password inputs from login screen
         emailLogin = findViewById(R.id.emailLogin);
@@ -64,11 +62,6 @@ public class MainActivity extends AppCompatActivity {
             } //Opens the patient registration form.
         });
 
-        buttonAdminLogin.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View view){
-                openAdmin();
-            }
-        });
 
         //Authenticate user with firebase when they press the login button
         welcomeLogin.setOnClickListener(new View.OnClickListener(){
@@ -117,16 +110,12 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void openAdmin(){
-        Intent intent = new Intent(this, WelcomeScreenAdmin.class);
-        startActivity(intent);
-    }
 
     /**
      * Opens the home page welcome screen.
      */
     public void openWelcomeScreen(){
-
+        String userId = mAuth.getUid();
         mDatabase.child("users").child(userId).child("type").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DataSnapshot> task) {
