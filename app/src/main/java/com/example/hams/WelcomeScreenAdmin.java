@@ -274,7 +274,7 @@ public class WelcomeScreenAdmin extends AppCompatActivity {
      */
     private void sendEmail(String emailAddress, String bodyMessage) {
         String recipientEmail = emailAddress;
-        String subject = "HAMS registration update";
+        String subject = "HAMS Registration Update";
         String message = bodyMessage;
 
         Intent intent = new Intent(Intent.ACTION_SENDTO);
@@ -284,6 +284,6 @@ public class WelcomeScreenAdmin extends AppCompatActivity {
 
         startActivity(intent);
         //Add a Toast message to inform the user
-        Toast.makeText(this, "Email sent", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Email sent to " + emailAddress, Toast.LENGTH_SHORT).show();
     }
 }
