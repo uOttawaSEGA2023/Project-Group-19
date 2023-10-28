@@ -5,6 +5,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -83,6 +84,7 @@ public class WelcomeScreenAdmin extends AppCompatActivity {
                                 map.put("status", User.APPROVED);
                                 ref.child(user.getUserID()).updateChildren(map);
                                 Toast.makeText(WelcomeScreenAdmin.this, "Approved: " + user.toString(), Toast.LENGTH_SHORT).show();
+                                sendEmail(user.getFirstName(), "Your registration has been approved!");
                             }
                         });
 
@@ -94,6 +96,7 @@ public class WelcomeScreenAdmin extends AppCompatActivity {
                                 map.put("status", User.REJECTED);
                                 ref.child(user.getUserID()).updateChildren(map);
                                 Toast.makeText(WelcomeScreenAdmin.this, "Rejected: " + user.toString(), Toast.LENGTH_SHORT).show();
+                                sendEmail(user.getFirstName(), "Your registration has been rejected!");
                             }
                         });
 
@@ -183,6 +186,7 @@ public class WelcomeScreenAdmin extends AppCompatActivity {
                                 map.put("status", User.APPROVED);
                                 ref.child(user.getUserID()).updateChildren(map);
                                 Toast.makeText(WelcomeScreenAdmin.this, "Approved: " + user.toString(), Toast.LENGTH_SHORT).show();
+                                sendEmail(user.getFirstName(), "Your registration has been approved!");
                             }
                         });
 
@@ -261,5 +265,25 @@ public class WelcomeScreenAdmin extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), WelcomeScreenAdmin.class);
         startActivity(intent);
         return true;
+    }
+
+    /**
+     * //Method to send email
+     * @param emailAddress Recipient email
+     * @param bodyMessage Message to send in email body.
+     */
+    private void sendEmail(String emailAddress, String bodyMessage) {
+        String recipientEmail = emailAddress;
+        String subject = "HAMS registration update";
+        String message = bodyMessage;
+
+        Intent intent = new Intent(Intent.ACTION_SENDTO);
+        intent.setData(Uri.parse("mailto:" + recipientEmail));
+        intent.putExtra(Intent.EXTRA_SUBJECT, subject);
+        intent.putExtra(Intent.EXTRA_TEXT, message);
+
+        startActivity(intent);
+        //Add a Toast message to inform the user
+        Toast.makeText(this, "Email sent", Toast.LENGTH_SHORT).show();
     }
 }
