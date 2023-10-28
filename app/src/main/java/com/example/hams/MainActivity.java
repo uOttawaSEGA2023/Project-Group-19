@@ -24,6 +24,9 @@ public class MainActivity extends AppCompatActivity {
 
     private EditText emailLogin;
     private EditText passwordLogin;
+    FirebaseAuth mAuth = FirebaseAuth.getInstance(); //needed for authentication
+    DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+    String userId = mAuth.getUid();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +46,7 @@ public class MainActivity extends AppCompatActivity {
         emailLogin = findViewById(R.id.emailLogin);
         passwordLogin = findViewById(R.id.passwordLogin);
 
-        FirebaseAuth mAuth = FirebaseAuth.getInstance(); //needed for authentication
-        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+
         /**
          * Button method for doctor registration form.
          */
@@ -74,7 +76,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view){
                 String email = emailLogin.getText().toString();
                 String password = passwordLogin.getText().toString();
-                String userId = mAuth.getUid();
 
 
                 if(checkLogin()){
@@ -125,8 +126,21 @@ public class MainActivity extends AppCompatActivity {
      * Opens the home page welcome screen.
      */
     public void openWelcomeScreen(){
-        Intent intent = new Intent(this, WelcomeScreen.class);
-        startActivity(intent);
+
+        mDatabase.child("users").child(userId).child("type").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                //Once type is found update the welcome text field to indicate type
+                String type = task.getResult().getValue(String.class);
+                if(type.equals("admin")){
+                    Intent intent = new Intent(MainActivity.this, WelcomeScreenAdmin.class);
+                    startActivity(intent);
+                }else{
+                    Intent intent = new Intent(MainActivity.this, WelcomeScreen.class);
+                    startActivity(intent);
+                }
+            }
+        });
     }
 
     /**
