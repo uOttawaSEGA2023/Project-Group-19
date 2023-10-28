@@ -16,6 +16,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -41,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
         passwordLogin = findViewById(R.id.passwordLogin);
 
         FirebaseAuth mAuth = FirebaseAuth.getInstance(); //needed for authentication
+        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
         /**
          * Button method for doctor registration form.
          */
@@ -70,6 +74,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view){
                 String email = emailLogin.getText().toString();
                 String password = passwordLogin.getText().toString();
+                String userId = mAuth.getUid();
+
 
                 if(checkLogin()){
                     mAuth.signInWithEmailAndPassword(email, password)
@@ -86,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
                                 }
                             });
                 }
+
 
 
             }
