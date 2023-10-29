@@ -58,9 +58,9 @@ public class WelcomeScreenAdmin extends AppCompatActivity {
                     User user;
                     String type = userSnapshot.child("type").getValue(String.class);
 
-                    if (type.equals("patient")) {
+                    if (type.equals("patient")) { //If the user's type is patient, set user to the user from database as a patient.
                         user = userSnapshot.getValue(Patient.class);
-                    } else {
+                    } else { ///Otherwise, set user as a doctor.
                         user = userSnapshot.getValue(Doctor.class);
                     }
                     userList.add(user);
@@ -70,13 +70,15 @@ public class WelcomeScreenAdmin extends AppCompatActivity {
                 ListView listView = (ListView) findViewById(R.id.requests);
                 listView.setAdapter(adapter);
 
-                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() { //Code to run with a selected item from the registration requests list.
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                         User user = (User) parent.getItemAtPosition(position);
-                        Toast.makeText(WelcomeScreenAdmin.this, "Selected " + user.toString(), Toast.LENGTH_SHORT).show();
-                        approve.setOnClickListener(new View.OnClickListener() {
+
+                        Toast.makeText(WelcomeScreenAdmin.this, "Selected "+ user.toString(), Toast.LENGTH_SHORT).show();
+                        approve.setOnClickListener(new View.OnClickListener(){ //If the approve button is pressed, do the following.
+
                             @Override
                             public void onClick(View view) {
                                 adapter.remove(user);

@@ -5,5 +5,9 @@ Admin Login Information:
 Email: geegee@gmail.com
 Password: 123456
 
+Admin Gmail Account:
+Email: geegees132@gmail.com
+Password: adminpassword
+
 
 Healthcare Appointment Management System (HAMS)
