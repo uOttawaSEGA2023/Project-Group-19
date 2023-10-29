@@ -75,39 +75,39 @@ public class WelcomeScreenAdmin extends AppCompatActivity {
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                         User user = (User) parent.getItemAtPosition(position);
-                        Toast.makeText(WelcomeScreenAdmin.this, "Selected "+ user.toString(), Toast.LENGTH_SHORT).show();
-                        approve.setOnClickListener(new View.OnClickListener(){
+                        Toast.makeText(WelcomeScreenAdmin.this, "Selected " + user.toString(), Toast.LENGTH_SHORT).show();
+                        approve.setOnClickListener(new View.OnClickListener() {
                             @Override
-                            public void onClick(View view){
+                            public void onClick(View view) {
                                 adapter.remove(user);
-                                Map<String, Object> map= new HashMap<>();
+                                Map<String, Object> map = new HashMap<>();
                                 map.put("status", User.APPROVED);
                                 ref.child(user.getUserID()).updateChildren(map);
                                 Toast.makeText(WelcomeScreenAdmin.this, "Approved: " + user.toString(), Toast.LENGTH_SHORT).show();
-                                sendEmail(user.getFirstName(), "Your registration has been approved!");
+                                sendEmail(user.getUsername(), "Your registration has been approved!");
                             }
                         });
 
-                        reject.setOnClickListener(new View.OnClickListener(){
+                        reject.setOnClickListener(new View.OnClickListener() {
                             @Override
-                            public void onClick(View view){
+                            public void onClick(View view) {
                                 adapter.remove(user);
-                                Map<String, Object> map= new HashMap<>();
+                                Map<String, Object> map = new HashMap<>();
                                 map.put("status", User.REJECTED);
                                 ref.child(user.getUserID()).updateChildren(map);
                                 Toast.makeText(WelcomeScreenAdmin.this, "Rejected: " + user.toString(), Toast.LENGTH_SHORT).show();
-                                sendEmail(user.getFirstName(), "Your registration has been rejected!");
+                                sendEmail(user.getUsername(), "Your registration has been rejected!");
                             }
                         });
 
-                        getInfo.setOnClickListener(new View.OnClickListener(){
+                        getInfo.setOnClickListener(new View.OnClickListener() {
                             @Override
-                            public void onClick(View view){
+                            public void onClick(View view) {
                                 setContentView(R.layout.registration_info);
-                                if(user instanceof Doctor){
+                                if (user instanceof Doctor) {
                                     TextView title = findViewById(R.id.userRequest);
                                     title.setText("Doctor Form Submission");
-                                }else{
+                                } else {
                                     TextView title = findViewById(R.id.userRequest);
                                     title.setText("Patient Form Submission");
                                 }
@@ -121,18 +121,18 @@ public class WelcomeScreenAdmin extends AppCompatActivity {
                                 phone.setText("Phone Number: " + user.getPhoneNumber());
                                 TextView address = findViewById(R.id.addressList);
                                 address.setText(user.getAddress().toString());
-                                if(user instanceof Doctor){
+                                if (user instanceof Doctor) {
                                     TextView employee = findViewById(R.id.numberList);
                                     employee.setText("Employee Number: " + ((Doctor) user).getEmployeeNumber());
                                     TextView special = findViewById(R.id.specialList);
                                     String display = "";
                                     ArrayList<String> list = ((Doctor) user).getSpecialties();
-                                    for(int i = 0; i < list.size(); i++){
+                                    for (int i = 0; i < list.size(); i++) {
                                         display = display + list.get(i) + ", ";
                                     }
                                     display = display.substring(0, display.length() - 2);
-                                    special.setText("Specialties: "+ display);
-                                }else{
+                                    special.setText("Specialties: " + display);
+                                } else {
                                     TextView health = findViewById(R.id.numberList);
                                     health.setText("Health Card Number: " + ((Patient) user).getHealthCardNumber());
                                 }
@@ -145,8 +145,10 @@ public class WelcomeScreenAdmin extends AppCompatActivity {
                 });
 
             }
+
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {}
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
         });
 
         Query rejectedQuery = ref.orderByChild("status").equalTo(User.REJECTED);
@@ -177,12 +179,12 @@ public class WelcomeScreenAdmin extends AppCompatActivity {
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                         User user = (User) parent.getItemAtPosition(position);
-                        Toast.makeText(WelcomeScreenAdmin.this, "Selected "+ user.toString(), Toast.LENGTH_SHORT).show();
-                        approveRejected.setOnClickListener(new View.OnClickListener(){
+                        Toast.makeText(WelcomeScreenAdmin.this, "Selected " + user.toString(), Toast.LENGTH_SHORT).show();
+                        approveRejected.setOnClickListener(new View.OnClickListener() {
                             @Override
-                            public void onClick(View view){
+                            public void onClick(View view) {
                                 adapter.remove(user);
-                                Map<String, Object> map= new HashMap<>();
+                                Map<String, Object> map = new HashMap<>();
                                 map.put("status", User.APPROVED);
                                 ref.child(user.getUserID()).updateChildren(map);
                                 Toast.makeText(WelcomeScreenAdmin.this, "Approved: " + user.toString(), Toast.LENGTH_SHORT).show();
@@ -190,14 +192,14 @@ public class WelcomeScreenAdmin extends AppCompatActivity {
                             }
                         });
 
-                        getInfoReject.setOnClickListener(new View.OnClickListener(){
+                        getInfoReject.setOnClickListener(new View.OnClickListener() {
                             @Override
-                            public void onClick(View view){
+                            public void onClick(View view) {
                                 setContentView(R.layout.registration_info);
-                                if(user instanceof Doctor){
+                                if (user instanceof Doctor) {
                                     TextView title = findViewById(R.id.userRequest);
                                     title.setText("Doctor Form Submission");
-                                }else{
+                                } else {
                                     TextView title = findViewById(R.id.userRequest);
                                     title.setText("Patient Form Submission");
                                 }
@@ -211,18 +213,18 @@ public class WelcomeScreenAdmin extends AppCompatActivity {
                                 phone.setText("Phone Number: " + user.getPhoneNumber());
                                 TextView address = findViewById(R.id.addressList);
                                 address.setText(user.getAddress().toString());
-                                if(user instanceof Doctor){
+                                if (user instanceof Doctor) {
                                     TextView employee = findViewById(R.id.numberList);
                                     employee.setText("Employee Number: " + ((Doctor) user).getEmployeeNumber());
                                     TextView special = findViewById(R.id.specialList);
                                     String display = "";
                                     ArrayList<String> list = ((Doctor) user).getSpecialties();
-                                    for(int i = 0; i < list.size(); i++){
+                                    for (int i = 0; i < list.size(); i++) {
                                         display = display + list.get(i) + ", ";
                                     }
                                     display = display.substring(0, display.length() - 2);
-                                    special.setText("Specialties: "+ display);
-                                }else{
+                                    special.setText("Specialties: " + display);
+                                } else {
                                     TextView health = findViewById(R.id.numberList);
                                     health.setText("Health Card Number: " + ((Patient) user).getHealthCardNumber());
                                 }
@@ -240,9 +242,9 @@ public class WelcomeScreenAdmin extends AppCompatActivity {
         });
 
 
-        buttonLogin.setOnClickListener(new View.OnClickListener(){
+        buttonLogin.setOnClickListener(new View.OnClickListener() {
             //Upon clicking the logout button sign user out and return to the login screen
-            public void onClick(View view){
+            public void onClick(View view) {
                 openLoginScreen();
             }
         });
@@ -251,17 +253,18 @@ public class WelcomeScreenAdmin extends AppCompatActivity {
     /**
      * Opens the login screen.
      */
-    public void openLoginScreen(){
+    public void openLoginScreen() {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
 
     /**
      * //Method to enable the back button on the registration information page to return to the request lists.
+     *
      * @param item The item
      * @return If the return was successful.
      */
-    public boolean onOptionsItemSelected(MenuItem item){
+    public boolean onOptionsItemSelected(MenuItem item) {
         Intent intent = new Intent(getApplicationContext(), WelcomeScreenAdmin.class);
         startActivity(intent);
         return true;
@@ -269,21 +272,20 @@ public class WelcomeScreenAdmin extends AppCompatActivity {
 
     /**
      * //Method to send email
+     *
      * @param emailAddress Recipient email
-     * @param bodyMessage Message to send in email body.
+     * @param bodyMessage  Message to send in email body.
      */
     private void sendEmail(String emailAddress, String bodyMessage) {
-        String recipientEmail = emailAddress;
-        String subject = "HAMS Registration Update";
-        String message = bodyMessage;
+        Intent email = new Intent(Intent.ACTION_SEND);
+        email.putExtra(Intent.EXTRA_EMAIL, new String[]{emailAddress});
+        email.putExtra(Intent.EXTRA_SUBJECT, "HAMS Registration Update");
+        email.putExtra(Intent.EXTRA_TEXT, bodyMessage);
 
-        Intent intent = new Intent(Intent.ACTION_SENDTO);
-        intent.setData(Uri.parse("mailto:" + recipientEmail));
-        intent.putExtra(Intent.EXTRA_SUBJECT, subject);
-        intent.putExtra(Intent.EXTRA_TEXT, message);
+//need this to prompts email client only
+        email.setType("message/rfc822");
 
-        startActivity(intent);
-        //Add a Toast message to inform the user
-        Toast.makeText(this, "Email sent to " + emailAddress, Toast.LENGTH_SHORT).show();
+        startActivity(Intent.createChooser(email, "Choose an Email client :"));
     }
 }
+
