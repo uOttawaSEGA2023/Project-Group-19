@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     /**
-     * Opens the home page welcome screen.
+     * Opens a the home page for the designated type of user based on the log in details.
      */
     public void openWelcomeScreen(){
         String userId = mAuth.getUid();
@@ -121,12 +121,25 @@ public class MainActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<DataSnapshot> task) {
                 //Once type is found update the welcome text field to indicate type
                 String type = task.getResult().getValue(String.class);
-                if(type.equals("admin")){
+                if(type.equals("admin")){ //If the user's type is admin, bring them to the admin home page.
                     Intent intent = new Intent(MainActivity.this, WelcomeScreenAdmin.class);
                     startActivity(intent);
                 }else{
-                    Intent intent = new Intent(MainActivity.this, WelcomeScreen.class);
-                    startActivity(intent);
+                    mDatabase.child("users").child(userId).child("status").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DataSnapshot> task) {
+                            //Once type is found update the welcome text field to indicate type
+                            String status = task.getResult().getValue(String.class);
+                            if(status.equals("pending")){ //If the user's status is pending, inform them that their form has not been processed yet.
+                                Toast.makeText(MainActivity.this, "Your Registration Form has not been processed yet.", Toast.LENGTH_SHORT).show();
+                            }else if(status.equals("rejected")){ //If the user's status is rejected, inform them to contact an admin.
+                                Toast.makeText(MainActivity.this, "Your Registration Form was rejected. Please call the Administrator at 905-500-3000 to resolve this issue.", Toast.LENGTH_LONG).show();
+                            }else{ //Otherwise, take the user to the correct welcome screen.
+                                Intent intent = new Intent(MainActivity.this, WelcomeScreen.class);
+                                startActivity(intent);
+                            }
+                        }
+                    });
                 }
             }
         });

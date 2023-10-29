@@ -145,7 +145,7 @@ public class DoctorForm extends AppCompatActivity {
                                         ref.child(userID).setValue(user);
                                         ref.child(userID).child("type").setValue("doctor");
                                         //Toast that lets user know that the registration was successful
-                                        Toast.makeText(DoctorForm.this, "Doctor Account successfully created!", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(DoctorForm.this, "Doctor Registration Form Submitted!", Toast.LENGTH_SHORT).show();
                                         openLoginScreen(); //Bring the user back to the log in screen.
 
                                     } else {

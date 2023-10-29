@@ -107,7 +107,7 @@ public class PatientForm extends AppCompatActivity {
                                         ref.child(userID).setValue(user);
                                         ref.child(userID).child("type").setValue("patient");
                                         //Toast that lets user know that the registration was successful
-                                        Toast.makeText(PatientForm.this, "Patient Account successfully created!", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(PatientForm.this, "Patient Registration Form Submitted!", Toast.LENGTH_SHORT).show();
                                         openLoginScreen(); //Bring the user back to the log in screen.
 
                                     } else {
