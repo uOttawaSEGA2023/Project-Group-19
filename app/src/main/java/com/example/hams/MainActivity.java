@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         welcomeLogin.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                String email = emailLogin.getText().toString();
+                String email = emailLogin.getText().toString(); //Gets the email from the text field.
                 String password = passwordLogin.getText().toString();
 
 
@@ -135,8 +135,13 @@ public class MainActivity extends AppCompatActivity {
                             }else if(status.equals("rejected")){ //If the user's status is rejected, inform them to contact an admin.
                                 Toast.makeText(MainActivity.this, "Your Registration Form was rejected. Please call the Administrator at 905-500-3000 to resolve this issue.", Toast.LENGTH_LONG).show();
                             }else{ //Otherwise, take the user to the correct welcome screen.
-                                Intent intent = new Intent(MainActivity.this, WelcomeScreen.class);
-                                startActivity(intent);
+                                if(type.equals("doctor")){ //If the user's type is doctor, take them to the doctor welcome screen.
+                                    Intent intent = new Intent(MainActivity.this, WelcomeScreenDoctor.class);
+                                    startActivity(intent);
+                                }else{ //Otherwise, take them to the patient welcome screen.
+                                    Intent intent = new Intent(MainActivity.this, WelcomeScreen.class);
+                                    startActivity(intent);
+                                }
                             }
                         }
                     });
