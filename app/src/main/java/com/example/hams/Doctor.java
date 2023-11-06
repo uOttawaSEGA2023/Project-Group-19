@@ -8,6 +8,8 @@ public class Doctor extends User {
     private String employeeNumber;
     private ArrayList<String> specialties;
 
+    private ArrayList<Shift> shifts;
+
     public Doctor(String firstName, String lastName, String username, String password,
                   String phoneNumber, Address address, String employeeNumber,
                   ArrayList<String> specialties, String userID) {
@@ -15,6 +17,7 @@ public class Doctor extends User {
         super(firstName, lastName, username, password, phoneNumber, address, userID);
         this.employeeNumber = employeeNumber;
         this.specialties = specialties;
+        //this.shifts =
     }
 
     // Constructor with no parameters
