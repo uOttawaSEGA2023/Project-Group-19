@@ -5,9 +5,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -16,7 +14,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -71,7 +68,7 @@ public class WelcomeScreenAdmin extends AppCompatActivity {
 
                 // the adapter will display the list of pending users in the top listview
                 UsersAdapter adapter = new UsersAdapter(WelcomeScreenAdmin.this, userList);
-                ListView listView = (ListView) findViewById(R.id.requests);
+                ListView listView = (ListView) findViewById(R.id.appointments);
                 listView.setAdapter(adapter);
 
                 // when an item on the listview is clicked

@@ -9,6 +9,7 @@ public class Doctor extends User {
     private ArrayList<String> specialties;
 
     private ArrayList<Shift> shifts;
+    private boolean approve;
 
     public Doctor(String firstName, String lastName, String username, String password,
                   String phoneNumber, Address address, String employeeNumber,
@@ -17,7 +18,8 @@ public class Doctor extends User {
         super(firstName, lastName, username, password, phoneNumber, address, userID);
         this.employeeNumber = employeeNumber;
         this.specialties = specialties;
-        //this.shifts =
+        this.shifts = new ArrayList<Shift>();
+        this.approve = false;
     }
 
     // Constructor with no parameters
@@ -25,6 +27,8 @@ public class Doctor extends User {
         super();
         this.employeeNumber = "";
         this.specialties = null;
+        this.shifts = null;
+        this.approve = false;
     }
 
     // Getters and Setters for each attribute
@@ -35,6 +39,12 @@ public class Doctor extends User {
 
     public void setEmployeeNumber(String employeeNumber) {
         this.employeeNumber = employeeNumber;
+    }
+    public void setAutoApprove(Boolean b){
+        this.approve = b;
+    }
+    public void addShift(Shift shift){
+        this.shifts.add(shift);
     }
 
     public ArrayList<String> getSpecialties() {

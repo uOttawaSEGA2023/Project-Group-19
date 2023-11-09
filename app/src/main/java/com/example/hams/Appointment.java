@@ -12,4 +12,8 @@ public class Appointment {
         this.patient = p;
         status = PENDING;
     }
+
+    public Patient getPatient(){
+        return patient;
+    }
 }

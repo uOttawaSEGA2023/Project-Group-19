@@ -18,4 +18,9 @@ public class Shift {
         this.date = date;
     }
 
+    @Override
+    public String toString(){
+        return appointment.getPatient().toString() +". Start Time: " + startTime + ". End Time: " + endTime+ ". Date: " + date;
+    }
+
 }
