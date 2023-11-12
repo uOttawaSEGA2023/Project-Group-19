@@ -16,4 +16,9 @@ public class Appointment {
     public Patient getPatient(){
         return patient;
     }
+
+    @Override
+    public String toString(){
+        return getPatient().toString() + ", "+ status;
+    }
 }
