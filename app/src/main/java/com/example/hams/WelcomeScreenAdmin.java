@@ -68,7 +68,7 @@ public class WelcomeScreenAdmin extends AppCompatActivity {
 
                 // the adapter will display the list of pending users in the top listview
                 UsersAdapter adapter = new UsersAdapter(WelcomeScreenAdmin.this, userList);
-                ListView listView = (ListView) findViewById(R.id.appointments);
+                ListView listView = (ListView) findViewById(R.id.newRequests);
                 listView.setAdapter(adapter);
 
                 // when an item on the listview is clicked
