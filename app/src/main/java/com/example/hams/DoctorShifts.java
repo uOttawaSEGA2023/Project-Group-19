@@ -1,5 +1,6 @@
 package com.example.hams;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -49,7 +50,7 @@ public class DoctorShifts extends AppCompatActivity {
 
         ref.child("shifts").child(doctorUID).addChildEventListener(new ChildEventListener() {
             @Override
-            public void onChildAdded(DataSnapshot snapshot, String previousChildName) {
+            public void onChildAdded(@NonNull DataSnapshot snapshot, String previousChildName) {
                 Shift shift = snapshot.getValue(Shift.class);
                 shiftList.add(shift);
 
@@ -58,16 +59,16 @@ public class DoctorShifts extends AppCompatActivity {
             }
 
             @Override
-            public void onChildChanged(DataSnapshot snapshot, String previousChildName) {}
+            public void onChildChanged(@NonNull DataSnapshot snapshot, String previousChildName) {}
 
             @Override
-            public void onChildRemoved(DataSnapshot snapshot) {}
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {}
 
             @Override
-            public void onChildMoved(DataSnapshot snapshot, String previousChildName) {}
+            public void onChildMoved(@NonNull DataSnapshot snapshot, String previousChildName) {}
 
             @Override
-            public void onCancelled(DatabaseError error) {}
+            public void onCancelled(@NonNull DatabaseError error) {}
         });
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() { //Code to run with a selected item from the shifts list.
