@@ -7,9 +7,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,6 +29,12 @@ public class DoctorShifts extends AppCompatActivity {
         Button appointments = findViewById(R.id.backDoctor);
         Button deleteShift = findViewById(R.id.deleteShift);
         Button addShift = findViewById(R.id.addShift);
+
+        EditText shiftDate = findViewById(R.id.editTextDate);
+        EditText shiftStartTime = findViewById(R.id.editTextTime);
+        EditText shiftEndTime = findViewById(R.id.editTextTime2);
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("shifts");
 
         ArrayList<Shift> shiftList = new ArrayList<>();
         ShiftAdapter adapter = new ShiftAdapter(DoctorShifts.this, shiftList);
@@ -59,7 +69,15 @@ public class DoctorShifts extends AppCompatActivity {
             }
         });
 
+        addShift.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                String shiftDateStr = shiftDate.getText().toString();
+                String[] date = shiftDateStr.split(" ");
+                Date
 
+            }
+        });
 
     }
 
