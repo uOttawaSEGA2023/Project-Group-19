@@ -1,6 +1,5 @@
 package com.example.hams;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -97,7 +96,7 @@ public class PatientForm extends AppCompatActivity {
                     mAuth.createUserWithEmailAndPassword(getEmail, getPassword)
                             .addOnCompleteListener(PatientForm.this, new OnCompleteListener<AuthResult>() {
                                 @Override
-                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                public void onComplete(Task<AuthResult> task) {
                                     if (task.isSuccessful()) {
                                         // get current user instance
                                         FirebaseUser firebaseUser = mAuth.getCurrentUser();

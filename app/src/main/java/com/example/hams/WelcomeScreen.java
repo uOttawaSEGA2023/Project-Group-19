@@ -1,6 +1,5 @@
 package com.example.hams;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -44,7 +43,7 @@ public class WelcomeScreen extends AppCompatActivity {
         //getting the type of user
         mDatabase.child("users").child(userId).child("type").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
+            public void onComplete(Task<DataSnapshot> task) {
                 //Once type is found update the welcome text field to indicate type
                 String type = task.getResult().getValue(String.class);
                 String displayText = "Welcome! You are logged in as " + type;

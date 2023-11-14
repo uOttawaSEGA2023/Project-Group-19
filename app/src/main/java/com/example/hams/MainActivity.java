@@ -1,6 +1,5 @@
 package com.example.hams;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -75,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
                     mAuth.signInWithEmailAndPassword(email, password)
                             .addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
                                 @Override
-                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                public void onComplete(Task<AuthResult> task) {
                                     if (task.isSuccessful()) {
                                         // Sign in success, update UI with the signed-in user's information
                                         openWelcomeScreen();
@@ -118,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
         String userId = mAuth.getUid();
         mDatabase.child("users").child(userId).child("type").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
+            public void onComplete(Task<DataSnapshot> task) {
                 //Once type is found update the welcome text field to indicate type
                 String type = task.getResult().getValue(String.class);
                 if(type.equals("admin")){ //If the user's type is admin, bring them to the admin home page.
@@ -127,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
                 }else{
                     mDatabase.child("users").child(userId).child("status").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                         @Override
-                        public void onComplete(@NonNull Task<DataSnapshot> task) {
+                        public void onComplete(Task<DataSnapshot> task) {
                             //Once type is found update the welcome text field to indicate type
                             String status = task.getResult().getValue(String.class);
                             if(status.equals("pending")){ //If the user's status is pending, inform them that their form has not been processed yet.

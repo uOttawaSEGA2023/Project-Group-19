@@ -1,6 +1,5 @@
 package com.example.hams;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -49,7 +48,7 @@ public class WelcomeScreenAdmin extends AppCompatActivity {
 
         pendingQuery.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
+            public void onDataChange(DataSnapshot snapshot) {
                 ArrayList<User> userList = new ArrayList<>();
 
                 // the children of snapshot represent our users
@@ -172,7 +171,7 @@ public class WelcomeScreenAdmin extends AppCompatActivity {
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+            public void onCancelled(DatabaseError error) {
             }
         });
 
@@ -181,7 +180,7 @@ public class WelcomeScreenAdmin extends AppCompatActivity {
 
         rejectedQuery.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
+            public void onDataChange(DataSnapshot snapshot) {
                 ArrayList<User> userList = new ArrayList<>();
                 // generate list of rejected users using the snapshot
                 for (DataSnapshot userSnapshot : snapshot.getChildren()) {
@@ -278,7 +277,7 @@ public class WelcomeScreenAdmin extends AppCompatActivity {
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+            public void onCancelled(DatabaseError error) {
 
             }
         });

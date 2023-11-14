@@ -1,10 +1,10 @@
 package com.example.hams;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -54,7 +54,7 @@ public class DoctorShifts extends AppCompatActivity {
 
         ref.child("shifts").child(doctorUID).addChildEventListener(new ChildEventListener() {
             @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, String previousChildName) {
+            public void onChildAdded(DataSnapshot snapshot, String previousChildName) {
                 // Listview adapter is initialized at the very start and updated every time a new shift is added
                 Shift shift = snapshot.getValue(Shift.class);
                 shiftList.add(shift);
@@ -64,16 +64,16 @@ public class DoctorShifts extends AppCompatActivity {
             }
 
             @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, String previousChildName) {}
+            public void onChildChanged(DataSnapshot snapshot, String previousChildName) {}
 
             @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {}
+            public void onChildRemoved(DataSnapshot snapshot) {}
 
             @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, String previousChildName) {}
+            public void onChildMoved(DataSnapshot snapshot, String previousChildName) {}
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {}
+            public void onCancelled(DatabaseError error) {}
         });
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() { //Code to run with a selected item from the shifts list.
@@ -197,9 +197,9 @@ public class DoctorShifts extends AppCompatActivity {
         SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
 
         Date newShiftDate = dateFormat.parse(newShift.getDate());
-        Date newStartTime = dateFormat.parse(newShift.getStartTime());
-        Date newEndTime = dateFormat.parse(newShift.getEndTime());
-
+        Date newStartTime = timeFormat.parse(newShift.getStartTime());
+        Date newEndTime = timeFormat.parse(newShift.getEndTime());
+        Log.d("TAG", "shiftConflicts: past parse");
         //compare each old shift with new shift to be added.
         for (Shift shift : shifts) {
             //if they are on the same date and..
