@@ -16,7 +16,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -80,6 +83,7 @@ public class DoctorShifts extends AppCompatActivity {
                 String startTime = shiftStartTime.getText().toString();
                 String endTime = shiftEndTime.getText().toString();
 
+                validateDate(date, shiftDate);
                 Shift shiftToAdd = new Shift(startTime, endTime, date);
 
                 DatabaseReference newRef = ref.child("shifts").child(doctorUID).push();
@@ -94,5 +98,28 @@ public class DoctorShifts extends AppCompatActivity {
     public void openAppointmentsScreen() {
         Intent intent = new Intent(this, WelcomeScreenDoctor.class);
         startActivity(intent);
+    }
+
+    //Make sure the date entered is before current date
+    public void validateDate(String date, EditText textField) {
+        // Validate date
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date currentDate = new Date();
+        Date inputDate;
+
+        try {
+            inputDate = dateFormat.parse(date);
+        } catch (ParseException e) {
+            textField.setError(" Invalid date format. Please use yyyy-MM-dd.");
+            return;
+        }
+
+        if (inputDate.before(currentDate)) {
+            textField.setError("Error: Cannot enter a date that has already passed.");
+        }
+    }
+
+    public void validateTime() {
+
     }
 }
