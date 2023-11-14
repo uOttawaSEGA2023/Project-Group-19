@@ -6,10 +6,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class WelcomeScreenDoctor extends AppCompatActivity {
 
@@ -29,7 +36,7 @@ public class WelcomeScreenDoctor extends AppCompatActivity {
         Button approve = findViewById(R.id.approveAppointment);
         Button reject = findViewById(R.id.rejectAppointment);
 
-
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
 
 
         logout.setOnClickListener(new View.OnClickListener() {
@@ -39,28 +46,47 @@ public class WelcomeScreenDoctor extends AppCompatActivity {
             }
         });
 
-        //patient information functionality
-        patientInformation.setOnClickListener(new View.OnClickListener() {
-            //Upon clicking the logout button sign user out and return to the login screen
-            public void onClick(View view) {
+        ArrayList<Appointment> appointmentList = new ArrayList<>();
+        AppointmentAdapter adapter = new AppointmentAdapter(WelcomeScreenDoctor.this, appointmentList);
+        ListView listView = (ListView) findViewById(R.id.appointments);
+        listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() { //Code to run with a selected item from the shifts list.
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                Appointment appointment = (Appointment) parent.getItemAtPosition(position);
+
+                Toast.makeText(WelcomeScreenDoctor.this, "Selected Appointment: " + appointment.toString(), Toast.LENGTH_SHORT).show();
+
+                approve.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        updateAppointmentStatus(appointment, ref, Appointment.APPROVED);
+                    }
+                });
+
+                //reject button functionality
+                reject.setOnClickListener(new View.OnClickListener() {
+                    //Upon clicking the reject button, appointment will dissapear from list
+                    public void onClick(View view) {
+                        adapter.remove(appointment);
+                        updateAppointmentStatus(appointment, ref, Appointment.REJECTED);
+
+                    }
+                });
+
+                //patient information functionality
+                patientInformation.setOnClickListener(new View.OnClickListener() {
+                    //Upon clicking the patientInformation button, display patient info on screen
+                    public void onClick(View view) {
+
+                    }
+                });
 
             }
         });
 
-        //reject button functionality
-        reject.setOnClickListener(new View.OnClickListener() {
-            //Upon clicking the logout button sign user out and return to the login screen
-            public void onClick(View view) {
-
-            }
-        });
-        //approve button functionality
-        approve.setOnClickListener(new View.OnClickListener() {
-            //Upon clicking the logout button sign user out and return to the login screen
-            public void onClick(View view) {
-
-            }
-        });
 
 
         shifts.setOnClickListener(new View.OnClickListener() {
@@ -91,6 +117,15 @@ public class WelcomeScreenDoctor extends AppCompatActivity {
     public void openShiftsScreen() {
         Intent intent = new Intent(this, DoctorShifts.class);
         startActivity(intent);
+    }
+
+    public void updateAppointmentStatus(Appointment appointment, DatabaseReference ref, String status) {
+        Patient patient = appointment.getPatient();
+        //Update status variable
+        Map<String, Object> map = new HashMap<>();
+        map.put("status", status);
+        ref.child("appointments").child(patient.getUserID()).child(appointment.getKey()).updateChildren(map);
+        Toast.makeText(WelcomeScreenDoctor.this, status + " Shift: " + appointment.toString(), Toast.LENGTH_SHORT).show();
     }
 
 
