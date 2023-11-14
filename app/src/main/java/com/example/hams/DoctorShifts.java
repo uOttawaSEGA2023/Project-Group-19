@@ -26,6 +26,7 @@ public class DoctorShifts extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doctor_shifts);
+        String doctorUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         Button appointments = findViewById(R.id.backDoctor);
         Button deleteShift = findViewById(R.id.deleteShift);
@@ -54,9 +55,8 @@ public class DoctorShifts extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         adapter.remove(shift);
-
-                        Toast.makeText(DoctorShifts.this, "Deleted Shift: "+ shift.toString(), Toast.LENGTH_SHORT).show();
-
+                        ref.child(doctorUID).child(shift.getKey()).removeValue();
+                        Toast.makeText(DoctorShifts.this, "Deleted Shift: " + shift.toString(), Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -72,6 +72,23 @@ public class DoctorShifts extends AppCompatActivity {
             }
         });
 
+
+        addShift.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View view) {
+                String date = shiftDate.getText().toString();
+                String startTime = shiftStartTime.getText().toString();
+                String endTime = shiftEndTime.getText().toString();
+
+                Shift shiftToAdd = new Shift(startTime, endTime, date);
+
+                DatabaseReference newRef = ref.child("shifts").child(doctorUID).push();
+
+                shiftToAdd.setKey(newRef.getKey());
+                newRef.setValue(shiftToAdd);
+
+            }
+        });
     }
 
     public void openAppointmentsScreen() {
