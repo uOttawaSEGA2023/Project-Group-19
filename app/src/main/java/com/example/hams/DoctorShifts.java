@@ -16,10 +16,6 @@ public class DoctorShifts extends AppCompatActivity {
 
         Button appointments = findViewById(R.id.backDoctor);
 
-
-
-
-
         appointments.setOnClickListener(new View.OnClickListener() {
             //Upon clicking the view appointments button, bring the doctor back to appointment related information.
             public void onClick(View view) {
@@ -27,7 +23,14 @@ public class DoctorShifts extends AppCompatActivity {
             }
         });
 
+        Button deleteShift = findViewById(R.id.deleteShift);
 
+        deleteShift.setOnClickListener(new View.OnClickListener() {
+            //Upon clicking the view delete shift button, remove the shift from the database.
+            public void onClick(View view) {
+
+            }
+        });
 
     }
 

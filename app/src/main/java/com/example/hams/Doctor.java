@@ -51,6 +51,14 @@ public class Doctor extends User {
         return specialties;
     }
 
+    public boolean getAutoApproveSetting() {
+        return approve;
+    }
+
+    public void setAutoApproveSetting(boolean approvePaitents) {
+        this.approve = approvePaitents;
+    }
+
     public void setSpecialties(ArrayList<String> specialties) {
         this.specialties = specialties;
     }
