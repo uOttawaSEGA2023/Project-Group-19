@@ -26,6 +26,15 @@ public class DoctorShifts extends AppCompatActivity {
         Button deleteShift = findViewById(R.id.deleteShift);
         Button addShift = findViewById(R.id.addShift);
 
+<<<<<<< Updated upstream
+=======
+        EditText shiftDate = findViewById(R.id.editTextDate);
+        EditText shiftStartTime = findViewById(R.id.editTextTime);
+        EditText shiftEndTime = findViewById(R.id.editTextTime2);
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+
+>>>>>>> Stashed changes
         ArrayList<Shift> shiftList = new ArrayList<>();
         ShiftAdapter adapter = new ShiftAdapter(DoctorShifts.this, shiftList);
         ListView listView = (ListView) findViewById(R.id.shiftsList);
@@ -61,6 +70,15 @@ public class DoctorShifts extends AppCompatActivity {
 
 
 
+<<<<<<< Updated upstream
+=======
+                DatabaseReference newRef = ref.child("shifts").child(doctorUID).push();
+
+                shiftToAdd.setKey(newRef.getKey());
+                newRef.setValue(shiftToAdd);
+            }
+        });
+>>>>>>> Stashed changes
     }
 
     public void openAppointmentsScreen() {
