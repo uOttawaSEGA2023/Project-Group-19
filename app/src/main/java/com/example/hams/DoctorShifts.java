@@ -51,6 +51,7 @@ public class DoctorShifts extends AppCompatActivity {
         ref.child("shifts").child(doctorUID).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, String previousChildName) {
+                // Listview adapter is initialized at the very start and updated every time a new shift is added
                 Shift shift = snapshot.getValue(Shift.class);
                 shiftList.add(shift);
 
@@ -82,6 +83,7 @@ public class DoctorShifts extends AppCompatActivity {
                 deleteShift.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        // no available adapter object so we update the list and then create a new adapter to display for now
                         shiftList.remove(shift);
                         listView.setAdapter(new ShiftAdapter(DoctorShifts.this, shiftList));
                         ref.child("shifts").child(doctorUID).child(shift.getKey()).removeValue();
@@ -105,15 +107,19 @@ public class DoctorShifts extends AppCompatActivity {
         addShift.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
+                // Get shift object parameters from edit texts
                 String date = shiftDate.getText().toString();
                 String startTime = shiftStartTime.getText().toString();
                 String endTime = shiftEndTime.getText().toString();
 
+                // Create shift object and add it to the database
                 Shift shiftToAdd = new Shift(startTime, endTime, date);
-
+                // we add the shfits under the doctor's UID so that shifts are easy to find based on the doctor user
+                // push will generate a unique key that we can use to store our shift
                 DatabaseReference newRef = ref.child("shifts").child(doctorUID).push();
-
+                // store the key in the object as well so that it is easy to update
                 shiftToAdd.setKey(newRef.getKey());
+                // add the shift to the database under the unique key
                 newRef.setValue(shiftToAdd);
             }
         });
