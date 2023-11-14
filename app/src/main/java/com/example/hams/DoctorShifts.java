@@ -7,9 +7,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,6 +31,12 @@ public class DoctorShifts extends AppCompatActivity {
         Button deleteShift = findViewById(R.id.deleteShift);
         Button addShift = findViewById(R.id.addShift);
 
+        EditText shiftDate = findViewById(R.id.editTextDate);
+        EditText shiftStartTime = findViewById(R.id.editTextTime);
+        EditText shiftEndTime = findViewById(R.id.editTextTime2);
+
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+
         ArrayList<Shift> shiftList = new ArrayList<>();
         ShiftAdapter adapter = new ShiftAdapter(DoctorShifts.this, shiftList);
         ListView listView = (ListView) findViewById(R.id.shiftsList);
@@ -37,7 +48,7 @@ public class DoctorShifts extends AppCompatActivity {
 
                 Shift shift = (Shift) parent.getItemAtPosition(position);
 
-                Toast.makeText(DoctorShifts.this, "Selected Shift: "+ shift.toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(DoctorShifts.this, "Selected Shift: " + shift.toString(), Toast.LENGTH_SHORT).show();
 
                 deleteShift.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -45,6 +56,7 @@ public class DoctorShifts extends AppCompatActivity {
                         adapter.remove(shift);
 
                         Toast.makeText(DoctorShifts.this, "Deleted Shift: "+ shift.toString(), Toast.LENGTH_SHORT).show();
+
                     }
                 });
 
@@ -60,14 +72,10 @@ public class DoctorShifts extends AppCompatActivity {
             }
         });
 
-
     }
 
     public void openAppointmentsScreen() {
         Intent intent = new Intent(this, WelcomeScreenDoctor.class);
         startActivity(intent);
     }
-
-
-
 }
