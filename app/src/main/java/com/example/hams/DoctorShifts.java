@@ -43,6 +43,7 @@ public class DoctorShifts extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         adapter.remove(shift);
+
                         Toast.makeText(DoctorShifts.this, "Deleted Shift: "+ shift.toString(), Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -58,7 +59,6 @@ public class DoctorShifts extends AppCompatActivity {
                 openAppointmentsScreen();
             }
         });
-
 
 
     }

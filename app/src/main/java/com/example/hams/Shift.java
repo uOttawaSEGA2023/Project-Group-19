@@ -11,6 +11,7 @@ public class Shift {
     private String endTime;
     private Date date;
 
+
     public Shift(Doctor d, String start, String end, Date date){
         this.doctor = d;
         this.appointments = new ArrayList<Appointment>();
@@ -20,7 +21,7 @@ public class Shift {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return "Start Time: " + startTime + ". End Time: " + endTime+ ". Date: " + date;
     }
 

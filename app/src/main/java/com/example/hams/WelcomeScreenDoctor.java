@@ -25,6 +25,9 @@ public class WelcomeScreenDoctor extends AppCompatActivity {
         Button logout = findViewById(R.id.logoutDoctor);
         Button shifts = findViewById(R.id.toShifts);
         Button autoApprove = findViewById(R.id.approveAll);
+        Button patientInformation = findViewById(R.id.getInfoPatient);
+        Button approve = findViewById(R.id.approveAppointment);
+        Button reject = findViewById(R.id.rejectAppointment);
 
 
 
@@ -35,6 +38,30 @@ public class WelcomeScreenDoctor extends AppCompatActivity {
                 openLoginScreen();
             }
         });
+
+        //patient information functionality
+        patientInformation.setOnClickListener(new View.OnClickListener() {
+            //Upon clicking the logout button sign user out and return to the login screen
+            public void onClick(View view) {
+
+            }
+        });
+
+        //reject button functionality
+        reject.setOnClickListener(new View.OnClickListener() {
+            //Upon clicking the logout button sign user out and return to the login screen
+            public void onClick(View view) {
+
+            }
+        });
+        //approve button functionality
+        approve.setOnClickListener(new View.OnClickListener() {
+            //Upon clicking the logout button sign user out and return to the login screen
+            public void onClick(View view) {
+
+            }
+        });
+
 
         shifts.setOnClickListener(new View.OnClickListener() {
             //Upon clicking the view shifts button, bring the doctor to view shift related information.
