@@ -12,10 +12,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -56,8 +58,6 @@ public class DoctorShifts extends AppCompatActivity {
                         Toast.makeText(DoctorShifts.this, "Deleted Shift: "+ shift.toString(), Toast.LENGTH_SHORT).show();
                     }
                 });
-
-
             }
         });
 
@@ -72,10 +72,16 @@ public class DoctorShifts extends AppCompatActivity {
         addShift.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                String shiftDateStr = shiftDate.getText().toString();
-                String[] date = shiftDateStr.split(" ");
-                Date
+                String doctorUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                String date = shiftDate.getText().toString();
+                String startTime = shiftStartTime.getText().toString();
+                String endTime = shiftEndTime.getText().toString();
 
+                Shift shiftToAdd = new Shift(startTime, endTime, date);
+
+                String key = ref.push().getKey();
+
+                Map<String,Object> update = new HashMap<>();
             }
         });
 

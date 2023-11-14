@@ -4,15 +4,12 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Shift {
-
-    private Doctor doctor;
     private ArrayList<Appointment> appointments;
     private String startTime;
     private String endTime;
-    private Date date;
+    private String date;
 
-    public Shift(Doctor d, String start, String end, Date date){
-        this.doctor = d;
+    public Shift(String start, String end, String date){
         this.appointments = new ArrayList<Appointment>();
         this.startTime = start;
         this.endTime = end;
