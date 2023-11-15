@@ -1,5 +1,7 @@
 package com.example.hams;
 
+import java.util.Date;
+
 public class Appointment {
 
     static final String APPROVED = "approved";
@@ -8,6 +10,9 @@ public class Appointment {
     private Patient patient;
     private String status;
     private String key;
+
+    private Date date;
+    private String startTime;
 
     public Appointment(Patient p){
         this.patient = p;
@@ -21,6 +26,9 @@ public class Appointment {
 
     public String getKey() {
         return key;
+    }
+    public Date getDate(){
+        return date;
     }
 
     @Override

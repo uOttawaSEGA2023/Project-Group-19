@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -123,7 +124,7 @@ public class DoctorShifts extends AppCompatActivity {
                     try {
                         boolean conflicts = shiftConflicts(shiftToAdd,shiftList);
 
-                        if (!conflicts) {
+                        if (!conflicts && shiftInputs()) {
                             // we add the shfits under the doctor's UID so that shifts are easy to find based on the doctor user
                             // push will generate a unique key that we can use to store our shift
                             DatabaseReference newRef = ref.child("shifts").child(doctorUID).push();
@@ -214,5 +215,45 @@ public class DoctorShifts extends AppCompatActivity {
             }
         }
         return false;
+    }
+
+    private boolean shiftInputs()  {
+        boolean checked = true;
+        EditText shiftDate = findViewById(R.id.editTextDate);
+        EditText shiftStartTime = findViewById(R.id.editTextTime);
+        EditText shiftEndTime = findViewById(R.id.editTextTime2);
+        if(fieldEmpty(shiftDate)){
+            checked = false;
+            shiftDate.setError("Please enter a date!");
+        }
+        if(fieldEmpty(shiftStartTime)){
+            checked = false;
+            shiftStartTime.setError("Please enter a start time!");
+        }
+        if(fieldEmpty(shiftEndTime)){
+            checked = false;
+            shiftEndTime.setError("Please enter an end time!");
+        }
+        CharSequence date = shiftDate.getText().toString();
+        if(!validateDate((String) date, shiftDate)){
+            checked = false;
+        }
+        CharSequence start = shiftStartTime.getText().toString();
+        CharSequence end = shiftEndTime.getText().toString();
+        if(!validateTimeFormat((String) start, (String) end, shiftStartTime, shiftEndTime)){
+            checked = false;
+        }
+
+        return checked;
+    }
+
+    /**
+     * fieldEmpty is a method that takes the contents of a text field and checks to see if the user left it empty.
+     * @param text The text field being checked.
+     * @return Whether or not the text field is empty.
+     */
+    boolean fieldEmpty(EditText text){
+        CharSequence entry = text.getText().toString();
+        return TextUtils.isEmpty(entry);
     }
 }

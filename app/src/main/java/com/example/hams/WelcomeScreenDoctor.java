@@ -16,7 +16,9 @@ import android.widget.Toast;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -151,6 +153,12 @@ public class WelcomeScreenDoctor extends AppCompatActivity {
         map.put("status", status);
         ref.child("appointments").child(patient.getUserID()).child(appointment.getKey()).updateChildren(map);
         Toast.makeText(WelcomeScreenDoctor.this, status + " Shift: " + appointment.toString(), Toast.LENGTH_SHORT).show();
+    }
+
+    public boolean compareDate(Appointment appointment){
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+
+        }
     }
 
     /**
