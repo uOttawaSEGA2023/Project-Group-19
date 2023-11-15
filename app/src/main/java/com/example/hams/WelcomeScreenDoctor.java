@@ -35,7 +35,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class WelcomeScreenDoctor extends AppCompatActivity {
-
+    Boolean auto;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         String doctorUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -62,6 +62,13 @@ public class WelcomeScreenDoctor extends AppCompatActivity {
         ArrayList<Appointment> previousAppointmentList = new ArrayList<>();
         ListView upcomingListView = (ListView) findViewById(R.id.appointments);
         ListView previousListView = (ListView) findViewById(R.id.pastAppointments);
+
+        ref.child("users").child(doctorUID).child("autoApproveSetting").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(Task<DataSnapshot> task) {
+                auto = task.getResult().getValue(Boolean.class);
+            }
+        });
 
         appointmentQuery.addChildEventListener(new ChildEventListener() {
             AppointmentAdapter adapter;
@@ -151,7 +158,7 @@ public class WelcomeScreenDoctor extends AppCompatActivity {
                         ref.child("users").child(patientUID).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                             @Override
                             public void onComplete(Task<DataSnapshot> task) {
-                                //Once type is found update the welcome text field to indicate type
+
                                 Patient p = task.getResult().getValue(Patient.class);
                                 TextView title = findViewById(R.id.userRequest2);
                                 title.setText(p.toString() + "'s Information");
@@ -189,7 +196,21 @@ public class WelcomeScreenDoctor extends AppCompatActivity {
         autoApprove.setOnClickListener(new View.OnClickListener() {
             //Upon clicking the auto approve requests button, make it do this doctor has all appointment requests approved automatically.
             public void onClick(View view) {
-
+                ref.child("users").child(doctorUID).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                    public void onComplete(Task<DataSnapshot> task) {
+                        if(auto){
+                            Map<String, Object> map = new HashMap<>();
+                            map.put("autoApproveSetting", true);
+                            ref.child("users").child(doctorUID).updateChildren(map);
+                            Toast.makeText(WelcomeScreenDoctor.this, "Auto Approve Turned On", Toast.LENGTH_SHORT).show();
+                        }else{
+                            Map<String, Object> map = new HashMap<>();
+                            map.put("autoApproveSetting", false);
+                            ref.child("users").child(doctorUID).updateChildren(map);
+                            Toast.makeText(WelcomeScreenDoctor.this, "Auto Approve Turned Off", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
             }
         });
 
