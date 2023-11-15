@@ -63,12 +63,6 @@ public class WelcomeScreenDoctor extends AppCompatActivity {
         ListView upcomingListView = (ListView) findViewById(R.id.appointments);
         ListView previousListView = (ListView) findViewById(R.id.pastAppointments);
 
-        ref.child("users").child(doctorUID).child("autoApproveSetting").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @Override
-            public void onComplete(Task<DataSnapshot> task) {
-                auto = task.getResult().getValue(Boolean.class);
-            }
-        });
 
         appointmentQuery.addChildEventListener(new ChildEventListener() {
             AppointmentAdapter adapter;
@@ -196,10 +190,11 @@ public class WelcomeScreenDoctor extends AppCompatActivity {
         autoApprove.setOnClickListener(new View.OnClickListener() {
             //Upon clicking the auto approve requests button, make it do this doctor has all appointment requests approved automatically.
             public void onClick(View view) {
-                ref.child("users").child(doctorUID).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                ref.child("users").child(doctorUID).child("autoApproveSetting").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                    @Override
                     public void onComplete(Task<DataSnapshot> task) {
-                        if(auto){
-                            Map<String, Object> map = new HashMap<>();
+                        auto = task.getResult().getValue(Boolean.class);
+                        if(!auto){Map<String, Object> map = new HashMap<>();
                             map.put("autoApproveSetting", true);
                             ref.child("users").child(doctorUID).updateChildren(map);
                             Toast.makeText(WelcomeScreenDoctor.this, "Auto Approve Turned On", Toast.LENGTH_SHORT).show();
