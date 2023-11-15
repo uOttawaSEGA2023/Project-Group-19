@@ -1,5 +1,6 @@
 package com.example.hams;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -35,17 +36,19 @@ public class DoctorShifts extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doctor_shifts);
-
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("HAMS - Doctor Account: Shifts");
+        actionBar.setDisplayHomeAsUpEnabled(true);
         String doctorUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
 
-        Button appointments = findViewById(R.id.backDoctor);
-        Button deleteShift = findViewById(R.id.deleteShift);
-        Button addShift = findViewById(R.id.addShift);
+        Button appointments = findViewById(R.id.backDoctor); //Button to return to the appointments screen.
+        Button deleteShift = findViewById(R.id.deleteShift); //Button to delete a shift.
+        Button addShift = findViewById(R.id.addShift); //Button to add a shift.
 
-        EditText shiftDate = findViewById(R.id.editTextDate);
-        EditText shiftStartTime = findViewById(R.id.editTextTime);
-        EditText shiftEndTime = findViewById(R.id.editTextTime2);
+        EditText shiftDate = findViewById(R.id.editTextDate); //EditText for the date.
+        EditText shiftStartTime = findViewById(R.id.editTextTime); //EditText for the start time.
+        EditText shiftEndTime = findViewById(R.id.editTextTime2); //EditText for the end time.
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
 
@@ -125,15 +128,18 @@ public class DoctorShifts extends AppCompatActivity {
                         boolean conflicts = shiftConflicts(shiftToAdd,shiftList);
 
                         if (!conflicts && shiftInputs()) {
-                            // we add the shfits under the doctor's UID so that shifts are easy to find based on the doctor user
+                            // we add the shifts under the doctor's UID so that shifts are easy to find based on the doctor user
                             // push will generate a unique key that we can use to store our shift
                             DatabaseReference newRef = ref.child("shifts").child(doctorUID).push();
                             // store the key in the object as well so that it is easy to update
                             shiftToAdd.setKey(newRef.getKey());
                             // add the shift to the database under the unique key
                             newRef.setValue(shiftToAdd);
+                            shiftDate.getText().clear(); //Clear the date text box.
+                            shiftStartTime.getText().clear(); //Clear the start time text box.
+                            shiftEndTime.getText().clear(); //Clear the end time text box.
                         } else {
-                            Toast.makeText(DoctorShifts.this, "Error in fields or conflicts", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(DoctorShifts.this, "Error in Fields or Conflicts", Toast.LENGTH_SHORT).show();
                         }
 
                     } catch (ParseException e) {
@@ -146,6 +152,9 @@ public class DoctorShifts extends AppCompatActivity {
         });
     }
 
+    /**
+     * Method to show the doctor appointment related information.
+     */
     public void openAppointmentsScreen() {
         Intent intent = new Intent(this, WelcomeScreenDoctor.class);
         startActivity(intent);
@@ -159,13 +168,13 @@ public class DoctorShifts extends AppCompatActivity {
         Date inputDate;
 
         try {
-            inputDate = dateFormat.parse(date);
+            inputDate = dateFormat.parse(date); //Check to make sure the date input is of the correct format.
         } catch (ParseException e) {
             textField.setError(" Invalid date format. Please use yyyy-MM-dd.");
             return false;
         }
 
-        if (inputDate.before(currentDate)) {
+        if (inputDate.before(currentDate)) { //If the date entered has passed already, make an error.
             textField.setError("Error: Cannot enter a date that has already passed.");
             return false;
         }
@@ -178,13 +187,13 @@ public class DoctorShifts extends AppCompatActivity {
         Date start, end;
 
         try {
-            start = timeFormat.parse(startTime);
+            start = timeFormat.parse(startTime); //Check to make sure the start time input is of correct format.
         } catch (ParseException e) {
             startTimeField.setError("Invalid time format. Please use HH:mm.");
             return false;
         }
         try {
-            end = timeFormat.parse(startTime);
+            end = timeFormat.parse(startTime); //Check to make sure the end time input is of correct format.
         } catch (ParseException e) {
             endTimeField.setError("Invalid time format. Please use HH:mm.");
             return false;
@@ -222,6 +231,7 @@ public class DoctorShifts extends AppCompatActivity {
         EditText shiftDate = findViewById(R.id.editTextDate);
         EditText shiftStartTime = findViewById(R.id.editTextTime);
         EditText shiftEndTime = findViewById(R.id.editTextTime2);
+        //Check to see if any of the text fields are empty.
         if(fieldEmpty(shiftDate)){
             checked = false;
             shiftDate.setError("Please enter a date!");
@@ -235,16 +245,17 @@ public class DoctorShifts extends AppCompatActivity {
             shiftEndTime.setError("Please enter an end time!");
         }
         CharSequence date = shiftDate.getText().toString();
-        if(!validateDate((String) date, shiftDate)){
+        if(!validateDate((String) date, shiftDate)){ //Validate the date.
             checked = false;
         }
         CharSequence start = shiftStartTime.getText().toString();
         CharSequence end = shiftEndTime.getText().toString();
-        if(!validateTimeFormat((String) start, (String) end, shiftStartTime, shiftEndTime)){
+        if(!validateTimeFormat((String) start, (String) end, shiftStartTime, shiftEndTime)){ //Validate the times.
             return false;
         }
         String check30Start = ((String) start).substring(start.length()-2);
         String check30End = ((String) end).substring(end.length()-2);
+        //Check to make sure the start and end times of the shift are in 30 minute increments.
         if(!check30Start.equals("00") && !check30Start.equals("30")){
             checked = false;
             Toast.makeText(DoctorShifts.this, "Shift end and start times need to be in 30 minute increments!", Toast.LENGTH_SHORT).show();

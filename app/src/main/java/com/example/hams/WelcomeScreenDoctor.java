@@ -44,15 +44,15 @@ public class WelcomeScreenDoctor extends AppCompatActivity {
         setContentView(R.layout.activity_welcome_screen_doctor);
 
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("HAMS - Doctor Account");
+        actionBar.setTitle("HAMS - Doctor Account: Appointments");
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        Button logout = findViewById(R.id.logoutDoctor);
-        Button shifts = findViewById(R.id.toShifts);
-        Button autoApprove = findViewById(R.id.approveAll);
-        Button patientInformation = findViewById(R.id.getInfoPatient);
-        Button approve = findViewById(R.id.approveAppointment);
-        Button reject = findViewById(R.id.rejectAppointment);
+        Button logout = findViewById(R.id.logoutDoctor); //Button to logout the doctor.
+        Button shifts = findViewById(R.id.toShifts); //Button to view shifts.
+        Button autoApprove = findViewById(R.id.approveAll); //Button to enable auto approve.
+        Button patientInformation = findViewById(R.id.getInfoPatient); //Button to see patient information.
+        Button approve = findViewById(R.id.approveAppointment); //Button to approve an appointment.
+        Button reject = findViewById(R.id.rejectAppointment); //Button to reject an appointment.
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
 
@@ -81,7 +81,7 @@ public class WelcomeScreenDoctor extends AppCompatActivity {
                         adapter = new AppointmentAdapter(WelcomeScreenDoctor.this, previousAppointmentList);
                         previousListView.setAdapter(adapter);
                     }
-                    adapter.notifyDataSetChanged();
+
                 } catch (ParseException e) {
                     throw new RuntimeException(e);
                 }
@@ -117,7 +117,7 @@ public class WelcomeScreenDoctor extends AppCompatActivity {
             }
         });
 
-        upcomingListView.setOnItemClickListener(new AdapterView.OnItemClickListener() { //Code to run with a selected item from the shifts list.
+        upcomingListView.setOnItemClickListener(new AdapterView.OnItemClickListener() { //Code to run with a selected item from the upcoming appointments list.
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
@@ -194,11 +194,11 @@ public class WelcomeScreenDoctor extends AppCompatActivity {
                     @Override
                     public void onComplete(Task<DataSnapshot> task) {
                         auto = task.getResult().getValue(Boolean.class);
-                        if(!auto){Map<String, Object> map = new HashMap<>();
+                        if(!auto){Map<String, Object> map = new HashMap<>(); //If the doctor does not have auto approve on, turn it on.
                             map.put("autoApproveSetting", true);
                             ref.child("users").child(doctorUID).updateChildren(map);
                             Toast.makeText(WelcomeScreenDoctor.this, "Auto Approve Turned On", Toast.LENGTH_SHORT).show();
-                        }else{
+                        }else{ //Otherwise, turn auto approve off.
                             Map<String, Object> map = new HashMap<>();
                             map.put("autoApproveSetting", false);
                             ref.child("users").child(doctorUID).updateChildren(map);
@@ -220,6 +220,9 @@ public class WelcomeScreenDoctor extends AppCompatActivity {
         startActivity(intent);
     }
 
+    /**
+     * Method to show the doctor shift related information.
+     */
     public void openShiftsScreen() {
         Intent intent = new Intent(this, DoctorShifts.class);
         startActivity(intent);
