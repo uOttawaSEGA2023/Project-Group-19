@@ -241,7 +241,17 @@ public class DoctorShifts extends AppCompatActivity {
         CharSequence start = shiftStartTime.getText().toString();
         CharSequence end = shiftEndTime.getText().toString();
         if(!validateTimeFormat((String) start, (String) end, shiftStartTime, shiftEndTime)){
+            return false;
+        }
+        String check30Start = ((String) start).substring(start.length()-2);
+        String check30End = ((String) end).substring(end.length()-2);
+        if(!check30Start.equals("00") && !check30Start.equals("30")){
             checked = false;
+            Toast.makeText(DoctorShifts.this, "Shift end and start times need to be in 30 minute increments!", Toast.LENGTH_SHORT).show();
+        }
+        if(!check30End.equals("00") && !check30End.equals("30")){
+            checked = false;
+            Toast.makeText(DoctorShifts.this, "Shift end and start times need to be in 30 minute increments!", Toast.LENGTH_SHORT).show();
         }
 
         return checked;
