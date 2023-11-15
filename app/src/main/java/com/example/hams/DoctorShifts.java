@@ -200,7 +200,7 @@ public class DoctorShifts extends AppCompatActivity {
         Date newShiftDate = dateFormat.parse(newShift.getDate());
         Date newStartTime = timeFormat.parse(newShift.getStartTime());
         Date newEndTime = timeFormat.parse(newShift.getEndTime());
-        Log.d("TAG", "shiftConflicts: past parse");
+
         //compare each old shift with new shift to be added.
         for (Shift shift : shifts) {
             //if they are on the same date and..

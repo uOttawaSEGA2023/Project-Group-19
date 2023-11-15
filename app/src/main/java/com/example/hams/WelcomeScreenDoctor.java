@@ -1,5 +1,7 @@
 package com.example.hams;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -13,11 +15,21 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -26,6 +38,8 @@ public class WelcomeScreenDoctor extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        String doctorUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome_screen_doctor);
 
@@ -42,6 +56,71 @@ public class WelcomeScreenDoctor extends AppCompatActivity {
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
 
+        Query appointmentQuery = ref.child("appointments").orderByChild("doctorUID").equalTo(doctorUID);
+
+        ArrayList<Appointment> upcomingAppointmentList = new ArrayList<>();
+        ArrayList<Appointment> previousAppointmentList = new ArrayList<>();
+        ListView upcomingListView = (ListView) findViewById(R.id.appointments);
+        ListView previousListView = (ListView) findViewById(R.id.pastAppointments);
+
+        appointmentQuery.addChildEventListener(new ChildEventListener() {
+            AppointmentAdapter adapter;
+
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                Appointment appointment = snapshot.getValue(Appointment.class);
+                try{
+                    if(!appointment.getStatus().equals(Appointment.REJECTED)){
+                        if(isUpcomingAppointment(appointment)){
+                            upcomingAppointmentList.add(appointment);
+                            adapter = new AppointmentAdapter(WelcomeScreenDoctor.this, upcomingAppointmentList);
+                            upcomingListView.setAdapter(adapter);
+                        }
+                        else{
+                            previousAppointmentList.add(appointment);
+                            adapter = new AppointmentAdapter(WelcomeScreenDoctor.this, previousAppointmentList);
+                            previousListView.setAdapter(adapter);
+                        }
+                        adapter.notifyDataSetChanged();
+                    }
+                } catch (ParseException e) {
+                    throw new RuntimeException(e);
+                }
+
+            }
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                Appointment appointment = snapshot.getValue(Appointment.class);
+
+                for(int i = 0; i < upcomingAppointmentList.size(); i++){
+                    if (upcomingAppointmentList.get(i).getKey().equals(appointment.getKey())){
+                        upcomingAppointmentList.set(i, appointment);
+
+                        adapter = new AppointmentAdapter(WelcomeScreenDoctor.this, upcomingAppointmentList);
+                        upcomingListView.setAdapter(adapter);
+
+                        return;
+                    }
+                }
+
+                for(int i = 0; i < previousAppointmentList.size(); i++){
+                    if (previousAppointmentList.get(i).getKey().equals(appointment.getKey())){
+                        previousAppointmentList.set(i, appointment);
+
+                        adapter = new AppointmentAdapter(WelcomeScreenDoctor.this, upcomingAppointmentList);
+                        previousListView.setAdapter(adapter);
+
+                        return;
+                    }
+                }
+            }
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {}
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {}
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {}
+        });
 
         logout.setOnClickListener(new View.OnClickListener() {
             //Upon clicking the logout button sign user out and return to the login screen
@@ -50,12 +129,7 @@ public class WelcomeScreenDoctor extends AppCompatActivity {
             }
         });
 
-        ArrayList<Appointment> appointmentList = new ArrayList<>();
-        AppointmentAdapter adapter = new AppointmentAdapter(WelcomeScreenDoctor.this, appointmentList);
-        ListView listView = (ListView) findViewById(R.id.appointments);
-        listView.setAdapter(adapter);
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() { //Code to run with a selected item from the shifts list.
+        upcomingListView.setOnItemClickListener(new AdapterView.OnItemClickListener() { //Code to run with a selected item from the shifts list.
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
@@ -74,9 +148,9 @@ public class WelcomeScreenDoctor extends AppCompatActivity {
                 reject.setOnClickListener(new View.OnClickListener() {
                     //Upon clicking the reject button, appointment will dissapear from list
                     public void onClick(View view) {
-                        adapter.remove(appointment);
+                        upcomingAppointmentList.remove(appointment);
+                        upcomingListView.setAdapter(new AppointmentAdapter(WelcomeScreenDoctor.this, upcomingAppointmentList));
                         updateAppointmentStatus(appointment, ref, Appointment.REJECTED);
-
                     }
                 });
 
@@ -85,36 +159,38 @@ public class WelcomeScreenDoctor extends AppCompatActivity {
                     //Upon clicking the patientInformation button, display patient info on screen
                     public void onClick(View view) {
                         setContentView(R.layout.patient_info);
-                        Patient p = appointment.getPatient();
-                        TextView title = findViewById(R.id.userRequest2);
-                        title.setText(p.toString() + "'s Information");
-                        TextView firstName = findViewById(R.id.firstNameList2);
-                        firstName.setText("First Name: " + p.getFirstName());
+                        String patientUID = appointment.getPatientUID();
 
-                        TextView lastName = findViewById(R.id.lastNameList2);
-                        lastName.setText("Last Name: " + p.getLastName());
+                        ref.child("users").child(patientUID).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                            @Override
+                            public void onComplete(Task<DataSnapshot> task) {
+                                //Once type is found update the welcome text field to indicate type
+                                Patient p = task.getResult().getValue(Patient.class);
+                                TextView title = findViewById(R.id.userRequest2);
+                                title.setText(p.toString() + "'s Information");
+                                TextView firstName = findViewById(R.id.firstNameList2);
+                                firstName.setText("First Name: " + p.getFirstName());
 
-                        TextView email = findViewById(R.id.emailList2);
-                        email.setText("Email Address: " + p.getUsername());
+                                TextView lastName = findViewById(R.id.lastNameList2);
+                                lastName.setText("Last Name: " + p.getLastName());
 
-                        TextView phone = findViewById(R.id.phoneList2);
-                        phone.setText("Phone Number: " + p.getPhoneNumber());
+                                TextView email = findViewById(R.id.emailList2);
+                                email.setText("Email Address: " + p.getUsername());
 
-                        TextView address = findViewById(R.id.addressList4);
-                        address.setText(p.getAddress().toString());
-                        TextView health = findViewById(R.id.numberList2);
-                        health.setText("Health Card Number: " + p.getHealthCardNumber());
+                                TextView phone = findViewById(R.id.phoneList2);
+                                phone.setText("Phone Number: " + p.getPhoneNumber());
+
+                                TextView address = findViewById(R.id.addressList4);
+                                address.setText(p.getAddress().toString());
+                                TextView health = findViewById(R.id.numberList2);
+                                health.setText("Health Card Number: " + p.getHealthCardNumber());
+                            }
+                        });
                     }
                 });
 
             }
         });
-        ArrayList<Appointment> appointmentListPast = new ArrayList<>();
-        AppointmentAdapter adapterPast = new AppointmentAdapter(WelcomeScreenDoctor.this, appointmentListPast);
-        ListView listViewPast = (ListView) findViewById(R.id.appointments);
-        listViewPast.setAdapter(adapter);
-
-
 
         shifts.setOnClickListener(new View.OnClickListener() {
             //Upon clicking the view shifts button, bring the doctor to view shift related information.
@@ -147,11 +223,11 @@ public class WelcomeScreenDoctor extends AppCompatActivity {
     }
 
     public void updateAppointmentStatus(Appointment appointment, DatabaseReference ref, String status) {
-        Patient patient = appointment.getPatient();
+        String key = appointment.getKey();
         //Update status variable
         Map<String, Object> map = new HashMap<>();
         map.put("status", status);
-        ref.child("appointments").child(patient.getUserID()).child(appointment.getKey()).updateChildren(map);
+        ref.child("appointments").child(key).updateChildren(map);
         Toast.makeText(WelcomeScreenDoctor.this, status + " Shift: " + appointment.toString(), Toast.LENGTH_SHORT).show();
     }
 
@@ -169,5 +245,17 @@ public class WelcomeScreenDoctor extends AppCompatActivity {
         return true;
     }
 
+    private boolean isUpcomingAppointment(Appointment appointment) throws ParseException {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
+        Calendar calendar = Calendar.getInstance();
+
+        Date appointmentDate = dateFormat.parse(appointment.getDate());
+        Date appointmentTime = timeFormat.parse(appointment.getStartTime());
+        Date currentDate = dateFormat.parse(dateFormat.format(calendar.getTime()));
+        Date currentTime = timeFormat.parse(timeFormat.format(calendar.getTime()));
+
+        return currentDate.compareTo(appointmentDate) <= 0 && currentTime.compareTo(appointmentTime) <= 0;
+    }
 
 }

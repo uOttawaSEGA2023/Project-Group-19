@@ -7,33 +7,64 @@ public class Appointment {
     static final String APPROVED = "approved";
     static final String PENDING = "pending";
     static final String REJECTED = "rejected";
-    private Patient patient;
+    private String patientUID;
+    private String doctorUID;
     private String status;
     private String key;
-
-    private Date date;
+    private String date;
     private String startTime;
 
-    public Appointment(Patient p){
-        this.patient = p;
+    public Appointment(String patientUID, String doctorUID, String date, String startTime){
+        this.patientUID = patientUID;
+        this.doctorUID = doctorUID;
         status = PENDING;
         key = "";
+        this.date = date;
+        this.startTime = startTime;
     }
 
-    public Patient getPatient(){
-        return patient;
+    public Appointment(){
+        patientUID = "";
+        doctorUID = "";
+        status = PENDING;
+        key = "";
+        date = "";
+        startTime = "";
     }
+
+    public String getPatientUID(){
+        return patientUID;
+    }
+
+    public String getDoctorUID(){return doctorUID;}
+
+    public String getStatus(){return status;}
 
     public String getKey() {
         return key;
     }
-    public Date getDate(){
+
+    public String getDate(){
         return date;
     }
 
+    public String getStartTime(){return startTime;}
+
+    public void setPatientUID(String patientUID){this.patientUID = patientUID;}
+
+    public void setDoctorUID(String doctorUID){this.doctorUID = doctorUID;}
+
+    public void setStatus(String status){this.status = status;}
+
+    public void setKey(String key){this.key = key;}
+
+    public void setDate(String date){this.date = date;}
+
+    public void setStartTime(String startTime){this.startTime = startTime;}
+
     @Override
     public String toString(){
-        return getPatient().toString() + ", "+ status;
+        return "Start Time: " + startTime + ". Date: " + date + ". Status: " + status;
     }
 
 }

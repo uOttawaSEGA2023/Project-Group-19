@@ -8,7 +8,7 @@ public class Doctor extends User {
     private String employeeNumber;
     private ArrayList<String> specialties;
 
-    private boolean approve;
+    private boolean autoApproveSetting;
 
     public Doctor(String firstName, String lastName, String username, String password,
                   String phoneNumber, Address address, String employeeNumber,
@@ -17,7 +17,7 @@ public class Doctor extends User {
         super(firstName, lastName, username, password, phoneNumber, address, userID);
         this.employeeNumber = employeeNumber;
         this.specialties = specialties;
-        this.approve = false;
+        this.autoApproveSetting = false;
     }
 
     // Constructor with no parameters
@@ -25,7 +25,7 @@ public class Doctor extends User {
         super();
         this.employeeNumber = "";
         this.specialties = null;
-        this.approve = false;
+        this.autoApproveSetting = false;
     }
 
     // Getters and Setters for each attribute
@@ -37,20 +37,17 @@ public class Doctor extends User {
     public void setEmployeeNumber(String employeeNumber) {
         this.employeeNumber = employeeNumber;
     }
-    public void setAutoApprove(Boolean b){
-        this.approve = b;
-    }
 
     public ArrayList<String> getSpecialties() {
         return specialties;
     }
 
     public boolean getAutoApproveSetting() {
-        return approve;
+        return autoApproveSetting;
     }
 
     public void setAutoApproveSetting(boolean approvePaitents) {
-        this.approve = approvePaitents;
+        this.autoApproveSetting = approvePaitents;
     }
 
     public void setSpecialties(ArrayList<String> specialties) {
