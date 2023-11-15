@@ -155,11 +155,7 @@ public class WelcomeScreenDoctor extends AppCompatActivity {
         Toast.makeText(WelcomeScreenDoctor.this, status + " Shift: " + appointment.toString(), Toast.LENGTH_SHORT).show();
     }
 
-    public boolean compareDate(Appointment appointment){
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-
-        }
-    }
+    
 
     /**
      * //Method to enable the back button on the patient information page to return to the doctor welcome screen.
