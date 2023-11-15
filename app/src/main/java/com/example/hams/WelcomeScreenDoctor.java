@@ -5,10 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
@@ -80,12 +82,35 @@ public class WelcomeScreenDoctor extends AppCompatActivity {
                 patientInformation.setOnClickListener(new View.OnClickListener() {
                     //Upon clicking the patientInformation button, display patient info on screen
                     public void onClick(View view) {
+                        setContentView(R.layout.patient_info);
+                        Patient p = appointment.getPatient();
+                        TextView title = findViewById(R.id.userRequest2);
+                        title.setText(p.toString() + "'s Information");
+                        TextView firstName = findViewById(R.id.firstNameList2);
+                        firstName.setText("First Name: " + p.getFirstName());
 
+                        TextView lastName = findViewById(R.id.lastNameList2);
+                        lastName.setText("Last Name: " + p.getLastName());
+
+                        TextView email = findViewById(R.id.emailList2);
+                        email.setText("Email Address: " + p.getUsername());
+
+                        TextView phone = findViewById(R.id.phoneList2);
+                        phone.setText("Phone Number: " + p.getPhoneNumber());
+
+                        TextView address = findViewById(R.id.addressList4);
+                        address.setText(p.getAddress().toString());
+                        TextView health = findViewById(R.id.numberList2);
+                        health.setText("Health Card Number: " + p.getHealthCardNumber());
                     }
                 });
 
             }
         });
+        ArrayList<Appointment> appointmentListPast = new ArrayList<>();
+        AppointmentAdapter adapterPast = new AppointmentAdapter(WelcomeScreenDoctor.this, appointmentListPast);
+        ListView listViewPast = (ListView) findViewById(R.id.appointments);
+        listViewPast.setAdapter(adapter);
 
 
 
@@ -126,6 +151,18 @@ public class WelcomeScreenDoctor extends AppCompatActivity {
         map.put("status", status);
         ref.child("appointments").child(patient.getUserID()).child(appointment.getKey()).updateChildren(map);
         Toast.makeText(WelcomeScreenDoctor.this, status + " Shift: " + appointment.toString(), Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * //Method to enable the back button on the patient information page to return to the doctor welcome screen.
+     *
+     * @param item The item
+     * @return If the return was successful.
+     */
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent = new Intent(getApplicationContext(), WelcomeScreenDoctor.class);
+        startActivity(intent);
+        return true;
     }
 
 
