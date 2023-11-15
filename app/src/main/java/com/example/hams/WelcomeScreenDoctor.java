@@ -70,19 +70,17 @@ public class WelcomeScreenDoctor extends AppCompatActivity {
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 Appointment appointment = snapshot.getValue(Appointment.class);
                 try{
-                    if(!appointment.getStatus().equals(Appointment.REJECTED)){
-                        if(isUpcomingAppointment(appointment)){
-                            upcomingAppointmentList.add(appointment);
-                            adapter = new AppointmentAdapter(WelcomeScreenDoctor.this, upcomingAppointmentList);
-                            upcomingListView.setAdapter(adapter);
-                        }
-                        else{
-                            previousAppointmentList.add(appointment);
-                            adapter = new AppointmentAdapter(WelcomeScreenDoctor.this, previousAppointmentList);
-                            previousListView.setAdapter(adapter);
-                        }
-                        adapter.notifyDataSetChanged();
+                    if(isUpcomingAppointment(appointment)){
+                        upcomingAppointmentList.add(appointment);
+                        adapter = new AppointmentAdapter(WelcomeScreenDoctor.this, upcomingAppointmentList);
+                        upcomingListView.setAdapter(adapter);
                     }
+                    else if(appointment.getStatus().equals(Appointment.APPROVED)){
+                        previousAppointmentList.add(appointment);
+                        adapter = new AppointmentAdapter(WelcomeScreenDoctor.this, previousAppointmentList);
+                        previousListView.setAdapter(adapter);
+                    }
+                    adapter.notifyDataSetChanged();
                 } catch (ParseException e) {
                     throw new RuntimeException(e);
                 }
@@ -98,17 +96,6 @@ public class WelcomeScreenDoctor extends AppCompatActivity {
 
                         adapter = new AppointmentAdapter(WelcomeScreenDoctor.this, upcomingAppointmentList);
                         upcomingListView.setAdapter(adapter);
-
-                        return;
-                    }
-                }
-
-                for(int i = 0; i < previousAppointmentList.size(); i++){
-                    if (previousAppointmentList.get(i).getKey().equals(appointment.getKey())){
-                        previousAppointmentList.set(i, appointment);
-
-                        adapter = new AppointmentAdapter(WelcomeScreenDoctor.this, upcomingAppointmentList);
-                        previousListView.setAdapter(adapter);
 
                         return;
                     }
@@ -150,7 +137,7 @@ public class WelcomeScreenDoctor extends AppCompatActivity {
                     public void onClick(View view) {
                         upcomingAppointmentList.remove(appointment);
                         upcomingListView.setAdapter(new AppointmentAdapter(WelcomeScreenDoctor.this, upcomingAppointmentList));
-                        updateAppointmentStatus(appointment, ref, Appointment.REJECTED);
+                        ref.child("appointments").child(appointment.getKey()).removeValue();
                     }
                 });
 
