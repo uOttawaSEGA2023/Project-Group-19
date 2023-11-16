@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -65,12 +66,12 @@ public class WelcomeScreenDoctor extends AppCompatActivity {
 
         // Initializes the two lists with appointments
         appointmentQuery.addChildEventListener(new ChildEventListener() {
-            AppointmentAdapter adapter;
 
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 Appointment appointment = snapshot.getValue(Appointment.class);
                 try{
+                    AppointmentAdapter adapter;
                     // check if the appointment is an upcoming one and add it to the list based on that
                     // the listView must be updated each time or else the changes will not be displayed on the app
                     if(isUpcomingAppointment(appointment)){
@@ -98,7 +99,7 @@ public class WelcomeScreenDoctor extends AppCompatActivity {
                     if (upcomingAppointmentList.get(i).getKey().equals(appointment.getKey())){
                         upcomingAppointmentList.set(i, appointment);
 
-                        adapter = new AppointmentAdapter(WelcomeScreenDoctor.this, upcomingAppointmentList);
+                        AppointmentAdapter adapter = new AppointmentAdapter(WelcomeScreenDoctor.this, upcomingAppointmentList);
                         upcomingListView.setAdapter(adapter);
 
                         return;
@@ -267,8 +268,13 @@ public class WelcomeScreenDoctor extends AppCompatActivity {
         Date appointmentTime = timeFormat.parse(appointment.getStartTime());
         Date currentDate = dateFormat.parse(dateFormat.format(calendar.getTime()));
         Date currentTime = timeFormat.parse(timeFormat.format(calendar.getTime()));
-        // Will return true for appointments on the same day that are at a later time as well
-        return currentDate.compareTo(appointmentDate) <= 0 && currentTime.compareTo(appointmentTime) <= 0;
+
+        // if the current date comes before the appointment date return true
+        if (currentDate.compareTo(appointmentDate) < 0){
+            return true;
+        }
+        // otherwise return true if the current date is the same as the appointment date and the current time is before
+        else return currentDate.compareTo(appointmentDate) == 0 && currentTime.compareTo(appointmentTime) < 0;
     }
 
 }
