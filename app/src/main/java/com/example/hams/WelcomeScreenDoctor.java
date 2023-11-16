@@ -63,7 +63,7 @@ public class WelcomeScreenDoctor extends AppCompatActivity {
         ListView upcomingListView = (ListView) findViewById(R.id.appointments);
         ListView previousListView = (ListView) findViewById(R.id.pastAppointments);
 
-
+        // Initializes the two lists with appointments
         appointmentQuery.addChildEventListener(new ChildEventListener() {
             AppointmentAdapter adapter;
 
@@ -71,6 +71,8 @@ public class WelcomeScreenDoctor extends AppCompatActivity {
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 Appointment appointment = snapshot.getValue(Appointment.class);
                 try{
+                    // check if the appointment is an upcoming one and add it to the list based on that
+                    // the listView must be updated each time or else the changes will not be displayed on the app
                     if(isUpcomingAppointment(appointment)){
                         upcomingAppointmentList.add(appointment);
                         adapter = new AppointmentAdapter(WelcomeScreenDoctor.this, upcomingAppointmentList);
@@ -90,7 +92,8 @@ public class WelcomeScreenDoctor extends AppCompatActivity {
             @Override
             public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 Appointment appointment = snapshot.getValue(Appointment.class);
-
+                // when a child is changed we find the changed child in the listView and update it
+                // no need to check in the previous appointment list because that list cannot be updated
                 for(int i = 0; i < upcomingAppointmentList.size(); i++){
                     if (upcomingAppointmentList.get(i).getKey().equals(appointment.getKey())){
                         upcomingAppointmentList.set(i, appointment);
@@ -136,8 +139,11 @@ public class WelcomeScreenDoctor extends AppCompatActivity {
                 reject.setOnClickListener(new View.OnClickListener() {
                     //Upon clicking the reject button, appointment will dissapear from list
                     public void onClick(View view) {
+                        // no adapter object oustide of the query so we must change the list and initialize a new adapter when something
+                        // is removed
                         upcomingAppointmentList.remove(appointment);
                         upcomingListView.setAdapter(new AppointmentAdapter(WelcomeScreenDoctor.this, upcomingAppointmentList));
+                        // rejected appointments are simply removed from the database
                         ref.child("appointments").child(appointment.getKey()).removeValue();
                     }
                 });
@@ -248,6 +254,7 @@ public class WelcomeScreenDoctor extends AppCompatActivity {
         return true;
     }
 
+    // returns true if the current date is less than the appointment's date
     private boolean isUpcomingAppointment(Appointment appointment) throws ParseException {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
@@ -257,7 +264,7 @@ public class WelcomeScreenDoctor extends AppCompatActivity {
         Date appointmentTime = timeFormat.parse(appointment.getStartTime());
         Date currentDate = dateFormat.parse(dateFormat.format(calendar.getTime()));
         Date currentTime = timeFormat.parse(timeFormat.format(calendar.getTime()));
-
+        // Will return true for appointments on the same day that are at a later time as well
         return currentDate.compareTo(appointmentDate) <= 0 && currentTime.compareTo(appointmentTime) <= 0;
     }
 
