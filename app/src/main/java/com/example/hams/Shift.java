@@ -5,14 +5,12 @@ import java.util.Date;
 
 public class Shift {
 
-    private ArrayList<Appointment> appointments;
     private String startTime;
     private String endTime;
     private String date;
     private String key;
 
     public Shift(String start, String end, String date){
-        this.appointments = new ArrayList<Appointment>();
         this.startTime = start;
         this.endTime = end;
         this.date = date;
@@ -20,7 +18,6 @@ public class Shift {
     }
 
     public Shift(){
-        appointments = null;
         startTime = "";
         endTime = "";
         date = "";
@@ -41,10 +38,6 @@ public class Shift {
 
     public String getKey(){
         return key;
-    }
-
-    public ArrayList<Appointment> getAppointments(){
-        return appointments;
     }
 
     public void setStartTime (String startTime){
