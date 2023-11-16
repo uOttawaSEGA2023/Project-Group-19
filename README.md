@@ -9,5 +9,9 @@ Admin Gmail Account:
 Email: geegees132@gmail.com
 Password: adminpassword
 
+Doctor Login Information:
+Email: squarepants@gmail.com
+Password: 123456
+
 
 Healthcare Appointment Management System (HAMS)
