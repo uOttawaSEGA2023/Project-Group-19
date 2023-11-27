@@ -26,11 +26,11 @@ public class WelcomeScreen extends AppCompatActivity {
 
         //finding buttons and text field
         Button buttonLogin = findViewById(R.id.logout);
-        TextView welcome = findViewById(R.id.welcome);
+        Button addA = findViewById(R.id.toAdd);
 
         //Setting top bar
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("HAMS - Home Page");
+        actionBar.setTitle("HAMS - Patient Screen: Appointments");
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         //calling objects needed for authentication and reading from the DB
@@ -46,8 +46,6 @@ public class WelcomeScreen extends AppCompatActivity {
             public void onComplete(Task<DataSnapshot> task) {
                 //Once type is found update the welcome text field to indicate type
                 String type = task.getResult().getValue(String.class);
-                String displayText = "Welcome! You are logged in as " + type;
-                welcome.setText(displayText);
             }
         });
 
@@ -59,6 +57,13 @@ public class WelcomeScreen extends AppCompatActivity {
             }
         });
 
+        addA.setOnClickListener(new View.OnClickListener(){
+            //Upon clicking the logout button sign user out and return to the login screen
+            public void onClick(View view){
+                openAddScreen();
+            }
+        });
+
     }
 
     /**
@@ -66,6 +71,11 @@ public class WelcomeScreen extends AppCompatActivity {
      */
     public void openLoginScreen(){
         Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
+    public void openAddScreen(){
+        Intent intent = new Intent(this, WelcomeScreenPatient.class);
         startActivity(intent);
     }
 
