@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public class DoctorShifts extends AppCompatActivity {
 
@@ -53,7 +54,6 @@ public class DoctorShifts extends AppCompatActivity {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
 
         ArrayList<Shift> shiftList = new ArrayList<>();
-        //ShiftAdapter adapter = new ShiftAdapter(DoctorShifts.this, shiftList);
         ListView listView = (ListView) findViewById(R.id.shiftsList);
 
         ref.child("shifts").child(doctorUID).addChildEventListener(new ChildEventListener() {
@@ -135,9 +135,23 @@ public class DoctorShifts extends AppCompatActivity {
                             shiftToAdd.setKey(newRef.getKey());
                             // add the shift to the database under the unique key
                             newRef.setValue(shiftToAdd);
+                            SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
+                            Date start = timeFormat.parse(startTime);
+                            Date end = timeFormat.parse(endTime);
+                            long timeDiff = end.getTime() - start.getTime();
+                            long timeDiffMins = timeDiff / 60000;
+                            long numA = timeDiffMins / 30; //Calculate the number of appointment slots to make.
+                            for(int i = 0; i < numA; i++){ //Creates appointments slots with the given doctor UID, an empty patient UID, and the date and start time of the shift.
+                                Date startInc = start;
+
+                                Appointment a = new Appointment("", doctorUID, date, String.valueOf(startInc));
+                            }
+                            Toast.makeText(DoctorShifts.this, String.valueOf(start.getTime()), Toast.LENGTH_SHORT).show();
                             shiftDate.getText().clear(); //Clear the date text box.
                             shiftStartTime.getText().clear(); //Clear the start time text box.
                             shiftEndTime.getText().clear(); //Clear the end time text box.
+
+
                         } else {
                             Toast.makeText(DoctorShifts.this, "Error in Fields or Conflicts", Toast.LENGTH_SHORT).show();
                         }

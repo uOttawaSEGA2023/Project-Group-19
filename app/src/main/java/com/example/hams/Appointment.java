@@ -13,6 +13,7 @@ public class Appointment {
     private String key;
     private String date;
     private String startTime;
+    private boolean taken;
 
     public Appointment(String patientUID, String doctorUID, String date, String startTime){
         this.patientUID = patientUID;
@@ -21,6 +22,7 @@ public class Appointment {
         key = "";
         this.date = date;
         this.startTime = startTime;
+        this.taken = false;
     }
 
     public Appointment(){
@@ -61,6 +63,11 @@ public class Appointment {
     public void setDate(String date){this.date = date;}
 
     public void setStartTime(String startTime){this.startTime = startTime;}
+
+    public void setClaimed(String s){
+        this.taken = true;
+        setPatientUID(s);
+    }
 
     @Override
     public String toString(){
