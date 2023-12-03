@@ -7,6 +7,7 @@ public class Doctor extends User {
     // Attributes
     private String employeeNumber;
     private ArrayList<String> specialties;
+    private ArrayList<Integer> ratings;
 
     private boolean autoApproveSetting;
 
@@ -18,6 +19,7 @@ public class Doctor extends User {
         this.employeeNumber = employeeNumber;
         this.specialties = specialties;
         this.autoApproveSetting = false;
+        this.ratings = new ArrayList<Integer>();
     }
 
     // Constructor with no parameters
@@ -26,6 +28,7 @@ public class Doctor extends User {
         this.employeeNumber = "";
         this.specialties = null;
         this.autoApproveSetting = false;
+        this.ratings = new ArrayList<Integer>();
     }
 
     // Getters and Setters for each attribute
@@ -52,6 +55,18 @@ public class Doctor extends User {
 
     public void setSpecialties(ArrayList<String> specialties) {
         this.specialties = specialties;
+    }
+
+    public double getAvgRating(){
+        double sum = 0;
+        for(int i = 0; i < ratings.size(); i++){
+            sum = sum + ratings.get(i);
+        }
+        return sum;
+    }
+
+    public void addRating(int num){
+        ratings.add(num);
     }
 
     @Override
