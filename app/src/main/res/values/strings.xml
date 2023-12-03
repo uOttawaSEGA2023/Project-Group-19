@@ -16,4 +16,5 @@
     <string name="pediatrics">Pediatrics</string>
     <string name="gynecology">Gynecology</string>
     <string name="neurology">Neurology</string>
+    <string name="Select">Select Doctor Specialization</string>
 </resources>
