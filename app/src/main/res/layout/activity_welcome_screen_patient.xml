@@ -33,5 +33,19 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.111" />
 
+    <ListView
+        android:id="@+id/appointmentSlots"
+        android:layout_width="416dp"
+        android:layout_height="127dp"
+        android:divider="#dadce0"
+        android:dividerHeight="1dp"
+        android:listSelector="#1fe0ff"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.6"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.254" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

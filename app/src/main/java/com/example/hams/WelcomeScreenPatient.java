@@ -10,14 +10,22 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+
+import java.util.ArrayList;
 
 public class WelcomeScreenPatient extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+
+    //calling objects needed for authentication and reading from the DB
+    FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,9 +37,6 @@ public class WelcomeScreenPatient extends AppCompatActivity implements AdapterVi
         actionBar.setTitle("HAMS - Patient Screen: Appointments");
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        //calling objects needed for authentication and reading from the DB
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
 
         //setting up the dropdown of doctor specialities
 
@@ -51,10 +56,35 @@ public class WelcomeScreenPatient extends AppCompatActivity implements AdapterVi
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         String text = adapterView.getItemAtPosition(i).toString();
         Toast.makeText(adapterView.getContext(), text, Toast.LENGTH_SHORT).show();
+
+        ArrayList<Appointment> AppointmentSlots = new ArrayList<>();
+        ListView upcomingListView = (ListView) findViewById(R.id.appointmentSlots);
+
+        Query shiftQuery = mDatabase.child("shifts").orderByChild("doctorUID");
+
+        switch (text) {
+            case "Internal Medicine":
+                //display available slots for this specialization
+                break;
+            case "Obstetrics":
+
+                break;
+            case "Family Medicine":
+
+                break;
+            case "Gynecology":
+
+                break;
+            case "Pediatrics":
+
+                break;
+            case "Neurology":
+                break;
+        }
+
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
-
     }
 }
