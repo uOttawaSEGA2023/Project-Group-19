@@ -115,6 +115,7 @@ public class WelcomeScreenDoctor extends AppCompatActivity {
         logout.setOnClickListener(new View.OnClickListener() {
             //Upon clicking the logout button sign user out and return to the login screen
             public void onClick(View view) {
+                FirebaseAuth.getInstance().signOut();
                 openLoginScreen();
             }
         });

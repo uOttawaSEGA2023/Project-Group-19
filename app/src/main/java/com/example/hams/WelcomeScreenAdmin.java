@@ -13,6 +13,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -286,6 +287,7 @@ public class WelcomeScreenAdmin extends AppCompatActivity {
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             //Upon clicking the logout button sign user out and return to the login screen
             public void onClick(View view) {
+                FirebaseAuth.getInstance().signOut();
                 openLoginScreen();
             }
         });

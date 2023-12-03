@@ -69,6 +69,10 @@ public class Appointment {
         setPatientUID(s);
     }
 
+    public void removeClaim(){
+        this.taken = false;
+    }
+
     @Override
     public String toString(){
         return "Start Time: " + startTime + ". Date: " + date + ". Status: " + status;
