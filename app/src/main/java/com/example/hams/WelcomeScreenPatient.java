@@ -10,19 +10,14 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class WelcomeScreenPatient extends AppCompatActivity {
-
-    String[] doctorSpecialties = {"Internal Medicine", "Obstetrics", "Family Medicine", "Gynecology", "Pediatrics", "Neurology"};
-
-    AutoCompleteTextView autoCompleteTextView;
-
-    ArrayAdapter<String> adapterItems;
+public class WelcomeScreenPatient extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,21 +35,26 @@ public class WelcomeScreenPatient extends AppCompatActivity {
 
         //setting up the dropdown of doctor specialities
 
-        autoCompleteTextView = findViewById(R.id.auto_complete_txt);
-        adapterItems = new ArrayAdapter<String>( this, R.layout.list_item, doctorSpecialties);
+        //reference to the dropdown
+        Spinner spinner = findViewById(R.id.dropdown);
 
-        autoCompleteTextView.setAdapter(adapterItems);
+        //fills our dropdown with text
+        ArrayAdapter<CharSequence> dropdownAdapter = ArrayAdapter.createFromResource(this, R.array.specializations, android.R.layout.simple_spinner_item);
+        dropdownAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(dropdownAdapter);
 
-        autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String speciality = adapterView.getItemAtPosition(i).toString();
-                Toast.makeText(WelcomeScreenPatient.this, "Selected: " + speciality, Toast.LENGTH_SHORT).show();
-            }
-        });
-
-
+        spinner.setOnItemSelectedListener(this);
 
     }
 
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        String text = adapterView.getItemAtPosition(i).toString();
+        Toast.makeText(adapterView.getContext(), text, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
+    }
 }
