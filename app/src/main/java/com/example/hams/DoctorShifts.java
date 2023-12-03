@@ -142,9 +142,8 @@ public class DoctorShifts extends AppCompatActivity {
                             long timeDiffMins = timeDiff / 60000;
                             long numA = timeDiffMins / 30; //Calculate the number of appointment slots to make.
                             for(int i = 0; i < numA; i++){ //Creates appointments slots with the given doctor UID, an empty patient UID, and the date and start time of the shift.
-                                Date startInc = start;
-
-                                Appointment a = new Appointment("", doctorUID, date, String.valueOf(startInc));
+                                Appointment a = new Appointment("", doctorUID, date, startTime);
+                                startTime = incrementTime(startTime);
                             }
                             Toast.makeText(DoctorShifts.this, String.valueOf(start.getTime()), Toast.LENGTH_SHORT).show();
                             shiftDate.getText().clear(); //Clear the date text box.
@@ -290,5 +289,29 @@ public class DoctorShifts extends AppCompatActivity {
     boolean fieldEmpty(EditText text){
         CharSequence entry = text.getText().toString();
         return TextUtils.isEmpty(entry);
+    }
+
+    public String incrementTime(String s) {
+        String minutes = "";
+        String hour = "";
+        String newTime = "";
+        if(s.length() == 4) {
+            hour = s.substring(0, 1);
+            minutes = s.substring(2);
+        }else {
+            hour = s.substring(0, 2);
+            minutes = s.substring(3);
+        }
+        if(minutes.equals("00")) {
+            minutes = "30";
+            newTime =  hour + ":" + minutes;
+        }else if(minutes.equals("30")) {
+            int numHour = Integer.parseInt(hour);
+            numHour++;
+            hour = String.valueOf(numHour);
+            minutes = "00";
+            newTime = hour + ":" + minutes;
+        }
+        return newTime;
     }
 }
