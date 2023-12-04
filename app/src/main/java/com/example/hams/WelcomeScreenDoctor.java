@@ -159,10 +159,14 @@ public class WelcomeScreenDoctor extends AppCompatActivity {
                     public void onClick(View view) {
                         // no adapter object oustide of the query so we must change the list and initialize a new adapter when something
                         // is removed
+                        Map<String, Object> map = new HashMap<>();
+                        map.put("patientUID", "");
+                        map.put("status", Appointment.PENDING);
+
+                        ref.child("appointments").child(appointment.getKey()).updateChildren(map);
+
                         upcomingAppointmentList.remove(appointment);
                         upcomingListView.setAdapter(new AppointmentAdapter(WelcomeScreenDoctor.this, upcomingAppointmentList));
-                        // rejected appointments are simply removed from the database
-                        ref.child("appointments").child(appointment.getKey()).removeValue();
                     }
                 });
 
@@ -220,15 +224,13 @@ public class WelcomeScreenDoctor extends AppCompatActivity {
                 map.put("autoApproveSetting", auto);
                 ref.child("users").child(doctorUID).updateChildren(map);
                 if (auto){
-                    Toast.makeText(WelcomeScreenDoctor.this, "Auto Approve Turned On", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(WelcomeScreenDoctor.this, "Auto Approve Turned On For Future Appointments", Toast.LENGTH_SHORT).show();
                 }
                 else{
                     Toast.makeText(WelcomeScreenDoctor.this, "Auto Approve Turned Off", Toast.LENGTH_SHORT).show();
                 }
             }
         });
-
-
     }
 
     /**
