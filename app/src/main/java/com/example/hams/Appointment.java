@@ -13,16 +13,16 @@ public class Appointment {
     private String key;
     private String date;
     private String startTime;
-    private boolean taken;
+    private String shiftID;
 
-    public Appointment(String patientUID, String doctorUID, String date, String startTime){
+    public Appointment(String patientUID, String doctorUID, String date, String startTime, String shiftID){
         this.patientUID = patientUID;
         this.doctorUID = doctorUID;
         status = PENDING;
         key = "";
         this.date = date;
         this.startTime = startTime;
-        this.taken = false;
+        this.shiftID = shiftID;
     }
 
     public Appointment(){
@@ -52,6 +52,10 @@ public class Appointment {
 
     public String getStartTime(){return startTime;}
 
+    public String getShiftID(){return shiftID;}
+
+    public void setShiftID(String shiftID){this.shiftID = shiftID;}
+
     public void setPatientUID(String patientUID){this.patientUID = patientUID;}
 
     public void setDoctorUID(String doctorUID){this.doctorUID = doctorUID;}
@@ -63,15 +67,6 @@ public class Appointment {
     public void setDate(String date){this.date = date;}
 
     public void setStartTime(String startTime){this.startTime = startTime;}
-
-    public void setClaimed(String s){
-        this.taken = true;
-        setPatientUID(s);
-    }
-
-    public void removeClaim(){
-        this.taken = false;
-    }
 
     @Override
     public String toString(){

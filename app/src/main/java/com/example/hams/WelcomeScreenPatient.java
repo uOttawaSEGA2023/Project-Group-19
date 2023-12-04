@@ -11,6 +11,7 @@ public class WelcomeScreenPatient extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome_screen_patient);
 
+        String chosenSpecialty = "";
 
 
     }

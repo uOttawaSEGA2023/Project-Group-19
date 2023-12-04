@@ -69,6 +69,8 @@ public class Doctor extends User {
         ratings.add(num);
     }
 
+    public ArrayList<Integer> getRatings(){return ratings;}
+
     @Override
     public String toString(){
         return "Doctor: " + getFirstName();

@@ -50,30 +50,19 @@ public class WelcomeScreen extends AppCompatActivity {
         actionBar.setTitle("HAMS - Patient Screen: Appointments");
         actionBar.setDisplayHomeAsUpEnabled(true);
 
-        //calling objects needed for authentication and reading from the DB
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-
         ArrayList<Appointment> upcomingAppointmentList = new ArrayList<>();
         ArrayList<Appointment> previousAppointmentList = new ArrayList<>();
+
         ListView upcomingListView = (ListView) findViewById(R.id.appointments2);
         ListView previousListView = (ListView) findViewById(R.id.pastAppointments2);
+
         RatingBar rateDoctor = (RatingBar) findViewById(R.id.ratingBar);
-        String patientUID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        FirebaseAuth userAuth = FirebaseAuth.getInstance();
+        String patientUID = userAuth.getCurrentUser().getUid();
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+
         Query appointmentQuery = ref.child("appointments").orderByChild("patientUID").equalTo(patientUID);
-
-        //Getting user ID of the currently logged in user
-        String userId = mAuth.getUid();
-
-        //getting the type of user
-        mDatabase.child("users").child(userId).child("type").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @Override
-            public void onComplete(Task<DataSnapshot> task) {
-                //Once type is found update the welcome text field to indicate type
-                String type = task.getResult().getValue(String.class);
-            }
-        });
 
         //In the upcoming list, add code to select the list and cancel it if the cancel button is pressed.
         //If the cancel button is pressed, remove it from the list and set the patient UID to empty.
@@ -139,7 +128,7 @@ public class WelcomeScreen extends AppCompatActivity {
                     //Upon clicking, cancel this appointment.
                     public void onClick(View view){
                         appointment.setPatientUID("");
-                        appointment.removeClaim();
+                        //appointment.removeClaim();
                         //remove from list view.
                     }
                 });
@@ -168,13 +157,10 @@ public class WelcomeScreen extends AppCompatActivity {
             }
         });
 
-
-
-
         buttonLogin.setOnClickListener(new View.OnClickListener(){
             //Upon clicking the logout button sign user out and return to the login screen
             public void onClick(View view){
-                mAuth.signOut();
+                userAuth.signOut();
                 openLoginScreen();
             }
         });
