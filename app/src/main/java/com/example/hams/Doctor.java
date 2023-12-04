@@ -1,13 +1,15 @@
 package com.example.hams;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Doctor extends User {
 
     // Attributes
     private String employeeNumber;
     private ArrayList<String> specialties;
-    private ArrayList<Integer> ratings;
+    private HashMap<String, Float> ratings;
 
     private boolean autoApproveSetting;
 
@@ -19,7 +21,7 @@ public class Doctor extends User {
         this.employeeNumber = employeeNumber;
         this.specialties = specialties;
         this.autoApproveSetting = false;
-        this.ratings = new ArrayList<Integer>();
+        this.ratings = new HashMap<>();
     }
 
     // Constructor with no parameters
@@ -28,7 +30,7 @@ public class Doctor extends User {
         this.employeeNumber = "";
         this.specialties = null;
         this.autoApproveSetting = false;
-        this.ratings = new ArrayList<Integer>();
+        this.ratings = new HashMap<>();
     }
 
     // Getters and Setters for each attribute
@@ -59,17 +61,19 @@ public class Doctor extends User {
 
     public double getAvgRating(){
         double sum = 0;
-        for(int i = 0; i < ratings.size(); i++){
-            sum = sum + ratings.get(i);
+
+        for(Map.Entry<String, Float> entry : ratings.entrySet()){
+            sum += entry.getValue();
         }
-        return sum;
+
+        return sum/ratings.size();
     }
 
-    public void addRating(int num){
-        ratings.add(num);
+    public void addRating(String appointmentID, Float num){
+        ratings.put(appointmentID,num);
     }
 
-    public ArrayList<Integer> getRatings(){return ratings;}
+    public HashMap<String, Float> getRatings(){return ratings;}
 
     @Override
     public String toString(){
