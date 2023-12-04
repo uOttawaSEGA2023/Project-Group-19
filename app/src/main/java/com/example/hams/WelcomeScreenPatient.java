@@ -37,15 +37,15 @@ public class WelcomeScreenPatient extends AppCompatActivity implements AdapterVi
     //calling objects needed for authentication and reading from the DB
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
     DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-    ListView slotsListView = (ListView) findViewById(R.id.appointmentSlots);
-    ArrayList<Appointment> appointmentList = new ArrayList<>();
-
+    ListView slotsListView;
+    ArrayList<Appointment> appointmentList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome_screen_patient);
-
+        slotsListView = (ListView) findViewById(R.id.appointmentSlots);
+        appointmentList = new ArrayList<>();
 
         //Setting top bar
         ActionBar actionBar = getSupportActionBar();
