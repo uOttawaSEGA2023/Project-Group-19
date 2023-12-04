@@ -16,4 +16,14 @@
     <string name="pediatrics">Pediatrics</string>
     <string name="gynecology">Gynecology</string>
     <string name="neurology">Neurology</string>
+
+    <string-array name="specializations">
+        <item>Internal Medicine</item>
+        <item>Obstetrics</item>
+        <item>Family Medicine</item>
+        <item>Gynecology</item>
+        <item>Pediatrics</item>
+        <item>Neurology</item>
+    </string-array>
+
 </resources>
