@@ -15,6 +15,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -93,10 +95,29 @@ public class DoctorShifts extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         // no available adapter object so we update the list and then create a new adapter to display for now
-                        shiftList.remove(shift);
-                        listView.setAdapter(new ShiftAdapter(DoctorShifts.this, shiftList));
-                        ref.child("shifts").child(doctorUID).child(shift.getKey()).removeValue();
-                        Toast.makeText(DoctorShifts.this, "Deleted Shift: " + shift.toString(), Toast.LENGTH_SHORT).show();
+                        boolean delete = true;
+                        ref.child("appointments").child(shift.getKey()).child("patientUID").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() { //This isn't correct yet.
+                            @Override
+                            public void onComplete(Task<DataSnapshot> task) {
+                                //Get appointment patient UID
+                                //If it is not ""
+                                //delete = false
+                                //break;
+
+                            }
+                        });
+
+                        if(delete) {
+                            //Get all appointment objects with the shiftID = shift.getKey()
+                            //Perform operation to remove it from the db
+                            shiftList.remove(shift);
+                            listView.setAdapter(new ShiftAdapter(DoctorShifts.this, shiftList));
+                            ref.child("shifts").child(doctorUID).child(shift.getKey()).removeValue();
+                            Toast.makeText(DoctorShifts.this, "Deleted Shift: " + shift.toString(), Toast.LENGTH_SHORT).show();
+
+                        }else{
+                            Toast.makeText(DoctorShifts.this, "A patient has booked an appointment in your shift!", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
 
