@@ -90,7 +90,9 @@ public class WelcomeScreenPatient extends AppCompatActivity implements AdapterVi
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         String specialty = adapterView.getItemAtPosition(i).toString();
         Toast.makeText(adapterView.getContext(), specialty, Toast.LENGTH_SHORT).show();
+
         appointmentList.clear();
+
         Query doctorQuery = mDatabase.child("users").orderByChild("type").equalTo("doctor");
         Query appointmentQuery = mDatabase.child("appointments").orderByChild("patientUID").equalTo("");
 
