@@ -197,8 +197,24 @@ public class DoctorShifts extends AppCompatActivity {
 
         try {
             inputDate = dateFormat.parse(date); //Check to make sure the date input is of the correct format.
+
+
+            String[] dateArr = date.split("-");
+
+            if (Integer.parseInt(dateArr[1]) < 1 || Integer.parseInt(dateArr[1]) > 12) {
+
+                textField.setError("Invalid date format for yyyy-MM-dd. Please make sure MM is between 1-12.");
+                return false;
+            }
+
+            if (Integer.parseInt(dateArr[2]) < 1 || Integer.parseInt(dateArr[2]) > 30) {
+                textField.setError("Invalid date format for yyyy-MM-dd. Please make sure day is between 1-31.");
+                return false;
+            }
+
+
         } catch (ParseException e) {
-            textField.setError(" Invalid date format. Please use yyyy-MM-dd.");
+            textField.setError("Invalid date format for yyyy-MM-dd. Please use yyyy-MM-dd.");
             return false;
         }
 
@@ -216,12 +232,21 @@ public class DoctorShifts extends AppCompatActivity {
 
         try {
             start = timeFormat.parse(startTime); //Check to make sure the start time input is of correct format.
+            ;
+            if(!checkTimeBounds(startTime)) {
+                startTimeField.setError("Invalid time format. Please input a time 0:00 - 23:59.");
+                return false;
+            }
         } catch (ParseException e) {
             startTimeField.setError("Invalid time format. Please use HH:mm.");
             return false;
         }
         try {
             end = timeFormat.parse(startTime); //Check to make sure the end time input is of correct format.
+            if(!checkTimeBounds(endTime)) {
+                endTimeField.setError("Invalid time format. Please input a time 0:00 - 23:59.");
+                return false;
+            }
         } catch (ParseException e) {
             endTimeField.setError("Invalid time format. Please use HH:mm.");
             return false;
@@ -252,6 +277,20 @@ public class DoctorShifts extends AppCompatActivity {
             }
         }
         return false;
+    }
+
+    private boolean checkTimeBounds(String hour_min) {
+
+       String[] timeArr = hour_min.split(":");
+       if (Integer.parseInt(timeArr[0])< 0 || Integer.parseInt(timeArr[0]) > 24) {
+           return false;
+       }
+
+        if (Integer.parseInt(timeArr[1]) < 0 || Integer.parseInt(timeArr[1]) > 59) {
+            return false;
+        }
+
+        return true;
     }
 
     private boolean shiftInputs()  {
