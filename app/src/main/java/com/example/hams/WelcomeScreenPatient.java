@@ -19,6 +19,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 public class WelcomeScreenPatient extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
@@ -58,13 +59,15 @@ public class WelcomeScreenPatient extends AppCompatActivity implements AdapterVi
         Toast.makeText(adapterView.getContext(), text, Toast.LENGTH_SHORT).show();
 
         ArrayList<Appointment> AppointmentSlots = new ArrayList<>();
-        ListView upcomingListView = (ListView) findViewById(R.id.appointmentSlots);
+        ListView slotsListView = (ListView) findViewById(R.id.appointmentSlots);
 
-        Query shiftQuery = mDatabase.child("shifts").orderByChild("doctorUID");
+        Query doctorQuery = mDatabase.child("users").orderByChild("type").equalTo("doctor");
+
 
         switch (text) {
             case "Internal Medicine":
                 //display available slots for this specialization
+
                 break;
             case "Obstetrics":
 
@@ -86,5 +89,17 @@ public class WelcomeScreenPatient extends AppCompatActivity implements AdapterVi
 
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
+    }
+
+    /**
+     * //Method to enable the back button on the patient information page to return to the doctor welcome screen.
+     *
+     * @param item The item
+     * @return If the return was successful.
+     */
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent = new Intent(getApplicationContext(), WelcomeScreen.class);
+        startActivity(intent);
+        return true;
     }
 }
