@@ -33,10 +33,13 @@ public class WelcomeScreenPatient extends AppCompatActivity implements AdapterVi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome_screen_patient);
 
+
         //Setting top bar
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("HAMS - Patient Screen: Appointments");
         actionBar.setDisplayHomeAsUpEnabled(true);
+        String chosenSpecialty = "";
+
 
 
         //setting up the dropdown of doctor specialities

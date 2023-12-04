@@ -23,15 +23,18 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class DoctorShifts extends AppCompatActivity {
+    DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,8 +53,6 @@ public class DoctorShifts extends AppCompatActivity {
         EditText shiftDate = findViewById(R.id.editTextDate); //EditText for the date.
         EditText shiftStartTime = findViewById(R.id.editTextTime); //EditText for the start time.
         EditText shiftEndTime = findViewById(R.id.editTextTime2); //EditText for the end time.
-
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
 
         ArrayList<Shift> shiftList = new ArrayList<>();
         ListView listView = (ListView) findViewById(R.id.shiftsList);
@@ -132,20 +133,13 @@ public class DoctorShifts extends AppCompatActivity {
                             // push will generate a unique key that we can use to store our shift
                             DatabaseReference newRef = ref.child("shifts").child(doctorUID).push();
                             // store the key in the object as well so that it is easy to update
-                            shiftToAdd.setKey(newRef.getKey());
+                            String shiftID = newRef.getKey();
+                            shiftToAdd.setKey(shiftID);
                             // add the shift to the database under the unique key
                             newRef.setValue(shiftToAdd);
-                            SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
-                            Date start = timeFormat.parse(startTime);
-                            Date end = timeFormat.parse(endTime);
-                            long timeDiff = end.getTime() - start.getTime();
-                            long timeDiffMins = timeDiff / 60000;
-                            long numA = timeDiffMins / 30; //Calculate the number of appointment slots to make.
-                            for(int i = 0; i < numA; i++){ //Creates appointments slots with the given doctor UID, an empty patient UID, and the date and start time of the shift.
-                                Appointment a = new Appointment("", doctorUID, date, startTime);
-                                startTime = incrementTime(startTime);
-                            }
-                            Toast.makeText(DoctorShifts.this, String.valueOf(start.getTime()), Toast.LENGTH_SHORT).show();
+                            // creates unclaimed appointments in the database based on the end and start times given
+                            addAppointments(startTime, endTime, doctorUID, date, shiftID);
+
                             shiftDate.getText().clear(); //Clear the date text box.
                             shiftStartTime.getText().clear(); //Clear the start time text box.
                             shiftEndTime.getText().clear(); //Clear the end time text box.
@@ -281,6 +275,40 @@ public class DoctorShifts extends AppCompatActivity {
         return checked;
     }
 
+    private void addAppointments(String startTime, String endTime, String doctorUID, String date, String shiftID) throws ParseException {
+        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
+        Date start = timeFormat.parse(startTime);
+        Date end = timeFormat.parse(endTime);
+
+        long timeDiff = end.getTime() - start.getTime();
+        long timeDiffMins = timeDiff / 60000;
+        long numA = timeDiffMins / 30; //Calculate the number of appointment slots to make.
+
+        for(int i = 0; i < numA; i++){ //Creates appointments slots with the given doctor UID, an empty patient UID, and the date and start time of the shift.
+            Appointment appointment = new Appointment("", doctorUID, date, startTime, shiftID);
+            startTime = incrementTime(startTime);
+            DatabaseReference newRef = ref.child("appointments").push();
+            // store the key in the object as well so that it is easy to update
+            appointment.setKey(newRef.getKey());
+            // add the shift to the database under the unique key
+            newRef.setValue(appointment);
+        }
+    }
+
+    public String incrementTime(String time){
+        String[] splitTime = time.split(":");
+        int hours = Integer.parseInt(splitTime[0]);
+
+        if(splitTime[1].equals("30")){
+            hours ++;
+            splitTime[1] = "00";
+        }
+        else if (splitTime[1].equals("00")){
+            splitTime[1] = "30";
+        }
+
+        return hours +":"+splitTime[1];
+    }
     /**
      * fieldEmpty is a method that takes the contents of a text field and checks to see if the user left it empty.
      * @param text The text field being checked.
@@ -289,29 +317,5 @@ public class DoctorShifts extends AppCompatActivity {
     boolean fieldEmpty(EditText text){
         CharSequence entry = text.getText().toString();
         return TextUtils.isEmpty(entry);
-    }
-
-    public String incrementTime(String s) {
-        String minutes = "";
-        String hour = "";
-        String newTime = "";
-        if(s.length() == 4) {
-            hour = s.substring(0, 1);
-            minutes = s.substring(2);
-        }else {
-            hour = s.substring(0, 2);
-            minutes = s.substring(3);
-        }
-        if(minutes.equals("00")) {
-            minutes = "30";
-            newTime =  hour + ":" + minutes;
-        }else if(minutes.equals("30")) {
-            int numHour = Integer.parseInt(hour);
-            numHour++;
-            hour = String.valueOf(numHour);
-            minutes = "00";
-            newTime = hour + ":" + minutes;
-        }
-        return newTime;
     }
 }

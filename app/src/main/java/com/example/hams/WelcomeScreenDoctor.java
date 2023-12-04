@@ -72,15 +72,17 @@ public class WelcomeScreenDoctor extends AppCompatActivity {
                     AppointmentAdapter adapter;
                     // check if the appointment is an upcoming one and add it to the list based on that
                     // the listView must be updated each time or else the changes will not be displayed on the app
-                    if(isUpcomingAppointment(appointment)){
-                        upcomingAppointmentList.add(appointment);
-                        adapter = new AppointmentAdapter(WelcomeScreenDoctor.this, upcomingAppointmentList);
-                        upcomingListView.setAdapter(adapter);
-                    }
-                    else if(appointment.getStatus().equals(Appointment.APPROVED)){
-                        previousAppointmentList.add(appointment);
-                        adapter = new AppointmentAdapter(WelcomeScreenDoctor.this, previousAppointmentList);
-                        previousListView.setAdapter(adapter);
+                    if (!appointment.getPatientUID().equals("")){
+                        if(isUpcomingAppointment(appointment)){
+                            upcomingAppointmentList.add(appointment);
+                            adapter = new AppointmentAdapter(WelcomeScreenDoctor.this, upcomingAppointmentList);
+                            upcomingListView.setAdapter(adapter);
+                        }
+                        else if(appointment.getStatus().equals(Appointment.APPROVED)){
+                            previousAppointmentList.add(appointment);
+                            adapter = new AppointmentAdapter(WelcomeScreenDoctor.this, previousAppointmentList);
+                            previousListView.setAdapter(adapter);
+                        }
                     }
 
                 } catch (ParseException e) {
@@ -93,14 +95,16 @@ public class WelcomeScreenDoctor extends AppCompatActivity {
                 Appointment appointment = snapshot.getValue(Appointment.class);
                 // when a child is changed we find the changed child in the listView and update it
                 // no need to check in the previous appointment list because that list cannot be updated
-                for(int i = 0; i < upcomingAppointmentList.size(); i++){
-                    if (upcomingAppointmentList.get(i).getKey().equals(appointment.getKey())){
-                        upcomingAppointmentList.set(i, appointment);
+                if (!appointment.getPatientUID().equals("")){
+                    for(int i = 0; i < upcomingAppointmentList.size(); i++){
+                        if (upcomingAppointmentList.get(i).getKey().equals(appointment.getKey())){
+                            upcomingAppointmentList.set(i, appointment);
 
-                        AppointmentAdapter adapter = new AppointmentAdapter(WelcomeScreenDoctor.this, upcomingAppointmentList);
-                        upcomingListView.setAdapter(adapter);
+                            AppointmentAdapter adapter = new AppointmentAdapter(WelcomeScreenDoctor.this, upcomingAppointmentList);
+                            upcomingListView.setAdapter(adapter);
 
-                        return;
+                            return;
+                        }
                     }
                 }
             }
@@ -200,11 +204,14 @@ public class WelcomeScreenDoctor extends AppCompatActivity {
                     @Override
                     public void onComplete(Task<DataSnapshot> task) {
                         auto = task.getResult().getValue(Boolean.class);
+
                         if(!auto){Map<String, Object> map = new HashMap<>(); //If the doctor does not have auto approve on, turn it on.
                             map.put("autoApproveSetting", true);
                             ref.child("users").child(doctorUID).updateChildren(map);
                             Toast.makeText(WelcomeScreenDoctor.this, "Auto Approve Turned On", Toast.LENGTH_SHORT).show();
-                        }else{ //Otherwise, turn auto approve off.
+                        }
+
+                        else{ //Otherwise, turn auto approve off.
                             Map<String, Object> map = new HashMap<>();
                             map.put("autoApproveSetting", false);
                             ref.child("users").child(doctorUID).updateChildren(map);
