@@ -236,4 +236,13 @@ public class WelcomeScreen extends AppCompatActivity {
         else return currentDate.compareTo(appointmentDate) == 0 && currentTime.compareTo(appointmentTime) < 0;
     }
 
+    public void updateAppointmentStatus(Appointment appointment, DatabaseReference ref, String status) {
+        String key = appointment.getKey();
+        //Update status variable
+        Map<String, Object> map = new HashMap<>();
+        map.put("status", status);
+        ref.child("appointments").child(key).updateChildren(map);
+        //Toast.makeText(WelcomeScreenDoctor.this, status + " Shift: " + appointment.toString(), Toast.LENGTH_SHORT).show();
+    }
+
 }

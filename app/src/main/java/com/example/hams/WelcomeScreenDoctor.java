@@ -62,59 +62,73 @@ public class WelcomeScreenDoctor extends AppCompatActivity {
         ListView upcomingListView = (ListView) findViewById(R.id.appointments);
         ListView previousListView = (ListView) findViewById(R.id.pastAppointments);
 
-        // Initializes the two lists with appointments
-        appointmentQuery.addChildEventListener(new ChildEventListener() {
 
+        ref.child("users").child(doctorUID).child("autoApproveSetting").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                Appointment appointment = snapshot.getValue(Appointment.class);
-                try{
-                    AppointmentAdapter adapter;
-                    // check if the appointment is an upcoming one and add it to the list based on that
-                    // the listView must be updated each time or else the changes will not be displayed on the app
-                    if (!appointment.getPatientUID().equals("")){
-                        if(isUpcomingAppointment(appointment)){
-                            upcomingAppointmentList.add(appointment);
-                            adapter = new AppointmentAdapter(WelcomeScreenDoctor.this, upcomingAppointmentList);
-                            upcomingListView.setAdapter(adapter);
+            public void onComplete(Task<DataSnapshot> task) {
+                auto = task.getResult().getValue(Boolean.class);
+                // Initializes the two lists with appointments
+                appointmentQuery.addChildEventListener(new ChildEventListener() {
+
+                    @Override
+                    public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                        Appointment appointment = snapshot.getValue(Appointment.class);
+                        try{
+                            AppointmentAdapter adapter;
+                            // check if the appointment is an upcoming one and add it to the list based on that
+                            // the listView must be updated each time or else the changes will not be displayed on the app
+                            if (!appointment.getPatientUID().equals("")){
+                                if(isUpcomingAppointment(appointment)){
+                                    if(auto){
+                                        updateAppointmentStatus(appointment, ref, Appointment.APPROVED);
+                                    }
+                                    upcomingAppointmentList.add(appointment);
+                                    adapter = new AppointmentAdapter(WelcomeScreenDoctor.this, upcomingAppointmentList);
+                                    upcomingListView.setAdapter(adapter);
+                                }
+                                else if(appointment.getStatus().equals(Appointment.APPROVED)){
+                                    previousAppointmentList.add(appointment);
+                                    adapter = new AppointmentAdapter(WelcomeScreenDoctor.this, previousAppointmentList);
+                                    previousListView.setAdapter(adapter);
+                                }
+                            }
+
+                        } catch (ParseException e) {
+                            throw new RuntimeException(e);
                         }
-                        else if(appointment.getStatus().equals(Appointment.APPROVED)){
-                            previousAppointmentList.add(appointment);
-                            adapter = new AppointmentAdapter(WelcomeScreenDoctor.this, previousAppointmentList);
-                            previousListView.setAdapter(adapter);
+
+                    }
+                    @Override
+                    public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                        Appointment appointment = snapshot.getValue(Appointment.class);
+                        // when a child is changed we find the changed child in the listView and update it
+                        // no need to check in the previous appointment list because that list cannot be updated
+                        if (!appointment.getPatientUID().equals("")){
+                            for(int i = 0; i < upcomingAppointmentList.size(); i++){
+                                if (upcomingAppointmentList.get(i).getKey().equals(appointment.getKey())){
+                                    if(auto){
+                                        updateAppointmentStatus(appointment, ref, Appointment.APPROVED);
+                                    }
+                                    upcomingAppointmentList.set(i, appointment);
+                                    AppointmentAdapter adapter = new AppointmentAdapter(WelcomeScreenDoctor.this, upcomingAppointmentList);
+                                    upcomingListView.setAdapter(adapter);
+
+                                    return;
+                                }
+                            }
                         }
                     }
-
-                } catch (ParseException e) {
-                    throw new RuntimeException(e);
-                }
-
+                    @Override
+                    public void onChildRemoved(@NonNull DataSnapshot snapshot) {}
+                    @Override
+                    public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {}
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {}
+                });
             }
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                Appointment appointment = snapshot.getValue(Appointment.class);
-                // when a child is changed we find the changed child in the listView and update it
-                // no need to check in the previous appointment list because that list cannot be updated
-                if (!appointment.getPatientUID().equals("")){
-                    for(int i = 0; i < upcomingAppointmentList.size(); i++){
-                        if (upcomingAppointmentList.get(i).getKey().equals(appointment.getKey())){
-                            upcomingAppointmentList.set(i, appointment);
-
-                            AppointmentAdapter adapter = new AppointmentAdapter(WelcomeScreenDoctor.this, upcomingAppointmentList);
-                            upcomingListView.setAdapter(adapter);
-
-                            return;
-                        }
-                    }
-                }
-            }
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {}
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {}
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {}
         });
+
+
 
         logout.setOnClickListener(new View.OnClickListener() {
             //Upon clicking the logout button sign user out and return to the login screen
@@ -247,7 +261,7 @@ public class WelcomeScreenDoctor extends AppCompatActivity {
         Map<String, Object> map = new HashMap<>();
         map.put("status", status);
         ref.child("appointments").child(key).updateChildren(map);
-        Toast.makeText(WelcomeScreenDoctor.this, status + " Shift: " + appointment.toString(), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(WelcomeScreenDoctor.this, status + " Shift: " + appointment.toString(), Toast.LENGTH_SHORT).show();
     }
 
 
