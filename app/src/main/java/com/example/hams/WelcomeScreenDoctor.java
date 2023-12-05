@@ -144,7 +144,7 @@ public class WelcomeScreenDoctor extends AppCompatActivity {
 
                 Appointment appointment = (Appointment) parent.getItemAtPosition(position);
 
-                Toast.makeText(WelcomeScreenDoctor.this, "Selected Appointment: " + appointment.toString(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(WelcomeScreenDoctor.this, "Selected Appointment: " + appointment.toString(), Toast.LENGTH_SHORT).show();
 
                 approve.setOnClickListener(new View.OnClickListener() {
                     @Override
