@@ -397,4 +397,6 @@ public class DoctorShifts extends AppCompatActivity {
         CharSequence entry = text.getText().toString();
         return TextUtils.isEmpty(entry);
     }
+
+
 }

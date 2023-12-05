@@ -3,6 +3,7 @@ package com.example.hams;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -283,6 +284,30 @@ public class DoctorForm extends AppCompatActivity {
     public void openLoginScreen(){
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+    }
+
+    public String validatePhoneNumber(String number) {
+        if(number.length() == 10){
+            return "pass";
+        }else{
+            return "fail";
+        }
+    }
+
+    /**
+     * Method for the test case.
+     * @param address
+     * @return
+     */
+    public String validateAddressField(String address) {
+        if(address.length() != 0){
+            return "pass";
+        }else{
+            return "fail";
+        }
+    }
+    public DoctorForm(Context context){
+
     }
 
 }

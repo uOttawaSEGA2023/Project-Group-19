@@ -3,6 +3,7 @@ package com.example.hams;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -230,6 +231,17 @@ public class PatientForm extends AppCompatActivity {
     public void openLoginScreen(){
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
+    }
+
+    public String validatePW(String pw) {
+        if(pw.length() >= 6){
+            return "pass";
+        }else{
+            return "fail";
+        }
+    }
+    public PatientForm(Context context){
+
     }
 
 }

@@ -3,6 +3,7 @@ package com.example.hams;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -166,5 +167,17 @@ public class MainActivity extends AppCompatActivity {
             valid = false;
         }
         return valid;
+    }
+
+    public String validateUsernameField(String username) {
+        if(username.length() != 0){
+            return "pass";
+        }else{
+            return "fail";
+        }
+    }
+
+    public MainActivity(Context context){
+
     }
 }
