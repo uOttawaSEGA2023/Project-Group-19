@@ -25,7 +25,7 @@ public class ExampleUnitTest {
     @Test
     public void testPwLength() {
 
-        PatientForm myObjectUnderTest = new PatientForm(mMockContext);
+        PatientForm myObjectUnderTest = new PatientForm();
 
         //Check if the password is at least 6 characters long.
         String result = myObjectUnderTest.validatePW("123456");
@@ -37,7 +37,7 @@ public class ExampleUnitTest {
     @Test
     public void testPhoneNumber() {
 
-        DoctorForm myObjectUnderTest = new DoctorForm(mMockContext);
+        DoctorForm myObjectUnderTest = new DoctorForm();
 
         //Check if the phone number is 10 characters long.
         String result = myObjectUnderTest.validatePhoneNumber("9055001000");
@@ -49,7 +49,7 @@ public class ExampleUnitTest {
     @Test
     public void testEmptyUsername() {
 
-        MainActivity myObjectUnderTest = new MainActivity(mMockContext);
+        MainActivity myObjectUnderTest = new MainActivity();
 
         //Check if the email field for logging in is not empty.
         String result = myObjectUnderTest.validateUsernameField("geegee@gmail.com");
@@ -62,7 +62,7 @@ public class ExampleUnitTest {
     @Test
     public void testEmptyAddress() {
 
-        DoctorForm myObjectUnderTest = new DoctorForm(mMockContext);
+        DoctorForm myObjectUnderTest = new DoctorForm();
 
         //Check if the address field is not empty
         String result = myObjectUnderTest.validateAddressField("1111 bob gapp drive");

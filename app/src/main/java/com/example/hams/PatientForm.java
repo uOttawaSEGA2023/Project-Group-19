@@ -240,8 +240,6 @@ public class PatientForm extends AppCompatActivity {
             return "fail";
         }
     }
-    public PatientForm(Context context){
 
-    }
 
 }

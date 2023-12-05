@@ -306,8 +306,6 @@ public class DoctorForm extends AppCompatActivity {
             return "fail";
         }
     }
-    public DoctorForm(Context context){
 
-    }
 
 }
