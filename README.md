@@ -13,5 +13,8 @@ Doctor Login Information:
 Email: squarepants@gmail.com
 Password: 123456
 
+Patient Login Information:
+Email: star@gmail.com
+Password: 123456
 
 Healthcare Appointment Management System (HAMS)
