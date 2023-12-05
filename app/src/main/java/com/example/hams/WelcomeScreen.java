@@ -131,7 +131,9 @@ public class WelcomeScreen extends AppCompatActivity {
                         try {
                             if(isMoreThanAnHourAway(appointment)){
                                 Map<String, Object> map = new HashMap<>();
+                                // reset the appointment so its pending and the patient is not linked to it
                                 map.put("patientUID", "");
+                                map.put("status",Appointment.PENDING);
                                 ref.child("appointments").child(appointment.getKey()).updateChildren(map);
                                 //remove from list view.
                                 upcomingAppointmentList.remove(appointment);

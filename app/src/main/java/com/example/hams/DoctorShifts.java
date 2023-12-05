@@ -1,5 +1,6 @@
 package com.example.hams;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -24,6 +25,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -89,35 +91,52 @@ public class DoctorShifts extends AppCompatActivity {
 
                 Shift shift = (Shift) parent.getItemAtPosition(position);
 
-                Toast.makeText(DoctorShifts.this, "Selected Shift: " + shift.toString(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(DoctorShifts.this, "Selected Shift: " + shift.toString(), Toast.LENGTH_SHORT).show();
 
                 deleteShift.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         // no available adapter object so we update the list and then create a new adapter to display for now
                         boolean delete = true;
-                        ref.child("appointments").child(shift.getKey()).child("patientUID").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() { //This isn't correct yet.
+
+                        Query appointmentQuery = ref.child("appointments").orderByChild("shiftID").equalTo(shift.getKey());
+
+                        appointmentQuery.addValueEventListener(new ValueEventListener() {
                             @Override
-                            public void onComplete(Task<DataSnapshot> task) {
-                                //Get appointment patient UID
-                                //If it is not ""
-                                //delete = false
-                                //break;
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                ArrayList<Appointment> appointmentList = new ArrayList<>();
+
+                                // get all appointments
+                                // if the appointments belong to a patient don't delete
+                                for (DataSnapshot userSnapshot : snapshot.getChildren()) {
+                                    Appointment appointment = userSnapshot.getValue(Appointment.class);
+
+                                    if(!appointment.getPatientUID().equals("")){
+                                        Toast.makeText(DoctorShifts.this, "A patient has booked an appointment in your shift!", Toast.LENGTH_SHORT).show();
+                                        return;
+                                    }
+
+                                    appointmentList.add(appointment);
+                                }
+
+                                // delete the shift
+                                shiftList.remove(shift);
+                                listView.setAdapter(new ShiftAdapter(DoctorShifts.this, shiftList));
+                                ref.child("shifts").child(doctorUID).child(shift.getKey()).removeValue();
+
+                                // delete all associated empty appointments
+                                for (Appointment emptyAppointment : appointmentList){
+                                    ref.child("appointments").child(emptyAppointment.getKey()).removeValue();
+                                }
+
+                                Toast.makeText(DoctorShifts.this, "Deleted Shift: " + shift.toString(), Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
 
                             }
                         });
-
-                        if(delete) {
-                            //Get all appointment objects with the shiftID = shift.getKey()
-                            //Perform operation to remove it from the db
-                            shiftList.remove(shift);
-                            listView.setAdapter(new ShiftAdapter(DoctorShifts.this, shiftList));
-                            ref.child("shifts").child(doctorUID).child(shift.getKey()).removeValue();
-                            Toast.makeText(DoctorShifts.this, "Deleted Shift: " + shift.toString(), Toast.LENGTH_SHORT).show();
-
-                        }else{
-                            Toast.makeText(DoctorShifts.this, "A patient has booked an appointment in your shift!", Toast.LENGTH_SHORT).show();
-                        }
                     }
                 });
 
