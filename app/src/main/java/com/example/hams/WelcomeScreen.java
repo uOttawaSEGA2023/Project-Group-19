@@ -161,9 +161,8 @@ public class WelcomeScreen extends AppCompatActivity {
                     //Upon clicking, submit a rating to the doctor that hosted the select appointment.
                     public void onClick(View view){
                         double numberOfStars = rateDoctor.getRating();
-                        Log.d("TAG", ""+numberOfStars);
-                        Toast.makeText(WelcomeScreen.this, "Rating submitted", Toast.LENGTH_SHORT).show();
-                        ref.child("users").child(appointment.getDoctorUID()).child("ratings").child(appointment.getKey()).setValue(numberOfStars);
+                        Toast.makeText(WelcomeScreen.this, "Rating Submitted", Toast.LENGTH_SHORT).show();
+                        ref.child("ratings").child(appointment.getDoctorUID()).child(appointment.getKey()).setValue(numberOfStars);
                     }
                 });
 

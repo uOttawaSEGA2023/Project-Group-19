@@ -9,8 +9,6 @@ public class Doctor extends User {
     // Attributes
     private String employeeNumber;
     private ArrayList<String> specialties;
-    private HashMap<String, Float> ratings;
-
     private boolean autoApproveSetting;
 
     public Doctor(String firstName, String lastName, String username, String password,
@@ -21,7 +19,6 @@ public class Doctor extends User {
         this.employeeNumber = employeeNumber;
         this.specialties = specialties;
         this.autoApproveSetting = false;
-        this.ratings = new HashMap<>();
     }
 
     // Constructor with no parameters
@@ -30,11 +27,9 @@ public class Doctor extends User {
         this.employeeNumber = "";
         this.specialties = null;
         this.autoApproveSetting = false;
-        this.ratings = new HashMap<>();
     }
 
     // Getters and Setters for each attribute
-
     public String getEmployeeNumber() {
         return employeeNumber;
     }
@@ -51,29 +46,23 @@ public class Doctor extends User {
         return autoApproveSetting;
     }
 
-    public void setAutoApproveSetting(boolean approvePaitents) {
-        this.autoApproveSetting = approvePaitents;
+    public void setAutoApproveSetting(boolean autoApproveSetting) {
+        this.autoApproveSetting = autoApproveSetting;
     }
 
     public void setSpecialties(ArrayList<String> specialties) {
         this.specialties = specialties;
     }
 
-    public double getAvgRating(){
+    public static double getAvgRating(HashMap<String, Double> ratings){
         double sum = 0;
 
-        for(Map.Entry<String, Float> entry : ratings.entrySet()){
+        for(Map.Entry<String, Double> entry : ratings.entrySet()){
             sum += entry.getValue();
         }
 
         return sum/ratings.size();
     }
-
-    public void addRating(String appointmentID, Float num){
-        ratings.put(appointmentID,num);
-    }
-
-    public HashMap<String, Float> getRatings(){return ratings;}
 
     @Override
     public String toString(){
